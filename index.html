@@ -97,6 +97,17 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .preset-btn{font-family:inherit;font-size:8px;font-weight:500;padding:4px 9px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
 .preset-btn:hover{border-color:rgba(224,122,95,.3);color:var(--white)}
 .preset-btn.active{background:rgba(224,122,95,.12);border-color:var(--accent);color:var(--accent)}
+/* Team bar */
+.team-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px;justify-content:center}
+.team-btn{font-family:inherit;display:flex;align-items:center;gap:4px;font-size:8px;font-weight:500;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+.team-btn:hover{border-color:var(--tc,var(--muted));color:var(--white)}
+.team-btn.active{background:color-mix(in srgb,var(--tc,#e07a5f) 12%,transparent);border-color:var(--tc,#e07a5f);color:var(--tc,#e07a5f);box-shadow:0 0 10px color-mix(in srgb,var(--tc,#e07a5f) 10%,transparent)}
+.team-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.team-desc{font-size:8px;color:rgba(138,154,176,.45);text-align:center;margin-bottom:10px;transition:color .3s}
+.team-desc.active{color:var(--tc,var(--muted))}
+/* Team-colored node overlay */
+.node.team-highlight{border-width:2px}
+.node.team-highlight[style*="border-color"]{box-shadow:0 0 8px color-mix(in srgb,var(--tc,#e07a5f) 15%,transparent)}
 .multi-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:8px;font-weight:600;letter-spacing:.04em;animation:pulse 2s ease-in-out infinite}
 /* Data → Evidence layer */
 .data-layer{margin-bottom:14px}
@@ -290,14 +301,22 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
         案例来源：武汉东湖新技术开发区法院 (2024)鄂0191民初4030号。
       </div>
 
-      <!-- Preset selector -->
-      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;justify-content:center">
-        <button class="preset-btn active" data-preset="ai">🤖 AI 共识</button>
-        <button class="preset-btn" data-preset="court">🏛️ 法院判决</button>
-        <button class="preset-btn" data-preset="yang">👩 Yang 视角</button>
-        <button class="preset-btn" data-preset="xiao">👨 Xiao 视角</button>
-        <button class="preset-btn" data-preset="all">🔀 全采信（多路径）</button>
+      <!-- Team / Preset selector -->
+      <div class="team-bar">
+        <button class="team-btn active" data-team="custom" style="--tc:var(--muted)">
+          <span class="team-dot" style="background:var(--muted)"></span> 自定义
+        </button>
+        <button class="team-btn" data-team="court" style="--tc:#d4a843">
+          <span class="team-dot" style="background:#d4a843"></span> 法院判决
+        </button>
+        <button class="team-btn" data-team="team-a" style="--tc:#e07a5f">
+          <span class="team-dot" style="background:#e07a5f"></span> Agent Team A
+        </button>
+        <button class="team-btn" data-team="team-b" style="--tc:#3a8a8a">
+          <span class="team-dot" style="background:#3a8a8a"></span> Agent Team B
+        </button>
       </div>
+      <div class="team-desc" id="team-desc">自由组合证据和论点，或选择上方预设视角</div>
 
       <!-- Data → Evidence layer -->
       <div class="data-layer">
@@ -353,7 +372,7 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 
       <!-- AI Consensus Panel -->
       <div class="consensus-panel" id="consensus">
-        <h4>🤖 AI Debate 共识（5 Agent · 异构模型 · 30% 阈值）</h4>
+        <h4 id="consensus-title">🤖 AI Debate 共识（5 Agent · 异构模型 · 30% 阈值）</h4>
         <div id="consensus-content"></div>
       </div>
 
@@ -426,7 +445,8 @@ const THRESHOLD = 30;
 function isArgActive(id) {
   if (argMode[id] === 'forced-active') return true;
   if (argMode[id] === 'forced-inactive') return false;
-  return aiConsensus[id].pct >= THRESHOLD; // auto: AI consensus decides
+  const c = getActiveConsensus()[id];
+  return c && c.pct >= THRESHOLD; // auto: team consensus decides
 }
 
 // ── Conclusion logic ──────────────────
@@ -469,8 +489,8 @@ function updateUI(){
         const rel=(id==='arg-1'&&(evState['ev-2']==='grayed'||evState['ev-4']==='grayed'))||(id==='arg-2'&&evState['ev-5']==='grayed')||(id==='arg-3'&&(evState['ev-3']==='grayed'||evState['ev-4']==='grayed'));
         if(rel)el.classList.add('auto-inactive');
       }
-      // AI badge: show vote count
-      const ac=aiConsensus[id];
+      // AI badge: show per-team vote count
+      const ac=getActiveConsensus()[id];
       const badge=document.createElement('span');
       badge.className='node-badge badge-auto';
       badge.textContent=`AI ${ac.agree}/${ac.total}`;
@@ -517,20 +537,26 @@ function updateStatus(){
 }
 
 function updateConsensus(){
+  const teamNames={'custom':'自定义视角','court':'法院判决','team-a':'Agent Team A（主张方倾向）','team-b':'Agent Team B（反对方倾向）'};
+  const title=document.getElementById('consensus-title');
+  title.innerHTML=`🤖 AI Debate 共识 · <span style="color:${activeTeam==='team-a'?'var(--accent)':activeTeam==='team-b'?'var(--accent3)':activeTeam==='court'?'var(--accent2)':'var(--muted)'}">${teamNames[activeTeam]}</span>（5 Agent · 异构模型 · 30% 阈值）`;
+
   const items=['arg-1','arg-2','arg-3'];
   const names={'arg-1':'视频行为 = 自慰','arg-2':'针对特定对象','arg-3':'道歉信 = 自愿认罪'};
-  const statuses={'arg-1':aiConsensus['arg-1'].pct>=THRESHOLD?'成立 ✓':'不成立 ✗','arg-2':aiConsensus['arg-2'].pct>=THRESHOLD?'成立 ✓':'不成立 ✗','arg-3':aiConsensus['arg-3'].pct>=THRESHOLD?'成立 ✓':'不成立 ✗'};
+  const ac = getActiveConsensus();
+  const teamColor = activeTeam==='team-a'?'var(--accent)':activeTeam==='team-b'?'var(--accent3)':activeTeam==='court'?'var(--accent2)':'var(--muted)';
   let html='';
   items.forEach(id=>{
-    const ac=aiConsensus[id];
-    const pct=ac.pct;
-    const color=pct>=THRESHOLD?'var(--accent2)':'var(--muted)';
+    const c = ac[id];
+    const pct = c.pct;
+    const passed=pct>=THRESHOLD;
+    const color=passed?teamColor:'var(--muted)';
     const overridden=argMode[id]!=='auto';
     html+=`<div class="consensus-item">
       <span style="min-width:90px;font-size:8px">${names[id]}</span>
       <div class="consensus-bar"><div class="consensus-fill" style="width:${pct}%;background:${color}"></div></div>
-      <span class="consensus-votes"><span class="consensus-vote-count" style="color:${color}">${ac.agree}/${ac.total}</span> · ${pct}%</span>
-      <span style="font-size:8px;min-width:32px;color:${pct>=THRESHOLD?'var(--accent2)':'var(--muted)'}">${statuses[id]}</span>
+      <span class="consensus-votes"><span class="consensus-vote-count" style="color:${color}">${c.agree}/${c.total}</span> · ${pct}%</span>
+      <span style="font-size:8px;min-width:32px;color:${passed?teamColor:'var(--muted)'}">${passed?'成立 ✓':'不成立 ✗'}</span>
       ${overridden?`<span style="font-size:7px;color:var(--accent)">已手动覆盖</span>`:''}
     </div>`;
   });
@@ -596,40 +622,65 @@ function drawConnectors(){
   svg.innerHTML=p;
 }
 
-// ── Presets ────────────────────────────
-function applyPreset(name){
-  // Reset all to default
+// ── Teams & Presets ────────────────────
+let activeTeam = 'custom';
+
+// Per-team AI consensus (different teams interpret the same evidence differently)
+const teamConsensus = {
+  'custom': {'arg-1':{agree:3,total:5,pct:60}, 'arg-2':{agree:3,total:5,pct:60}, 'arg-3':{agree:3,total:5,pct:60}},
+  'court':  {'arg-1':{agree:2,total:5,pct:40}, 'arg-2':{agree:2,total:5,pct:40}, 'arg-3':{agree:2,total:5,pct:40}},
+  'team-a': {'arg-1':{agree:4,total:5,pct:80}, 'arg-2':{agree:3,total:5,pct:60}, 'arg-3':{agree:4,total:5,pct:80}},
+  'team-b': {'arg-1':{agree:1,total:5,pct:20}, 'arg-2':{agree:1,total:5,pct:20}, 'arg-3':{agree:2,total:5,pct:40}},
+};
+
+const teamDescriptions = {
+  'custom': '自由组合证据和论点，或选择上方预设视角',
+  'court':  '武汉中院 (2024)鄂0191民初4030号：驳回全部诉求 · 撤销处分 · 医学+环境证据链成立',
+  'team-a': '主张方倾向 Agent 队（Claude + GPT）：视频行为=自慰 · 针对特定对象 · 道歉信=认罪',
+  'team-b': '反对方倾向 Agent 队（DeepSeek + Qwen）：非惯用手·开放环境·道歉信性质存疑',
+};
+
+function getConsensus(argId) {
+  return (teamConsensus[activeTeam] || teamConsensus['custom'])[argId];
+}
+// Override the global aiConsensus for the update functions
+function getActiveConsensus() { return teamConsensus[activeTeam] || teamConsensus['custom']; }
+
+function applyTeam(team){
+  activeTeam = team;
+  // Reset all
   Object.keys(evState).forEach(k=>evState[k]='');
   Object.keys(argMode).forEach(k=>argMode[k]='auto');
 
-  if(name==='ai'){ // AI Consensus (default)
-    ['ev-1','ev-2','ev-3','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='selected');
-  }else if(name==='court'){ // 法院判决
+  if(team==='court'){
     ['ev-1','ev-2','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='selected');
-    evState['ev-3']='grayed'; // letter rejected
-  }else if(name==='yang'){ // Yang视角
+    evState['ev-3']='grayed';
+  }else if(team==='team-a'){
     ['ev-1','ev-3'].forEach(k=>evState[k]='selected');
     ['ev-2','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='grayed');
-    // Force all args active
     Object.keys(argMode).forEach(k=>argMode[k]='forced-active');
-  }else if(name==='xiao'){ // Xiao视角
+  }else if(team==='team-b'){
     ['ev-2','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='selected');
-    evState['ev-1']='grayed'; // denies video shows masturbation
-    evState['ev-3']='grayed'; // letter was under duress
-  }else if(name==='all'){ // 全采信 → multi-mapping
+    evState['ev-1']='grayed'; evState['ev-3']='grayed';
+  }else if(team==='custom'){
     ['ev-1','ev-2','ev-3','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='selected');
-    // Force all args active to show both conclusions
-    Object.keys(argMode).forEach(k=>argMode[k]='forced-active');
   }
 
-  // Update active preset button
-  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelector(`[data-preset="${name}"]`)?.classList.add('active');
+  // Update active team button
+  document.querySelectorAll('.team-btn').forEach(b=>{
+    b.classList.remove('active');
+    if(b.dataset.team===team)b.classList.add('active');
+  });
+  // Update team description
+  const desc = document.getElementById('team-desc');
+  desc.textContent = teamDescriptions[team];
+  desc.style.color = team==='custom'?'var(--muted)':`var(--tc,var(--muted))`;
+
   updateUI();
 }
 
-document.querySelectorAll('.preset-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>applyPreset(btn.dataset.preset));
+document.querySelectorAll('.team-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>applyTeam(btn.dataset.team));
 });
 
 // ── Click Handlers ─────────────────────
