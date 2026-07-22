@@ -98,6 +98,22 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .preset-btn:hover{border-color:rgba(224,122,95,.3);color:var(--white)}
 .preset-btn.active{background:rgba(224,122,95,.12);border-color:var(--accent);color:var(--accent)}
 .multi-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:8px;font-weight:600;letter-spacing:.04em;animation:pulse 2s ease-in-out infinite}
+/* Data → Evidence layer */
+.data-layer{margin-bottom:14px}
+.data-toggle{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:9px;color:var(--muted);cursor:pointer;transition:all .2s}
+.data-toggle:hover{border-color:rgba(58,138,138,.3)}
+.data-toggle.open{border-radius:8px 8px 0 0;border-bottom-color:transparent}
+.data-arrow{font-size:10px;transition:transform .25s}
+.data-toggle.open .data-arrow{transform:rotate(180deg)}
+.data-content{display:none;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:8px 12px}
+.data-content.open{display:block}
+.data-item{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid rgba(138,154,176,.06);font-size:9px;line-height:1.5}
+.data-item:last-child{border-bottom:none}
+.data-item-num{font-size:8px;font-weight:700;color:var(--muted);min-width:16px;padding-top:1px}
+.data-item-body strong{color:var(--white);font-weight:500}
+.data-verify{font-size:8px;color:rgba(138,154,176,.5)}
+.data-verify em{color:var(--accent3);font-style:normal;font-weight:500}
+.src-badge-sm{font-size:7px;padding:1px 4px;border-radius:3px;background:rgba(138,154,176,.1);color:var(--muted);font-weight:400}
 .tree{display:grid;grid-template-columns:1fr 18px 1fr 18px 1fr;gap:0;align-items:start;position:relative}
 .tree-col-header{font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)}
 .tree-col-header .col-hint{font-weight:400;font-size:7px;color:var(--muted)}
@@ -281,6 +297,22 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
         <button class="preset-btn" data-preset="yang">👩 Yang 视角</button>
         <button class="preset-btn" data-preset="xiao">👨 Xiao 视角</button>
         <button class="preset-btn" data-preset="all">🔀 全采信（多路径）</button>
+      </div>
+
+      <!-- Data → Evidence layer -->
+      <div class="data-layer">
+        <div class="data-toggle" id="data-toggle" onclick="document.getElementById('data-content').classList.toggle('open');this.classList.toggle('open')">
+          <span>📡 原始数据（多源收集 → 交叉验证 → 确认为证据）</span>
+          <span class="data-arrow">▾</span>
+        </div>
+        <div class="data-content" id="data-content">
+          <div class="data-item"><div class="data-item-num">01</div><div class="data-item-body"><strong>Yang 手机录像</strong> <span class="src-badge-sm">一手 📹</span><br><span class="data-verify">→ 法院认证原始载体 → <em>E1 · 5段视频</em></span></div></div>
+          <div class="data-item"><div class="data-item-num">02</div><div class="data-item-body"><strong>武汉医院病历 ×3</strong> <span class="src-badge-sm">一手 🏥</span><br><span class="data-verify">→ 微信购药记录 + 证人池雨民交叉验证 → <em>E2 · 皮肤病记录</em></span></div></div>
+          <div class="data-item"><div class="data-item-num">03</div><div class="data-item-body"><strong>纸质道歉信</strong> <span class="src-badge-sm">一手 📝</span><br><span class="data-verify">→ 辅导员录音 + 双方对内容无异议 → <em>E3 · 道歉信</em></span></div></div>
+          <div class="data-item"><div class="data-item-num">04</div><div class="data-item-body"><strong>专家意见书 ×5</strong> <span class="src-badge-sm">二手 🎓</span><br><span class="data-verify">→ 同济/协和泌尿外科 · 法院采信 → <em>E4 · 医学专家</em></span></div></div>
+          <div class="data-item"><div class="data-item-num">05</div><div class="data-item-body"><strong>图书馆系统记录</strong> <span class="src-badge-sm">一手 📹</span><br><span class="data-verify">→ 法院调取 · 双方无异议 → <em>E5 · 监控录像</em></span></div></div>
+          <div class="data-item"><div class="data-item-num">06</div><div class="data-item-body"><strong>黄淇鑫微信 + 公安笔录</strong> <span class="src-badge-sm">二手 👤</span><br><span class="data-verify">→ 法院以公安陈述为准 → <em>E6 · 关键证人</em></span></div></div>
+        </div>
       </div>
 
       <div class="tree" id="tree">
