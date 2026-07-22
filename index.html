@@ -26,7 +26,6 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px 17px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
 .card:hover{border-color:rgba(224,122,95,.3);transform:translateX(4px)}
 .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
-.t1::before{background:linear-gradient(180deg,#e07a5f,#d4a843)}.t2::before{background:linear-gradient(180deg,#d4a843,#e07a5f)}.t3::before{background:linear-gradient(180deg,#3a8a8a,#e07a5f)}.t4::before{background:linear-gradient(180deg,#e07a5f,#3a8a8a)}.t5::before{background:linear-gradient(180deg,#d4a843,#3a8a8a)}
 .tag{display:inline-block;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:transform .2s}
 .tag:hover{transform:translateY(-1px)}
 .tag.coral{background:rgba(224,122,95,.08);border:1px solid rgba(224,122,95,.15);color:var(--accent)}
@@ -35,7 +34,6 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .tag.fatal{background:rgba(224,122,95,.12);border:1px solid rgba(224,122,95,.25);color:#f08a7a}
 .tag.critical{background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.25);color:var(--accent2)}
 .tag.safe{background:rgba(58,138,138,.12);border:1px solid rgba(58,138,138,.25);color:var(--accent3)}
-/* Hero, framework, pull-quote, pipeline, principles, stats, chips, cta, footer — same as before */
 .hero{padding:64px 0 48px;position:relative;z-index:1;text-align:center}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:100px;background:rgba(224,122,95,.06);border:1px solid rgba(224,122,95,.12);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
 .hero h1{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.3;margin-bottom:10px}
@@ -86,6 +84,8 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:12px;font-size:12px;font-weight:600;text-decoration:none;transition:all .25s;cursor:pointer;border:none;font-family:inherit}
 .btn-primary{background:var(--accent);color:var(--bg)}.btn-primary:hover{background:#ea8a72;box-shadow:0 0 40px rgba(224,122,95,.15)}
 .btn-secondary{background:transparent;color:var(--white);border:1px solid var(--border)}.btn-secondary:hover{border-color:rgba(224,122,95,.4)}
+.btn-primary:active,.btn-secondary:active{transform:scale(0.97)}
+.btn-primary:disabled,.btn-secondary:disabled{opacity:0.4;cursor:not-allowed}
 .footer{text-align:center;padding:28px 20px;border-top:1px solid var(--border);position:relative;z-index:1}
 .footer .brand-line{font-size:16px;font-weight:700;background:linear-gradient(135deg,#f0c87a,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.05em;margin-bottom:6px}
 .footer .meta{font-size:9px;color:var(--muted);letter-spacing:.05em}
@@ -104,10 +104,6 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .team-btn.active{background:color-mix(in srgb,var(--tc,#e07a5f) 12%,transparent);border-color:var(--tc,#e07a5f);color:var(--tc,#e07a5f);box-shadow:0 0 10px color-mix(in srgb,var(--tc,#e07a5f) 10%,transparent)}
 .team-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
 .team-desc{font-size:8px;color:rgba(138,154,176,.45);text-align:center;margin-bottom:10px;transition:color .3s}
-.team-desc.active{color:var(--tc,var(--muted))}
-/* Team-colored node overlay */
-.node.team-highlight{border-width:2px}
-.node.team-highlight[style*="border-color"]{box-shadow:0 0 8px color-mix(in srgb,var(--tc,#e07a5f) 15%,transparent)}
 .multi-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:8px;font-weight:600;letter-spacing:.04em;animation:pulse 2s ease-in-out infinite}
 /* Data → Evidence layer */
 .data-layer{margin-bottom:14px}
@@ -137,6 +133,7 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .node.evidence:not(.selected):not(.grayed) .src-badge{background:rgba(138,154,176,.1);color:var(--muted)}
 .node.evidence.grayed .src-badge{background:rgba(138,154,176,.05);color:rgba(138,154,176,.25)}
 .node .node-badge{position:absolute;top:-6px;right:-4px;font-size:6px;font-weight:700;padding:1px 4px;border-radius:4px;letter-spacing:.04em;white-space:nowrap}
+.node:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* Evidence */
 .node.evidence{background:rgba(58,138,138,.05);border-color:rgba(58,138,138,.12)}
@@ -144,7 +141,7 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .node.evidence.selected .node-label{color:var(--accent3)}
 .node.evidence.grayed{background:rgba(138,154,176,.02);border-color:rgba(138,154,176,.06);color:rgba(138,154,176,.35)}
 .node.evidence.grayed .node-label{color:rgba(138,154,176,.25)}
-.node.evidence.grayed .node-src{color:rgba(138,154,176,.15);border-top-color:rgba(138,154,176,.04)}
+.node.evidence.grayed .node-src{color:rgba(138,154,176,.35);border-top-color:rgba(138,154,176,.04)}
 
 /* Argument — 3 modes: auto (AI), forced-active (user采信), forced-inactive (user排除) */
 .node.argument{background:rgba(212,168,67,.03);border-color:rgba(212,168,67,.1)}
@@ -201,10 +198,25 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .reasoning-panel .reason-true{color:var(--accent3)}
 .reasoning-panel .reason-false{color:var(--accent)}
 .reasoning-panel .reason-label{color:rgba(138,154,176,.5)}
-.demo-hint{font-size:8px;color:rgba(138,154,176,.45);text-align:center;margin-top:10px;line-height:1.7}
+.demo-hint{font-size:8px;color:rgba(138,154,176,.7);text-align:center;margin-top:10px;line-height:1.7}
 
-@media(max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+@media(max-width:520px){
+.stats{grid-template-columns:repeat(2,1fr)}
+.tree{grid-template-columns:1fr;gap:12px}
+.tree>div:nth-child(2),.tree>div:nth-child(4){display:none}
+.tree-connectors{display:none}
+.node{padding:10px 8px;min-height:44px}
+.node .node-text{font-size:12px}
+.node .node-label{font-size:10px}
+.node .node-src{font-size:9px}
+.team-btn{font-size:10px;gap:6px}
+}
+@media(prefers-reduced-motion:reduce){
+.reveal{opacity:1;transform:none;transition:none}
+.dot{animation:none}
+.card:hover,.stat-card:hover,.node,.tag:hover,.chip:hover,.btn:hover,.btn-primary:hover,.btn-secondary:hover,.principle-card:hover,.preset-btn:hover,.team-btn:hover,.data-toggle:hover,.relation-opt:hover{transition:none;transform:none}
+}
+@media print{body{background:#fff;color:#000}.stars{display:none}.gradient-text{-webkit-text-fill-color:#000}}
 </style>
 </head>
 <body>
@@ -317,16 +329,16 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 
       <!-- Team / Preset selector -->
       <div class="team-bar">
-        <button class="team-btn active" data-team="custom" style="--tc:var(--muted)">
+        <button class="team-btn active" data-team="custom" style="--tc:var(--muted)" aria-pressed="true">
           <span class="team-dot" style="background:var(--muted)"></span> 自定义
         </button>
-        <button class="team-btn" data-team="court" style="--tc:#d4a843">
+        <button class="team-btn" data-team="court" style="--tc:#d4a843" aria-pressed="false">
           <span class="team-dot" style="background:#d4a843"></span> 法院判决
         </button>
-        <button class="team-btn" data-team="team-a" style="--tc:#e07a5f">
+        <button class="team-btn" data-team="team-a" style="--tc:#e07a5f" aria-pressed="false">
           <span class="team-dot" style="background:#e07a5f"></span> Agent Team A
         </button>
-        <button class="team-btn" data-team="team-b" style="--tc:#3a8a8a">
+        <button class="team-btn" data-team="team-b" style="--tc:#3a8a8a" aria-pressed="false">
           <span class="team-dot" style="background:#3a8a8a"></span> Agent Team B
         </button>
       </div>
@@ -351,25 +363,25 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
       <div class="tree" id="tree">
         <div>
           <div class="tree-col-header">证据组 <span class="col-hint">点击切换采信/排除</span></div>
-          <div class="node evidence selected" data-node="ev-1"><div class="node-label">E1 · 5段视频 <span class="src-badge">📹 一手</span></div><div class="node-text">Yang拍摄·手在裆部<br>轻微不规则动作</div><div class="node-src">数据: Yang手机录像 · 法院认证原始载体</div></div>
-          <div class="node evidence" data-node="ev-2"><div class="node-label">E2 · 皮肤病记录 <span class="src-badge">🏥 一手</span></div><div class="node-text">特应性皮炎·过敏体质<br>爱宁达药膏·多年购药</div><div class="node-src">数据: 武汉多家医院病历 · 微信购药记录 · 证人证言交叉验证</div></div>
-          <div class="node evidence" data-node="ev-3"><div class="node-label">E3 · 道歉信 <span class="src-badge">📝 一手</span></div><div class="node-text">两稿：从「拍了姐姐」<br>被要求改成「下流的事」</div><div class="node-src">数据: 纸质原件 · 辅导员录音 · 双方对内容无异议（但对含义有争议）</div></div>
-          <div class="node evidence" data-node="ev-4"><div class="node-label">E4 · 医学专家×5 <span class="src-badge">🎓 二手</span></div><div class="node-text">同济/协和泌尿外科<br>非惯用手·无规律·无针对性</div><div class="node-src">数据: 5份专家意见书 · 法院采信 · 基于E1+E2的二次分析</div></div>
-          <div class="node evidence" data-node="ev-5"><div class="node-label">E5 · 监控录像 <span class="src-badge">📹 一手</span></div><div class="node-text">预约制座位·开放环境<br>零互动·Yang离开后动作继续</div><div class="node-src">数据: 武大图书馆系统记录 · 法院调取 · 双方无异议</div></div>
-          <div class="node evidence" data-node="ev-6"><div class="node-label">E6 · 关键证人 <span class="src-badge">👤 二手</span></div><div class="node-text">黄淇鑫：微信 vs 公安<br>陈述不一致</div><div class="node-src">数据: 微信聊天记录 + 公安笔录 · 法院以公安陈述为准</div></div>
+          <div class="node evidence selected" data-node="ev-1" tabindex="0" role="button"><div class="node-label">E1 · 5段视频 <span class="src-badge">📹 一手</span></div><div class="node-text">Yang拍摄·手在裆部<br>轻微不规则动作</div><div class="node-src">数据: Yang手机录像 · 法院认证原始载体</div></div>
+          <div class="node evidence selected" data-node="ev-2" tabindex="0" role="button"><div class="node-label">E2 · 皮肤病记录 <span class="src-badge">🏥 一手</span></div><div class="node-text">特应性皮炎·过敏体质<br>爱宁达药膏·多年购药</div><div class="node-src">数据: 武汉多家医院病历 · 微信购药记录 · 证人证言交叉验证</div></div>
+          <div class="node evidence selected" data-node="ev-3" tabindex="0" role="button"><div class="node-label">E3 · 道歉信 <span class="src-badge">📝 一手</span></div><div class="node-text">两稿：从「拍了姐姐」<br>被要求改成「下流的事」</div><div class="node-src">数据: 纸质原件 · 辅导员录音 · 双方对内容无异议（但对含义有争议）</div></div>
+          <div class="node evidence selected" data-node="ev-4" tabindex="0" role="button"><div class="node-label">E4 · 医学专家×5 <span class="src-badge">🎓 二手</span></div><div class="node-text">同济/协和泌尿外科<br>非惯用手·无规律·无针对性</div><div class="node-src">数据: 5份专家意见书 · 法院采信 · 基于E1+E2的二次分析</div></div>
+          <div class="node evidence selected" data-node="ev-5" tabindex="0" role="button"><div class="node-label">E5 · 监控录像 <span class="src-badge">📹 一手</span></div><div class="node-text">预约制座位·开放环境<br>零互动·Yang离开后动作继续</div><div class="node-src">数据: 武大图书馆系统记录 · 法院调取 · 双方无异议</div></div>
+          <div class="node evidence selected" data-node="ev-6" tabindex="0" role="button"><div class="node-label">E6 · 关键证人 <span class="src-badge">👤 二手</span></div><div class="node-text">黄淇鑫：微信 vs 公安<br>陈述不一致</div><div class="node-src">数据: 微信聊天记录 + 公安笔录 · 法院以公安陈述为准</div></div>
         </div>
         <div></div>
         <div>
           <div class="tree-col-header">论点组 <span class="col-hint">点击切换AI/手动</span></div>
-          <div class="node argument" data-node="arg-1"><div class="node-label">论点 1</div><div class="node-text">视频行为 = 自慰<br>Yang 的解读</div></div>
-          <div class="node argument" data-node="arg-2"><div class="node-label">论点 2</div><div class="node-text">针对特定对象<br>民法典第1010条要件</div></div>
-          <div class="node argument" data-node="arg-3"><div class="node-label">论点 3</div><div class="node-text">道歉信 = 自愿认罪<br>非胁迫</div></div>
+          <div class="node argument" data-node="arg-1" tabindex="0" role="button"><div class="node-label">论点 1</div><div class="node-text">视频行为 = 自慰<br>Yang 的解读</div></div>
+          <div class="node argument" data-node="arg-2" tabindex="0" role="button"><div class="node-label">论点 2</div><div class="node-text">针对特定对象<br>民法典第1010条要件</div></div>
+          <div class="node argument" data-node="arg-3" tabindex="0" role="button"><div class="node-label">论点 3</div><div class="node-text">道歉信 = 自愿认罪<br>非胁迫</div></div>
         </div>
         <div></div>
         <div>
           <div class="tree-col-header">结论集</div>
-          <div class="node conclusion" data-node="con-1"><div class="node-label">结论 1</div><div class="node-text">性骚扰成立<br>2023.10 校方记过处分</div></div>
-          <div class="node conclusion" data-node="con-2"><div class="node-label">结论 2</div><div class="node-text">指控不成立<br>2025.7 法院驳回诉求<br>2025.9 校方撤销处分</div></div>
+          <div class="node conclusion" data-node="con-1" role="status"><div class="node-label">结论 1</div><div class="node-text">性骚扰成立<br>2023.10 校方记过处分</div></div>
+          <div class="node conclusion" data-node="con-2" role="status"><div class="node-label">结论 2</div><div class="node-text">指控不成立<br>2025.7 法院驳回诉求<br>2025.9 校方撤销处分</div></div>
         </div>
         <svg class="tree-connectors" id="connectors"></svg>
       </div>
@@ -388,10 +400,10 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
         <div class="relation-options" id="relation-options"></div>
       </div>
 
-      <div class="demo-status" id="status"><strong>2</strong> 个结论可到达 · 选择证据和论点收窄结论空间</div>
+      <div class="demo-status" id="status" aria-live="polite"><strong>2</strong> 个结论可到达 · 选择证据和论点收窄结论空间</div>
 
       <!-- AI Consensus Panel -->
-      <div class="consensus-panel" id="consensus">
+      <div class="consensus-panel" id="consensus" aria-live="polite">
         <h4 id="consensus-title">🤖 AI Debate 共识（5 Agent · 异构模型 · 30% 阈值）</h4>
         <div id="consensus-content"></div>
       </div>
@@ -453,12 +465,6 @@ const evState = {'ev-1':'selected','ev-2':'selected','ev-3':'selected','ev-4':'s
 // Arguments: 'auto' = AI consensus, 'forced-active' = 用户采信, 'forced-inactive' = 用户排除
 const argMode = {'arg-1':'auto','arg-2':'auto','arg-3':'auto'};
 
-// ── AI Consensus (simulated 5-agent debate, fixed) ──
-const aiConsensus = {
-  'arg-1': {agree:2, total:5, pct:40, reason:'多数 Agent 认为：非惯用手·无规律·无针对性 → 不构成自慰'},
-  'arg-2': {agree:2, total:5, pct:40, reason:'多数 Agent 认为：预约制座位·开放环境·零互动 → 未针对特定对象'},
-  'arg-3': {agree:3, total:5, pct:60, reason:'多数 Agent 认为：两稿措辞变化 + 现场压力 → 道歉信性质存疑'},
-};
 const THRESHOLD = 30;
 
 // ── Effective argument state ──────────
@@ -490,6 +496,20 @@ function updateUI(){
     const id=el.dataset.node;el.classList.remove('selected','grayed');
     if(evState[id]==='selected')el.classList.add('selected');
     if(evState[id]==='grayed')el.classList.add('grayed');
+    // P0-6: status symbols + P0-5: aria-label
+    const label=el.querySelector('.node-label');
+    const num=id.split('-')[1];
+    const txt=el.querySelector('.node-text').textContent.split('\n')[0].trim()||'';
+    label.innerHTML=label.innerHTML.replace(/ [\u2713\u2717]$/,'');
+    if(evState[id]==='selected'){
+      label.innerHTML+=' \u2713';
+      el.setAttribute('aria-label','\u8bc1\u636e'+num+': '+txt+' - \u5df2\u91c7\u4fe1');
+    }else if(evState[id]==='grayed'){
+      label.innerHTML+=' \u2717';
+      el.setAttribute('aria-label','\u8bc1\u636e'+num+': '+txt+' - \u5df2\u6392\u9664');
+    }else{
+      el.setAttribute('aria-label','\u8bc1\u636e'+num+': '+txt+' - \u5f85\u5b9a');
+    }
   });
 
   // Argument nodes
@@ -504,11 +524,7 @@ function updateUI(){
 
     if(mode==='auto'){
       if(active) el.classList.add('auto-active');
-      else{
-        // Check if auto-inactive (relevant evidence grayed)
-        const rel=(id==='arg-1'&&(evState['ev-2']==='grayed'||evState['ev-4']==='grayed'))||(id==='arg-2'&&evState['ev-5']==='grayed')||(id==='arg-3'&&(evState['ev-3']==='grayed'||evState['ev-4']==='grayed'));
-        if(rel)el.classList.add('auto-inactive');
-      }
+      else el.classList.add('auto-inactive');
       // AI badge: show per-team vote count
       const ac=getActiveConsensus()[id];
       const badge=document.createElement('span');
@@ -528,6 +544,21 @@ function updateUI(){
       badge.textContent='你排除';
       el.appendChild(badge);
     }
+    // P0-6: status symbols + P0-5: aria-label
+    const label=el.querySelector('.node-label');
+    const num=id.split('-')[1];
+    const txt=el.querySelector('.node-text').textContent.split('\n')[0].trim();
+    const ac=getActiveConsensus()[id];
+    label.innerHTML=label.innerHTML.replace(/ [\u2713\u2717]$/,'');
+    if(mode==='forced-active'){
+      label.innerHTML+=' \u2713';
+      el.setAttribute('aria-label','\u8bba\u70b9'+num+': '+txt+' - \u7528\u6237\u91c7\u4fe1');
+    }else if(mode==='forced-inactive'){
+      label.innerHTML+=' \u2717';
+      el.setAttribute('aria-label','\u8bba\u70b9'+num+': '+txt+' - \u7528\u6237\u6392\u9664');
+    }else{
+      el.setAttribute('aria-label','\u8bba\u70b9'+num+': '+txt+' - AI\u5171\u8bc6'+ac.agree+'/'+ac.total);
+    }
   });
 
   // Conclusion nodes
@@ -546,16 +577,25 @@ function updateUI(){
     }else if(isConReachable(id)){
       el.classList.add('reachable');
     }else{
-      if(id==='con-1'&&(evState['ev-2']==='grayed'||evState['ev-4']==='grayed'||evState['ev-5']==='grayed'))el.classList.add('unreachable');
-      if(id==='con-2'&&(evState['ev-2']==='grayed'||evState['ev-4']==='grayed'||evState['ev-5']==='grayed'||evState['ev-6']==='grayed'))el.classList.add('unreachable');
+      if(id==='con-1'&&(evState['ev-2']!=='selected'||evState['ev-4']!=='selected'||evState['ev-5']!=='selected'))el.classList.add('unreachable');
+      if(id==='con-2'&&(evState['ev-2']!=='selected'||evState['ev-4']!=='selected'||evState['ev-5']!=='selected'||evState['ev-6']!=='selected'))el.classList.add('unreachable');
     }
+    // P0-5: aria-label
+    const cnum=id.split('-')[1];
+    const ctxt=el.querySelector('.node-text').textContent.split('\n')[0].trim();
+    const reachable=isConReachable(id);
+    el.setAttribute('aria-label','\u7ed3\u8bba'+cnum+': '+ctxt+' - '+(reachable?'\u53ef\u5230\u8fbe':'\u4e0d\u53ef\u5230\u8fbe'));
   });
-
   drawConnectors();
   updateStatus();
   updateConsensus();
   updateReasoning();
   updateRelationPicker();
+
+  // Auto-reset confirmedRelation if the chosen conclusion becomes unreachable
+  if(confirmedRelation && !isConReachable(confirmedRelation)){
+    confirmedRelation = null;
+  }
 }
 
 // ── Relation Picker ────────────────────
@@ -679,15 +719,17 @@ function updateReasoning(){
 
 // ── SVG Connectors ─────────────────────
 function drawConnectors(){
-  const svg=document.getElementById('connectors'),tree=document.getElementById('tree'),tr=tree.getBoundingClientRect();
+  const svg=document.getElementById('connectors'),tree=document.getElementById('tree');
+  if(!tree)return;
+  const tr=tree.getBoundingClientRect();
   svg.setAttribute('viewBox',`0 0 ${tr.width} ${tr.height}`);svg.style.width=tr.width+'px';svg.style.height=tr.height+'px';
   const ro=e=>{const r=e.getBoundingClientRect();return{x:r.right-tr.left,y:r.top+r.height/2-tr.top}};
   const lo=e=>{const r=e.getBoundingClientRect();return{x:r.left-tr.left,y:r.top+r.height/2-tr.top}};
   let p='';
 
   // Evidence → Argument
-  const ea=[{f:'ev-1',t:'arg-1'},{f:'ev-1',t:'arg-2'},{f:'ev-2',t:'arg-1'},{f:'ev-4',t:'arg-1'},{f:'ev-5',t:'arg-2'},{f:'ev-3',t:'arg-3'},{f:'ev-4',t:'arg-3'}];
-  ea.forEach(({f,t})=>{const fe=document.querySelector(`[data-node="${f}"]`),te=document.querySelector(`[data-node="${t}"]`);if(!fe||!te)return;const p1=ro(fe),p2=lo(te),mx=(p1.x+p2.x)/2;let lit=false;if(f==='ev-1'&&t==='arg-1')lit=evState['ev-1']==='selected'&&isArgActive('arg-1');if(f==='ev-1'&&t==='arg-2')lit=evState['ev-1']==='selected'&&isArgActive('arg-2');if(f==='ev-2'&&t==='arg-1')lit=evState['ev-2']==='grayed'&&isArgActive('arg-1');if(f==='ev-4'&&t==='arg-1')lit=evState['ev-4']==='grayed'&&isArgActive('arg-1');if(f==='ev-5'&&t==='arg-2')lit=evState['ev-5']==='grayed'&&isArgActive('arg-2');if(f==='ev-3'&&t==='arg-3')lit=evState['ev-3']==='selected'&&isArgActive('arg-3');if(f==='ev-4'&&t==='arg-3')lit=evState['ev-4']==='grayed'&&isArgActive('arg-3');const op=lit?0.7:0.06,cl=lit?'#d4a843':'#8a9ab0',w=lit?1.5:0.7;p+=`<path d="M${p1.x},${p1.y} C${mx},${p1.y} ${mx},${p2.y} ${p2.x},${p2.y}" fill="none" stroke="${cl}" stroke-width="${w}" opacity="${op}"/>`;if(lit)p+=`<polygon points="${p2.x-4},${p2.y-3} ${p2.x},${p2.y} ${p2.x-4},${p2.y+3}" fill="${cl}" opacity="${op}"/>`;});
+  const ea=[{f:'ev-1',t:'arg-1'},{f:'ev-1',t:'arg-2'},{f:'ev-2',t:'arg-1'},{f:'ev-4',t:'arg-1'},{f:'ev-5',t:'arg-2'},{f:'ev-3',t:'arg-3'},{f:'ev-4',t:'arg-3'},{f:'ev-6',t:'arg-2'}];
+  ea.forEach(({f,t})=>{const fe=document.querySelector(`[data-node="${f}"]`),te=document.querySelector(`[data-node="${t}"]`);if(!fe||!te)return;const p1=ro(fe),p2=lo(te),mx=(p1.x+p2.x)/2;const lit=evState[f]==='selected'&&isArgActive(t);const isGray=evState[f]==='grayed'&&isArgActive(t);const op=lit?0.7:isGray?0.15:0.06,cl=lit?'#d4a843':isGray?'#e07a5f':'#8a9ab0',w=lit?1.5:isGray?1:0.7,ds=isGray?' stroke-dasharray="3,3"':'';p+=`<path d="M${p1.x},${p1.y} C${mx},${p1.y} ${mx},${p2.y} ${p2.x},${p2.y}" fill="none" stroke="${cl}" stroke-width="${w}" opacity="${op}"${ds}/>`;if(lit)p+=`<polygon points="${p2.x-4},${p2.y-3} ${p2.x},${p2.y} ${p2.x-4},${p2.y+3}" fill="${cl}" opacity="${op}"/>`;});
 
   // Argument → Conclusion
   const ac=[{f:'arg-1',t:'con-1'},{f:'arg-2',t:'con-1'},{f:'arg-3',t:'con-1'}];
@@ -721,10 +763,7 @@ const teamDescriptions = {
   'team-b': '反对方倾向 Agent 队（DeepSeek + Qwen）：非惯用手·开放环境·道歉信性质存疑',
 };
 
-function getConsensus(argId) {
-  return (teamConsensus[activeTeam] || teamConsensus['custom'])[argId];
-}
-// Override the global aiConsensus for the update functions
+// Return team-specific consensus for the update functions
 function getActiveConsensus() { return teamConsensus[activeTeam] || teamConsensus['custom']; }
 
 function applyTeam(team){
@@ -751,12 +790,17 @@ function applyTeam(team){
   // Update active team button
   document.querySelectorAll('.team-btn').forEach(b=>{
     b.classList.remove('active');
-    if(b.dataset.team===team)b.classList.add('active');
+    b.setAttribute('aria-pressed','false');
+    if(b.dataset.team===team){
+      b.classList.add('active');
+      b.setAttribute('aria-pressed','true');
+    }
   });
   // Update team description
   const desc = document.getElementById('team-desc');
   desc.textContent = teamDescriptions[team];
-  desc.style.color = team==='custom'?'var(--muted)':`var(--tc,var(--muted))`;
+  const teamColors = {custom:'var(--muted)', court:'#d4a843', 'team-a':'#e07a5f', 'team-b':'#3a8a8a'};
+  desc.style.color = teamColors[team] || 'var(--muted)';
 
   updateUI();
 }
@@ -766,12 +810,18 @@ document.querySelectorAll('.team-btn').forEach(btn=>{
 });
 
 // ── Click Handlers ─────────────────────
+document.querySelectorAll('.node.evidence, .node.argument').forEach(el=>{el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});});
 document.querySelectorAll('.node.evidence').forEach(el=>{el.addEventListener('click',()=>{const id=el.dataset.node;if(evState[id]==='')evState[id]='selected';else if(evState[id]==='selected')evState[id]='grayed';else evState[id]='';confirmedRelation=null;updateUI();});});
 
 document.querySelectorAll('.node.argument').forEach(el=>{el.addEventListener('click',()=>{const id=el.dataset.node;if(argMode[id]==='auto')argMode[id]='forced-active';else if(argMode[id]==='forced-active')argMode[id]='forced-inactive';else argMode[id]='auto';confirmedRelation=null;updateUI();});});
 
-updateUI();window.addEventListener('resize',drawConnectors);
-const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.08});
+updateUI();
+let resizeTimer;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(drawConnectors,150);
+});
+const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.2});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 document.querySelector('.hero.reveal')?.classList.add('visible');
 </script>
