@@ -94,6 +94,10 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .demo-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 12px 16px;position:relative}
 .demo-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:6px}
 .demo-context{font-size:9px;color:var(--muted);text-align:center;margin-bottom:14px;line-height:1.6;padding:8px 12px;background:var(--surface);border-radius:8px}
+.preset-btn{font-family:inherit;font-size:8px;font-weight:500;padding:4px 9px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+.preset-btn:hover{border-color:rgba(224,122,95,.3);color:var(--white)}
+.preset-btn.active{background:rgba(224,122,95,.12);border-color:var(--accent);color:var(--accent)}
+.multi-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:8px;font-weight:600;letter-spacing:.04em;animation:pulse 2s ease-in-out infinite}
 .tree{display:grid;grid-template-columns:1fr 18px 1fr 18px 1fr;gap:0;align-items:start;position:relative}
 .tree-col-header{font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)}
 .tree-col-header .col-hint{font-weight:400;font-size:7px;color:var(--muted)}
@@ -170,16 +174,45 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
     每一步都是满射——你对证据和论点的判断，即刻收窄可推出的结论。
   </p>
   <div class="framework">
-    <div class="fw-title">复合映射框架</div>
-    <div class="fw-row"><div class="fw-box ev"><div class="fw-box-label">证据组 · 定义域</div><div class="fw-box-text">多源搜索提取证据点<br>用户对每个证据选择<br><strong>采信 / 排除</strong></div></div></div>
-    <div style="text-align:center;font-size:18px;color:var(--muted);margin:2px 0">↓ 第一次映射（满射）</div>
-    <div class="fw-step-label">证据组合映射到论点 · 同一证据可支持不同论点</div>
-    <div class="fw-row"><div class="fw-box arg"><div class="fw-box-label">论点组</div><div class="fw-box-text">AI 辩论后给出共识<br>用户可手动调整<br><strong>点击切换：AI共识/采信/排除</strong></div></div></div>
-    <div style="text-align:center;font-size:18px;color:var(--muted);margin:2px 0">↓ 第二次映射（满射）</div>
-    <div class="fw-step-label">论点映射到结论 · 逐步收窄 · 排除的路径置灰</div>
-    <div class="fw-row"><div class="fw-box con"><div class="fw-box-label">结论集 · 值域</div><div class="fw-box-text">逐步收窄可推出的结论<br>高亮箭头连接<br>排除的结论置灰</div></div></div>
+    <div class="fw-title">数据 → 证据 → 论点 → 结论</div>
+
+    <div class="fw-row">
+      <div class="fw-box" style="border-color:rgba(138,154,176,.2)">
+        <div class="fw-box-label" style="color:var(--muted)">数据层 · Raw Data</div>
+        <div class="fw-box-text">一手/二手原始数据<br>社交媒体帖·视频·文件<br>目击陈述·公开记录</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:14px;color:var(--accent2);margin:2px 0">↓ 筛选验证</div>
+    <div class="fw-step-label">多源交叉验证 · 可信度评估 · 确认事实<br><strong>data → evidence</strong>：只有确认过的才叫证据</div>
+
+    <div class="fw-row">
+      <div class="fw-box ev">
+        <div class="fw-box-label">证据组 · 定义域</div>
+        <div class="fw-box-text">确认的事实<br>用户对每个证据选择<br><strong>采信 / 排除</strong></div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:14px;color:var(--muted);margin:2px 0">↓ 第一次映射（满射）</div>
+    <div class="fw-step-label">证据组合映射到论点 · AI 辩论产生共识 · 用户可手动调整</div>
+
+    <div class="fw-row">
+      <div class="fw-box arg">
+        <div class="fw-box-label">论点组</div>
+        <div class="fw-box-text">AI 辩论后给出共识<br>用户可手动调整<br><strong>点击切换：AI共识/采信/排除</strong></div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:14px;color:var(--muted);margin:2px 0">↓ 第二次映射（满射）</div>
+    <div class="fw-step-label">论点映射到结论 · 同一证据组可能映射到多个结论 · 用户选择路径</div>
+
+    <div class="fw-row">
+      <div class="fw-box con">
+        <div class="fw-box-label">结论集 · 值域</div>
+        <div class="fw-box-text">收窄可推出的结论<br>多路径时用<strong>不同颜色</strong>标注<br>每种颜色代表一个推理方向</div>
+      </div>
+    </div>
+
     <p style="font-size:9px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.7">
-      <strong>满射</strong>：每个结论至少有一个证据组合映射到它。<strong>复合映射</strong>：两步映射，每步用户可介入。<br>
+      <strong>数据 ≠ 证据</strong>：原始数据经过多源验证、可信度分级后才成为证据。<br>
+      <strong>满射</strong>：每个结论至少有一个证据组合映射到它。<strong>复合映射</strong>：三步映射，每步用户可介入。<br>
       <strong>图尔明模型</strong>：论据 (Data) → 论证 (Warrant) → 论点 (Claim)。
     </p>
   </div>
@@ -190,10 +223,10 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
   <section class="section reveal">
     <h2>Full Pipeline</h2>
     <div class="pipeline">
-      <div class="pipeline-step s1"><div class="pipeline-icon">🔍</div><div class="pipeline-body"><div class="step-num">01 · RETRIEVE</div><h3>搜索证据 + 拆解争议焦点</h3><p>用户输入核心矛盾 → AnySearch 多源搜索 → 摸清事件来龙去脉 → 提取争议焦点 → 列出所有相关证据点</p></div></div>
-      <div class="pipeline-step s2"><div class="pipeline-icon">⚡</div><div class="pipeline-body"><div class="step-num">02 · DEBATE</div><h3>Multi-Agent 辩论 + 投票</h3><p>Debate team → 给论据赋权 → 投票（≥30% 进下阶段）→ 图尔明模型 + Superforecaster 多元性</p></div></div>
-      <div class="pipeline-step s3"><div class="pipeline-icon">🗺️</div><div class="pipeline-body"><div class="step-num">03 · MAP</div><h3>证据组 → 论点组（第一次映射 + AI 共识）</h3><p>证据组映射到论点组 → AI 投票产生共识 → 同一论点因论据/论证不同有不同判断</p></div></div>
-      <div class="pipeline-step s4"><div class="pipeline-icon">🎯</div><div class="pipeline-body"><div class="step-num">04 · NARROW</div><h3>论点组 → 结论集（第二次映射 + 用户调整）</h3><p>论点映射到结论 → 用户可手动调整 AI 共识 → 高亮箭头 → 收窄结论子集 → 排除的路径置灰</p></div></div>
+      <div class="pipeline-step s1"><div class="pipeline-icon">📡</div><div class="pipeline-body"><div class="step-num">01 · COLLECT</div><h3>收集原始数据 + 多源交叉验证</h3><p>用户输入核心矛盾 → AnySearch 多源搜索（知乎/微博/B站/公众号/小红书等）→ 收集一手/二手原始数据 → 多源交叉验证 → 可信度分级 → <strong>data 变成 evidence</strong></p></div></div>
+      <div class="pipeline-step s2"><div class="pipeline-icon">⚡</div><div class="pipeline-body"><div class="step-num">02 · DEBATE</div><h3>Multi-Agent 辩论 + 投票</h3><p>Debate team 辩论 → 给论据赋权 → 投票（≥30% 进下阶段）→ 图尔明模型 + Superforecaster 多元性</p></div></div>
+      <div class="pipeline-step s3"><div class="pipeline-icon">🗺️</div><div class="pipeline-body"><div class="step-num">03 · MAP</div><h3>证据组 → 论点组（第一次映射 + AI 共识）</h3><p>确认的证据映射到论点 → AI 投票产生共识 → 同一论点因论据/论证不同有不同判断</p></div></div>
+      <div class="pipeline-step s4"><div class="pipeline-icon">🎯</div><div class="pipeline-body"><div class="step-num">04 · NARROW</div><h3>论点组 → 结论集（第二次映射 + 用户选择路径）</h3><p>论点映射到结论 → 同一证据组可能映射到多个结论 → 不同颜色代表不同推理路径 → 用户选择</p></div></div>
       <div class="pipeline-step s5"><div class="pipeline-icon">⚖️</div><div class="pipeline-body"><div class="step-num">05 · VERDICT</div><h3>法官裁决 + 结构化判决</h3><p>异构模型法官 4 维评估 → 主张存亡标记 → 决定性因素 → 完整 JSONL 记录可审计</p></div></div>
     </div>
   </section>
@@ -231,7 +264,17 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
       <div class="demo-title"><span class="dot"></span> 武大图书馆事件 · 2023.7.11</div>
       <div class="demo-context">
         <strong>核心争议</strong>：Xiao 在图书馆手在裆部的动作，是 <strong style="color:var(--accent)">自慰</strong>（Yang）还是 <strong style="color:var(--accent3)">挠痒</strong>（Xiao·特应性皮炎）？<br>
-        下方证据来自法院判决 (2024)鄂0191民初4030号。<strong>红色角标 = AI 辩论共识</strong>。
+        下方 6 项证据来自多源原始数据交叉验证后的确认事实。<br>
+        案例来源：武汉东湖新技术开发区法院 (2024)鄂0191民初4030号。
+      </div>
+
+      <!-- Preset selector -->
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;justify-content:center">
+        <button class="preset-btn active" data-preset="ai">🤖 AI 共识</button>
+        <button class="preset-btn" data-preset="court">🏛️ 法院判决</button>
+        <button class="preset-btn" data-preset="yang">👩 Yang 视角</button>
+        <button class="preset-btn" data-preset="xiao">👨 Xiao 视角</button>
+        <button class="preset-btn" data-preset="all">🔀 全采信（多路径）</button>
       </div>
 
       <div class="tree" id="tree">
@@ -328,42 +371,39 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 <script>
 // ── State ──────────────────────────────
 // Evidence: '' = default, 'selected' = 采信, 'grayed' = 排除
-const evState = {'ev-1':'selected','ev-2':'','ev-3':'','ev-4':'','ev-5':'','ev-6':''};
+// Default: all evidence selected (AI reviewed all of it; user can exclude)
+const evState = {'ev-1':'selected','ev-2':'selected','ev-3':'selected','ev-4':'selected','ev-5':'selected','ev-6':'selected'};
 // Arguments: 'auto' = AI consensus, 'forced-active' = 用户采信, 'forced-inactive' = 用户排除
 const argMode = {'arg-1':'auto','arg-2':'auto','arg-3':'auto'};
 
-// ── AI Consensus (simulated 5-agent debate) ──
-// These are the AI debate outcomes BEFORE user override
+// ── AI Consensus (simulated 5-agent debate, fixed) ──
 const aiConsensus = {
-  'arg-1': {agree:2, total:5, pct:40},  // 2/5 think it's masturbation
-  'arg-2': {agree:2, total:5, pct:40},  // 2/5 think it targeted a specific person
-  'arg-3': {agree:3, total:5, pct:60},  // 3/5 think letter = confession
+  'arg-1': {agree:2, total:5, pct:40, reason:'多数 Agent 认为：非惯用手·无规律·无针对性 → 不构成自慰'},
+  'arg-2': {agree:2, total:5, pct:40, reason:'多数 Agent 认为：预约制座位·开放环境·零互动 → 未针对特定对象'},
+  'arg-3': {agree:3, total:5, pct:60, reason:'多数 Agent 认为：两稿措辞变化 + 现场压力 → 道歉信性质存疑'},
 };
+const THRESHOLD = 30;
 
-const THRESHOLD = 30; // ≥30% to pass (from user's design)
-
-// ── Evidence → Argument (AI logic) ────
-function aiArgActive(id) {
-  if (id === 'arg-1') return evState['ev-1']==='selected' && evState['ev-2']!=='selected' && evState['ev-4']!=='selected';
-  if (id === 'arg-2') return evState['ev-1']==='selected' && evState['ev-5']!=='selected';
-  if (id === 'arg-3') return evState['ev-3']==='selected' && evState['ev-4']!=='selected';
-  return false;
-}
-
-// ── Effective argument state (AI + user override) ──
+// ── Effective argument state ──────────
 function isArgActive(id) {
   if (argMode[id] === 'forced-active') return true;
   if (argMode[id] === 'forced-inactive') return false;
-  return aiArgActive(id); // auto mode
+  return aiConsensus[id].pct >= THRESHOLD; // auto: AI consensus decides
 }
 
-// ── Argument → Conclusion ──────────────
+// ── Conclusion logic ──────────────────
+// Con1 (成立): all 3 args active
+// Con2 (不成立): E2+E4+E5+E6 all selected (medical+environmental evidence chain)
 function isConReachable(id) {
   if (id === 'con-1') return isArgActive('arg-1') && isArgActive('arg-2') && isArgActive('arg-3');
-  if (id === 'con-2') return evState['ev-2']==='selected' && evState['ev-4']==='selected' && evState['ev-5']==='selected' && evState['ev-6']==='selected';
+  if (id === 'con-2') {
+    return evState['ev-2']==='selected' && evState['ev-4']==='selected'
+        && evState['ev-5']==='selected' && evState['ev-6']==='selected';
+  }
   return false;
 }
 function countReachable(){return['con-1','con-2'].filter(isConReachable).length;}
+function isMultiMapping(){return isConReachable('con-1') && isConReachable('con-2');}
 
 // ── Update DOM ─────────────────────────
 function updateUI(){
@@ -431,7 +471,9 @@ function updateUI(){
 
 function updateStatus(){
   const c=countReachable(),s=document.getElementById('status');
-  if(c===2)s.innerHTML='<strong>2</strong> 个结论可到达 · 选择证据和论点收窄结论空间';
+  if(isMultiMapping()){
+    s.innerHTML='<span class="multi-badge" style="background:rgba(224,122,95,.15);color:var(--accent)">⚠ 多路径</span> <strong>同一证据组映射到 2 个结论</strong> · 请选择推理路径';
+  }else if(c===2)s.innerHTML='<strong>2</strong> 个结论可到达 · 选择证据和论点收窄结论空间';
   else if(c===1)s.innerHTML='仅剩 <strong>1</strong> 个结论 · 证据链指向明确';
   else s.innerHTML='<strong>证据不足</strong> · 当前组合无法推出任何结论 · 请调整证据或论点选择';
 }
@@ -515,6 +557,42 @@ function drawConnectors(){
 
   svg.innerHTML=p;
 }
+
+// ── Presets ────────────────────────────
+function applyPreset(name){
+  // Reset all to default
+  Object.keys(evState).forEach(k=>evState[k]='');
+  Object.keys(argMode).forEach(k=>argMode[k]='auto');
+
+  if(name==='ai'){ // AI Consensus (default)
+    ['ev-1','ev-2','ev-3','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='selected');
+  }else if(name==='court'){ // 法院判决
+    ['ev-1','ev-2','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='selected');
+    evState['ev-3']='grayed'; // letter rejected
+  }else if(name==='yang'){ // Yang视角
+    ['ev-1','ev-3'].forEach(k=>evState[k]='selected');
+    ['ev-2','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='grayed');
+    // Force all args active
+    Object.keys(argMode).forEach(k=>argMode[k]='forced-active');
+  }else if(name==='xiao'){ // Xiao视角
+    ['ev-2','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='selected');
+    evState['ev-1']='grayed'; // denies video shows masturbation
+    evState['ev-3']='grayed'; // letter was under duress
+  }else if(name==='all'){ // 全采信 → multi-mapping
+    ['ev-1','ev-2','ev-3','ev-4','ev-5','ev-6'].forEach(k=>evState[k]='selected');
+    // Force all args active to show both conclusions
+    Object.keys(argMode).forEach(k=>argMode[k]='forced-active');
+  }
+
+  // Update active preset button
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`[data-preset="${name}"]`)?.classList.add('active');
+  updateUI();
+}
+
+document.querySelectorAll('.preset-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>applyPreset(btn.dataset.preset));
+});
 
 // ── Click Handlers ─────────────────────
 document.querySelectorAll('.node.evidence').forEach(el=>{el.addEventListener('click',()=>{const id=el.dataset.node;if(evState[id]==='')evState[id]='selected';else if(evState[id]==='selected')evState[id]='grayed';else evState[id]='';updateUI();});});
