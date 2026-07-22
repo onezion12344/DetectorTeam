@@ -22,6 +22,7 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .section{padding:48px 0;position:relative;z-index:1}
 .section h2{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:20px}
 .section h2::after{content:'';flex:1;height:1px;background:rgba(224,122,95,.15)}
+.section-dark{background:var(--surface);max-width:none;padding:48px 20px;margin:0 -20px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px 17px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
 .card:hover{border-color:rgba(224,122,95,.3);transform:translateX(4px)}
 .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
@@ -40,52 +41,59 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .tag.safe{background:rgba(58,138,138,.12);border:1px solid rgba(58,138,138,.25);color:var(--accent3)}
 
 /* ═══ HERO ═══ */
-.hero{padding:48px 0 32px;position:relative;z-index:1;text-align:center}
+.hero{padding:64px 0 48px;position:relative;z-index:1;text-align:center}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:100px;background:rgba(224,122,95,.06);border:1px solid rgba(224,122,95,.12);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
-.hero h1{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.3;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.3;margin-bottom:10px}
 .hero h1 em{font-style:normal;background:linear-gradient(135deg,#f0c87a,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:11px;color:var(--muted);max-width:400px;margin:0 auto 28px;line-height:1.75}
-.hero-note{font-size:9px;color:rgba(138,154,176,.5);max-width:340px;margin:12px auto 0;line-height:1.6}
+.hero-sub{font-size:11px;color:var(--muted);max-width:400px;margin:0 auto;line-height:1.75}
+
+/* ═══ Framework diagram ═══ */
+.framework{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 16px;margin-top:28px}
+.fw-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:18px}
+.fw-row{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.fw-box{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;text-align:center}
+.fw-box.ev{border-color:rgba(58,138,138,.25)}
+.fw-box.arg{border-color:rgba(212,168,67,.25)}
+.fw-box.con{border-color:rgba(224,122,95,.25)}
+.fw-box .fw-box-label{font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.fw-box.ev .fw-box-label{color:var(--accent3)}
+.fw-box.arg .fw-box-label{color:var(--accent2)}
+.fw-box.con .fw-box-label{color:var(--accent)}
+.fw-box .fw-box-text{font-size:10px;line-height:1.4}
+.fw-arrow{font-size:16px;color:var(--muted);min-width:16px;text-align:center}
+.fw-step-label{font-size:8px;color:var(--muted);text-align:center;letter-spacing:.06em;margin:4px 0 12px}
 
 /* ═══ DEMO ═══ */
 .demo-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 12px 16px;position:relative}
 .demo-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:6px}
+.demo-context{font-size:9px;color:var(--muted);text-align:center;margin-bottom:14px;line-height:1.6;padding:8px 12px;background:var(--surface);border-radius:8px}
 .tree{display:grid;grid-template-columns:1fr 18px 1fr 18px 1fr;gap:0;align-items:start;position:relative}
 .tree-col-header{font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)}
-
 .node{padding:6px 6px;border-radius:7px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all .35s cubic-bezier(.4,0,.2,1);user-select:none;margin-bottom:3px}
 .node .node-label{font-size:7px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1px}
 .node .node-text{font-size:9px;line-height:1.35}
-
-/* Evidence states */
 .node.evidence{background:rgba(58,138,138,.05);border-color:rgba(58,138,138,.12)}
 .node.evidence.selected{background:rgba(58,138,138,.18);border-color:var(--accent3);box-shadow:0 0 14px rgba(58,138,138,.25)}
 .node.evidence.selected .node-label{color:var(--accent3)}
 .node.evidence.grayed{background:rgba(138,154,176,.02);border-color:rgba(138,154,176,.06);color:rgba(138,154,176,.35)}
 .node.evidence.grayed .node-label{color:rgba(138,154,176,.25)}
-
-/* Argument states */
 .node.argument{background:rgba(212,168,67,.03);border-color:rgba(212,168,67,.1)}
 .node.argument.active{background:rgba(212,168,67,.15);border-color:var(--accent2);box-shadow:0 0 14px rgba(212,168,67,.18)}
 .node.argument.active .node-label{color:var(--accent2)}
 .node.argument.inactive{background:rgba(138,154,176,.02);border-color:rgba(138,154,176,.06);color:rgba(138,154,176,.35)}
 .node.argument.inactive .node-label{color:rgba(138,154,176,.25)}
-
-/* Conclusion states */
 .node.conclusion{background:rgba(224,122,95,.03);border-color:rgba(224,122,95,.08)}
 .node.conclusion.reachable{background:rgba(224,122,95,.16);border-color:var(--accent);box-shadow:0 0 16px rgba(224,122,95,.25)}
 .node.conclusion.reachable .node-label{color:var(--accent)}
 .node.conclusion.unreachable{background:rgba(138,154,176,.02);border-color:rgba(138,154,176,.06);color:rgba(138,154,176,.35)}
 .node.conclusion.unreachable .node-label{color:rgba(138,154,176,.25)}
-
 .tree-connectors{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
-
 .demo-legend{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap;font-size:8px;color:var(--muted);letter-spacing:.05em}
 .demo-legend span{display:flex;align-items:center;gap:4px}
 .legend-dot{width:6px;height:6px;border-radius:2px}
 .demo-status{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:12px;font-size:10px;color:var(--muted);text-align:center;transition:all .35s}
 .demo-status strong{color:var(--accent)}
-.demo-hint{font-size:8px;color:rgba(138,154,176,.45);text-align:center;margin-top:10px;line-height:1.6}
+.demo-hint{font-size:8px;color:rgba(138,154,176,.45);text-align:center;margin-top:10px;line-height:1.7}
 
 /* ═══ Pull Quote ═══ */
 .pull-quote{text-align:center;padding:24px 0}
@@ -159,141 +167,67 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 
 <div class="stars"></div>
 
-<!-- ═══════════ HERO + DEMO ═══════════ -->
+<!-- ═══════════════════════════════════════════
+     SECTION 1: HERO — 框架介绍
+     ═══════════════════════════════════════════ -->
 <section class="hero container reveal">
-  <div class="hero-badge"><span class="dot"></span> Interactive Demo · 真实案例</div>
+  <div class="hero-badge"><span class="dot"></span> AI 司法辩论系统</div>
   <h1><em>证据组</em> → 论点组 → 结论</h1>
   <p class="hero-sub">
-    同一段视频 (E1)，取决于你采信哪些背景证据，可推出完全相反的结论。<br>
-    点击证据节点选择「采信」或「排除」，看结论如何变化。
+    用户输入争议 → AI 搜索证据 → Multi-Agent 辩论 →<br>
+    证据映射为论点，论点收敛为结论。<br>
+    每一步都是满射——你对证据的判断，即刻收窄可推出的结论。
   </p>
 
-  <!-- ═══ DEMO ═══ -->
-  <div class="demo-wrap" id="demo">
-    <div class="demo-title"><span class="dot"></span> 武大图书馆事件 · 2023.7.11</div>
+  <!-- Framework diagram -->
+  <div class="framework">
+    <div class="fw-title">复合映射框架</div>
 
-    <div class="tree" id="tree">
-      <!-- Col 1: Evidence (6 items) -->
-      <div>
-        <div class="tree-col-header">证据组 <span style="font-weight:400;font-size:7px;color:var(--muted)">点击切换</span></div>
-        <div class="node evidence selected" data-node="ev-1" data-col="0" data-row="0">
-          <div class="node-label">E1 · 5段视频</div>
-          <div class="node-text">Yang拍摄·手在裆部<br>轻微不规则动作</div>
-        </div>
-        <div class="node evidence" data-node="ev-2" data-col="0" data-row="1">
-          <div class="node-label">E2 · 皮肤病记录</div>
-          <div class="node-text">特应性皮炎·过敏体质<br>爱宁达药膏</div>
-        </div>
-        <div class="node evidence" data-node="ev-3" data-col="0" data-row="2">
-          <div class="node-label">E3 · 道歉信</div>
-          <div class="node-text">两稿：从「拍了姐姐」<br>被要求改成「下流的事」</div>
-        </div>
-        <div class="node evidence" data-node="ev-4" data-col="0" data-row="3">
-          <div class="node-label">E4 · 医学专家×5</div>
-          <div class="node-text">同济/协和泌尿外科<br>非惯用手·无规律·无针对性</div>
-        </div>
-        <div class="node evidence" data-node="ev-5" data-col="0" data-row="4">
-          <div class="node-label">E5 · 监控录像</div>
-          <div class="node-text">预约制座位·开放环境<br>零互动·Yang离开后动作继续</div>
-        </div>
-        <div class="node evidence" data-node="ev-6" data-col="0" data-row="5">
-          <div class="node-label">E6 · 关键证人</div>
-          <div class="node-text">黄淇鑫：微信 vs 公安<br>陈述不一致</div>
-        </div>
+    <div class="fw-row">
+      <div class="fw-box ev">
+        <div class="fw-box-label">证据组 · 定义域</div>
+        <div class="fw-box-text">多源搜索提取证据点<br>用户对每个证据选择<br><strong>采信 / 排除</strong></div>
       </div>
+    </div>
+    <div style="text-align:center;font-size:18px;color:var(--muted);margin:2px 0">↓ 第一次映射（满射）</div>
+    <div class="fw-step-label">证据组映射到论点组 · 同一证据组合可支持不同论点</div>
 
-      <div></div> <!-- arrow col -->
-
-      <!-- Col 3: Arguments -->
-      <div>
-        <div class="tree-col-header">论点组</div>
-        <div class="node argument" data-node="arg-1" data-col="2" data-row="0">
-          <div class="node-label">论点 1</div>
-          <div class="node-text">视频 = 自慰<br>Yang 的解读</div>
-        </div>
-        <div class="node argument" data-node="arg-2" data-col="2" data-row="1">
-          <div class="node-label">论点 2</div>
-          <div class="node-text">针对特定对象<br>民法典第1010条要件</div>
-        </div>
-        <div class="node argument" data-node="arg-3" data-col="2" data-row="2">
-          <div class="node-label">论点 3</div>
-          <div class="node-text">道歉信 = 自愿认罪<br>非胁迫下妥协</div>
-        </div>
+    <div class="fw-row">
+      <div class="fw-box arg">
+        <div class="fw-box-label">论点组</div>
+        <div class="fw-box-text">每个论点含论据 (data)<br>论证 (warrant) · 判断<br><strong>可展开查看详情</strong></div>
       </div>
+    </div>
+    <div style="text-align:center;font-size:18px;color:var(--muted);margin:2px 0">↓ 第二次映射（满射）</div>
+    <div class="fw-step-label">论点组映射到结论集 · 用户逐步收窄 · 排除的路径置灰</div>
 
-      <div></div> <!-- arrow col -->
-
-      <!-- Col 5: Conclusions -->
-      <div>
-        <div class="tree-col-header">结论集</div>
-        <div class="node conclusion" data-node="con-1" data-col="4" data-row="0">
-          <div class="node-label">结论 1</div>
-          <div class="node-text">性骚扰成立<br>2023.10 校方记过处分</div>
-        </div>
-        <div class="node conclusion" data-node="con-2" data-col="4" data-row="1">
-          <div class="node-label">结论 2</div>
-          <div class="node-text">证据不足<br>无法判断</div>
-        </div>
-        <div class="node conclusion" data-node="con-3" data-col="4" data-row="2">
-          <div class="node-label">结论 3</div>
-          <div class="node-text">指控不成立<br>2025.7 法院驳回诉求<br>2025.9 校方撤销处分</div>
-        </div>
+    <div class="fw-row">
+      <div class="fw-box con">
+        <div class="fw-box-label">结论集 · 值域</div>
+        <div class="fw-box-text">逐步收窄可推出的结论<br><strong>高亮箭头</strong>连接选中证据<br>排除的结论<strong>置灰</strong></div>
       </div>
-
-      <svg class="tree-connectors" id="connectors"></svg>
     </div>
 
-    <div class="demo-legend">
-      <span><span class="legend-dot" style="background:var(--accent3)"></span> 采信</span>
-      <span><span class="legend-dot" style="background:rgba(138,154,176,.2)"></span> 排除</span>
-      <span><span class="legend-dot" style="background:var(--accent2)"></span> 论点激活</span>
-      <span><span class="legend-dot" style="background:var(--accent)"></span> 结论可到达</span>
-      <span>点击切换</span>
-    </div>
-
-    <div class="demo-status" id="status"><strong>3</strong> 个结论可到达 · 选择证据收窄结论空间</div>
-
-    <div class="demo-hint">
-      <strong>Yang 的路径</strong>：E1✓ E2✗ E3✓ E4✗ E5✗ E6✗ → 只剩结论1<br>
-      <strong>法院的路径</strong>：E1✓ E2✓ E3✗ E4✓ E5✓ E6✓ → 结论1被排除<br>
-      <strong>核心张力</strong>：同一段视频 + 不同的背景证据 = 完全相反的结论
-    </div>
+    <p style="font-size:9px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.7">
+      <strong>满射 (surjective)</strong>：值域中每个结论至少有一个定义域元素映射到它。<br>
+      <strong>复合映射</strong>：两步映射，每步可选用户介入。<br>
+      <strong>核心模型</strong>：图尔明论证模型 (Toulmin, 1958)：论据 (Data) → 论证 (Warrant) → 论点 (Claim)。
+    </p>
   </div>
-
-  <p class="hero-note">
-    真实案例：武汉东湖新技术开发区法院 (2024)鄂0191民初4030号<br>
-    武汉中院二审维持原判 · 武大调查组 91项证据 21人访谈 5人专家组
-  </p>
 </section>
 
-<!-- ═══════════ CORE CONCEPT ═══════════ -->
+<!-- ═══════════════════════════════════════════
+     SECTION 2: PIPELINE — 完整流程
+     ═══════════════════════════════════════════ -->
 <div class="container">
-  <section class="section reveal">
-    <h2>Core Concept</h2>
-    <div class="pull-quote">
-      <div class="pq-mark">"</div>
-      <div class="pq-text">复合映射 · 逐步收窄<br>每一步都是满射</div>
-    </div>
-    <div class="card t1">
-      <h3 style="font-size:13px;font-weight:600;margin-bottom:10px;"><span class="tag teal">集合对集合</span> 证据 → 论点 → 结论</h3>
-      <p style="font-size:11px;color:var(--muted);line-height:1.75;">
-        <strong>满射 (surjective)</strong>：每个结论至少有一个证据组合映射到它。<br>
-        <strong>复合映射</strong>：证据组 → 论点组 → 结论集，两步映射。<br>
-        <strong>用户交互</strong>：在任意证据点选采信/排除 → 高亮箭头连接 → 收窄结论子集 → 排除的结论置灰。<br>
-        <strong>关键洞察</strong>：同样的物理证据，因背景证据采信不同，映射到完全相反的结论。
-      </p>
-    </div>
-  </section>
-
-  <!-- ═══════════ PIPELINE ═══════════ -->
   <section class="section reveal">
     <h2>Full Pipeline</h2>
     <div class="pipeline">
-      <div class="pipeline-step s1"><div class="pipeline-icon">🔍</div><div class="pipeline-body"><div class="step-num">01 · RETRIEVE</div><h3>搜索证据 + 拆解争议焦点</h3><p>用户输入核心矛盾 → 多源搜索 → 摸清事件来龙去脉 → 提取争议焦点 → 列出所有相关证据点</p></div></div>
-      <div class="pipeline-step s2"><div class="pipeline-icon">⚡</div><div class="pipeline-body"><div class="step-num">02 · DEBATE</div><h3>Multi-Agent 辩论 + 投票</h3><p>Debate team 辩论 → 给论据赋权 → 投票（≥30% 进入下阶段）→ 图尔明论证模型 + Superforecaster 多元性原则</p></div></div>
-      <div class="pipeline-step s3"><div class="pipeline-icon">🗺️</div><div class="pipeline-body"><div class="step-num">03 · MAP</div><h3>证据组 → 论点组（第一次映射）</h3><p>处理过的证据组对应到论点组 → 同一论点因论据/论证不同有不同判断 → 每个论点组可展开</p></div></div>
-      <div class="pipeline-step s4"><div class="pipeline-icon">🎯</div><div class="pipeline-body"><div class="step-num">04 · NARROW</div><h3>论点组 → 结论集（第二次映射 + 用户选择）</h3><p>论点映射到结论 → 无法判断的点用户手动选采信/排除 → 高亮箭头 → 收窄结论子集 → 排除的路径置灰</p></div></div>
-      <div class="pipeline-step s5"><div class="pipeline-icon">⚖️</div><div class="pipeline-body"><div class="step-num">05 · VERDICT</div><h3>法官裁决 + 结构化判决</h3><p>异构模型法官 4 维评估 → 主张存亡标记 → 决定性因素 → 完整 JSONL 记录可审计</p></div></div>
+      <div class="pipeline-step s1"><div class="pipeline-icon">🔍</div><div class="pipeline-body"><div class="step-num">01 · RETRIEVE</div><h3>搜索证据 + 拆解争议焦点</h3><p>用户输入核心矛盾 → AnySearch 多源搜索（知乎/微博/B站/公众号/小红书等中国互联网平台）→ 摸清事件来龙去脉 → 提取争议焦点 → 列出所有相关证据点</p></div></div>
+      <div class="pipeline-step s2"><div class="pipeline-icon">⚡</div><div class="pipeline-body"><div class="step-num">02 · DEBATE</div><h3>Multi-Agent 辩论 + 投票</h3><p>组成 debate team → 针对每个论据赋予权重 → 二手资料按权威度加权 → 辩论还原事件 → 投票（≥30% 进入下一阶段）→ 图尔明模型 + Superforecaster 陪审团多元性原则</p></div></div>
+      <div class="pipeline-step s3"><div class="pipeline-icon">🗺️</div><div class="pipeline-body"><div class="step-num">03 · MAP</div><h3>证据组 → 论点组（第一次映射）</h3><p>处理过的证据组对应到论点组 → 同一论点因论据/论证不同有不同判断 → 每个论点组可展开查看论据、论证、判断</p></div></div>
+      <div class="pipeline-step s4"><div class="pipeline-icon">🎯</div><div class="pipeline-body"><div class="step-num">04 · NARROW</div><h3>论点组 → 结论集（第二次映射 + 用户选择）</h3><p>论点映射到结论 → AI 辩论后仍无法判断的点 → 用户手动选采信/排除 → 高亮箭头连接选中证据到下游 → 收窄结论子集 → 排除的路径置灰</p></div></div>
+      <div class="pipeline-step s5"><div class="pipeline-icon">⚖️</div><div class="pipeline-body"><div class="step-num">05 · VERDICT</div><h3>法官裁决 + 结构化判决</h3><p>异构模型法官 4 维独立评估 → 每项主张存亡标记 → 决定性因素 → Co-failure beta → 完整 JSONL 辩论记录可审计</p></div></div>
     </div>
   </section>
 
@@ -302,19 +236,109 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
     <h2>Design Principles</h2>
     <p style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.65;">10 条核心原则，18 篇学术论文支撑。图尔明论证模型 · Superforecaster 陪审团多元性 · GAVEL 证据绑定。</p>
     <div class="principles">
-      <div class="principle-card p1"><div class="card-tags"><span class="tag fatal">⛔ 致命</span></div><h4>禁止初始投票</h4><p>辩论完成前不表态。17/18 AI 陪审团因锚定效应僵局。RLHF 对齐越强越难改变立场。</p><div class="source">Ersoz 2026 · 12 Angry AI Agents</div></div>
-      <div class="principle-card p2"><div class="card-tags"><span class="tag fatal">⛔ 致命</span></div><h4>异构模型 + 陪审团多元性</h4><p>三方使用不同 LLM 厂商。Superforecaster 原则：不同背景、视角的 Agent 组成陪审团。</p><div class="source">Kim et al. ICML 2025 · Superforecaster</div></div>
-      <div class="principle-card p3"><div class="card-tags"><span class="tag fatal">⛔ 致命</span></div><h4>证据绑定 (GAVEL) + 图尔明模型</h4><p>每个主张绑定 EvidenceUnit。区分论据 (data)、论证 (warrant)、论点 (claim)。</p><div class="source">Xu et al. ACL 2026 · Toulmin 1958</div></div>
-      <div class="principle-card p4"><div class="card-tags"><span class="tag critical">⚠ 关键</span></div><h4>30% 阈值 + MARGIN 校准</h4><p>投票率 ≥30% 进入下一阶段。在线校准关闭 37-78% Raw-to-Oracle gap。</p><div class="source">Armstrong 2026 · MARGIN</div></div>
-      <div class="principle-card p5"><div class="card-tags"><span class="tag critical">⚠ 关键</span></div><h4>满射映射 + 用户可介入</h4><p>每一步都是满射。用户在任何节点选采信/排除，即刻收窄结论子集。</p><div class="source">复合映射设计 · 交互模型</div></div>
-      <div class="principle-card p6"><div class="card-tags"><span class="tag critical">⚠ 关键</span></div><h4>非单调停止 + Co-Failure Beta</h4><p>Q(T)=a·log(T+c)−b·T。Wald SPRT 自适应停止。诚实报告全体 AI 同时出错的概率上限。</p><div class="source">Zhang & Hu · Chen 2026</div></div>
-      <div class="principle-card p7"><div class="card-tags"><span class="tag safe">✅ 重要</span></div><h4>同轮隔离</h4><p>同一轮双方不能互看对方当前发言。人类陪审团也是听完所有证据才评议。</p><div class="source">Fairness rule</div></div>
-      <div class="principle-card p8"><div class="card-tags"><span class="tag safe">✅ 重要</span></div><h4>4 维独立评分</h4><p>不评「谁赢了」。事实准确性、证据质量、逻辑一致性、回应充分性各自独立打分。</p><div class="source">D2D · Han et al. EMNLP 2025</div></div>
-      <div class="principle-card p9"><div class="card-tags"><span class="tag safe">✅ 重要</span></div><h4>少数派保护 + 谦逊原则</h4><p>25% 案例少数派正确。Superforecaster：保持谦逊，承认不确定性。</p><div class="source">He et al. 2026 · Tetlock</div></div>
-      <div class="principle-card p10"><div class="card-tags"><span class="tag safe">✅ 重要</span></div><h4>可审计 + 多视角纵览</h4><p>完整辩论记录。不同人对同一证据有不同解读——把这些角度摆在一起，纵览全局。</p><div class="source">设计原则 · 透明性</div></div>
+      <div class="principle-card p1"><div class="card-tags"><span class="tag fatal">⛔ 致命</span></div><h4>禁止初始投票</h4><p>辩论完成前不表态。17/18 AI 陪审团因锚定效应僵局。</p><div class="source">Ersoz 2026 · 12 Angry AI Agents</div></div>
+      <div class="principle-card p2"><div class="card-tags"><span class="tag fatal">⛔ 致命</span></div><h4>异构模型 + 陪审团多元性</h4><p>三方不同 LLM 厂商。Superforecaster：不同背景的 Agent 组成陪审团。</p><div class="source">Kim et al. ICML 2025</div></div>
+      <div class="principle-card p3"><div class="card-tags"><span class="tag fatal">⛔ 致命</span></div><h4>证据绑定 (GAVEL) + 图尔明模型</h4><p>每个主张绑定 EvidenceUnit。论据·论证·论点三层结构。</p><div class="source">Xu et al. ACL 2026 · Toulmin 1958</div></div>
+      <div class="principle-card p4"><div class="card-tags"><span class="tag critical">⚠ 关键</span></div><h4>30% 阈值 + MARGIN 校准</h4><p>投票率 ≥30% 进入下阶段。在线校准关 37-78% Raw-to-Oracle gap。</p><div class="source">Armstrong 2026</div></div>
+      <div class="principle-card p5"><div class="card-tags"><span class="tag critical">⚠ 关键</span></div><h4>满射映射 + 用户可介入</h4><p>每一步都是满射。用户在任何节点选采信/排除，即刻收窄结论子集。</p><div class="source">复合映射设计</div></div>
+      <div class="principle-card p6"><div class="card-tags"><span class="tag critical">⚠ 关键</span></div><h4>非单调停止 + Co-Failure Beta</h4><p>Q(T)=a·log(T+c)−b·T。Wald SPRT 自适应停止。诚实报告全体 AI 同时出错概率上限。</p><div class="source">Zhang & Hu · Chen 2026</div></div>
+      <div class="principle-card p7"><div class="card-tags"><span class="tag safe">✅ 重要</span></div><h4>同轮隔离</h4><p>同一轮双方不能互看对方发言。人类陪审团也是听完所有证据才评议。</p><div class="source">Fairness rule</div></div>
+      <div class="principle-card p8"><div class="card-tags"><span class="tag safe">✅ 重要</span></div><h4>4 维独立评分</h4><p>不评「谁赢了」。事实准确性、证据质量、逻辑一致性、回应充分性各自打分。</p><div class="source">D2D · EMNLP 2025</div></div>
+      <div class="principle-card p9"><div class="card-tags"><span class="tag safe">✅ 重要</span></div><h4>少数派保护 + 谦逊</h4><p>25% 案例少数派正确。Superforecaster：保持谦逊，承认不确定性。</p><div class="source">He et al. 2026 · Tetlock</div></div>
+      <div class="principle-card p10"><div class="card-tags"><span class="tag safe">✅ 重要</span></div><h4>可审计 + 多视角纵览</h4><p>完整辩论记录。不同人对同一证据有不同解读——把这些角度摆在一起。</p><div class="source">透明性设计</div></div>
     </div>
   </section>
+</div>
 
+<!-- ═══════════════════════════════════════════
+     SECTION 3: CASE DEMO — 真实案例
+     ═══════════════════════════════════════════ -->
+<div class="section-dark">
+<div class="container">
+  <section style="padding:0;position:relative;z-index:1">
+    <h2>Case Study</h2>
+
+    <div class="pull-quote">
+      <div class="pq-mark">"</div>
+      <div class="pq-text">同一段视频<br>取决于你采信哪些背景证据<br>可推出完全相反的结论</div>
+    </div>
+
+    <p style="font-size:11px;color:var(--muted);line-height:1.75;margin-bottom:24px;text-align:center">
+      以下交互 demo 基于真实案例：<strong>武汉大学图书馆争议事件</strong>。<br>
+      2023 年 7 月，武大图书馆内，女生 Yang 指控男生 Xiao 性骚扰。<br>
+      同一段视频 + 不同的背景证据组合 = 性骚扰成立 or 指控不成立。
+    </p>
+
+    <!-- ═══ DEMO ═══ -->
+    <div class="demo-wrap" id="demo">
+      <div class="demo-title"><span class="dot"></span> 武大图书馆事件 · 2023.7.11</div>
+
+      <div class="demo-context">
+        <strong>核心争议</strong>：Xiao 在图书馆自习时手在裆部区域的动作，是 <strong style="color:var(--accent)">自慰</strong>（Yang 的主张）还是 <strong style="color:var(--accent3)">挠痒</strong>（Xiao 的辩解·特应性皮炎）？<br>
+        下方 6 个证据来自法院判决书 (2024)鄂0191民初4030号。点击切换采信/排除。
+      </div>
+
+      <div class="tree" id="tree">
+        <div>
+          <div class="tree-col-header">证据组 <span style="font-weight:400;font-size:7px;color:var(--muted)">点击切换</span></div>
+          <div class="node evidence selected" data-node="ev-1" data-col="0" data-row="0"><div class="node-label">E1 · 5段视频</div><div class="node-text">Yang拍摄·手在裆部<br>轻微不规则动作</div></div>
+          <div class="node evidence" data-node="ev-2" data-col="0" data-row="1"><div class="node-label">E2 · 皮肤病记录</div><div class="node-text">特应性皮炎·过敏体质<br>爱宁达药膏·多年购药记录</div></div>
+          <div class="node evidence" data-node="ev-3" data-col="0" data-row="2"><div class="node-label">E3 · 道歉信</div><div class="node-text">两稿：从「拍了姐姐」<br>被 Yang 要求改成「下流的事」</div></div>
+          <div class="node evidence" data-node="ev-4" data-col="0" data-row="3"><div class="node-label">E4 · 医学专家×5</div><div class="node-text">同济/协和泌尿外科<br>非惯用手·无规律·无针对性</div></div>
+          <div class="node evidence" data-node="ev-5" data-col="0" data-row="4"><div class="node-label">E5 · 监控录像</div><div class="node-text">预约制座位·开放环境<br>零互动·Yang离开后动作继续</div></div>
+          <div class="node evidence" data-node="ev-6" data-col="0" data-row="5"><div class="node-label">E6 · 关键证人</div><div class="node-text">黄淇鑫：微信 vs 公安<br>陈述不一致（法院采信后者）</div></div>
+        </div>
+
+        <div></div>
+
+        <div>
+          <div class="tree-col-header">论点组</div>
+          <div class="node argument" data-node="arg-1" data-col="2" data-row="0"><div class="node-label">论点 1</div><div class="node-text">视频行为 = 自慰<br>Yang 的解读</div></div>
+          <div class="node argument" data-node="arg-2" data-col="2" data-row="1"><div class="node-label">论点 2</div><div class="node-text">针对特定对象<br>民法典第1010条要件</div></div>
+          <div class="node argument" data-node="arg-3" data-col="2" data-row="2"><div class="node-label">论点 3</div><div class="node-text">道歉信 = 自愿认罪<br>非胁迫下妥协</div></div>
+        </div>
+
+        <div></div>
+
+        <div>
+          <div class="tree-col-header">结论集</div>
+          <div class="node conclusion" data-node="con-1" data-col="4" data-row="0"><div class="node-label">结论 1</div><div class="node-text">性骚扰成立<br>2023.10 校方记过处分</div></div>
+          <div class="node conclusion" data-node="con-2" data-col="4" data-row="1"><div class="node-label">结论 2</div><div class="node-text">证据不足<br>无法判断</div></div>
+          <div class="node conclusion" data-node="con-3" data-col="4" data-row="2"><div class="node-label">结论 3</div><div class="node-text">指控不成立<br>2025.7 法院驳回诉求<br>2025.9 校方撤销处分</div></div>
+        </div>
+
+        <svg class="tree-connectors" id="connectors"></svg>
+      </div>
+
+      <div class="demo-legend">
+        <span><span class="legend-dot" style="background:var(--accent3)"></span> 采信</span>
+        <span><span class="legend-dot" style="background:rgba(138,154,176,.2)"></span> 排除</span>
+        <span><span class="legend-dot" style="background:var(--accent2)"></span> 论点激活</span>
+        <span><span class="legend-dot" style="background:var(--accent)"></span> 结论可到达</span>
+        <span>点击切换</span>
+      </div>
+
+      <div class="demo-status" id="status"><strong>3</strong> 个结论可到达 · 选择证据收窄结论空间</div>
+
+      <div class="demo-hint">
+        <strong>Yang 的路径</strong>（采信 E1+E3，排除医学/环境证据）→ 只剩结论 1<br>
+        <strong>法院的路径</strong>（采信 E1+E2+E4+E5+E6，排除 E3）→ 结论 1 被排除<br>
+        <strong>核心张力</strong>：同一段视频 + 不同背景证据 → 完全相反的结论
+      </div>
+    </div>
+
+    <p style="font-size:9px;color:rgba(138,154,176,.45);text-align:center;margin-top:12px;line-height:1.6">
+      案例来源：武汉东湖新技术开发区人民法院 (2024)鄂0191民初4030号<br>
+      武汉中院二审维持 · 武大调查组：91项证据 · 21人访谈 · 5人专家组 · 2025.9 撤销处分
+    </p>
+  </section>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 4: RESEARCH + CTA
+     ═══════════════════════════════════════════ -->
+<div class="container">
   <section class="section reveal">
     <h2>Research Foundation</h2>
     <div class="stats">
@@ -342,183 +366,45 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 </footer>
 
 <script>
-// ── Evidence state: cycle '' → 'selected' → 'grayed' → '' ──
-const evidenceState = {
-  'ev-1': 'selected',  // E1: video starts selected (undisputed core evidence)
-  'ev-2': '',           // E2: skin condition
-  'ev-3': '',           // E3: apology letter
-  'ev-4': '',           // E4: medical experts
-  'ev-5': '',           // E5: surveillance
-  'ev-6': '',           // E6: witness inconsistency
-};
+// ── Evidence state ─────────────────────
+const evidenceState = {'ev-1':'selected','ev-2':'','ev-3':'','ev-4':'','ev-5':'','ev-6':''};
 
-// ── Mapping rules ──────────────────────
-// Arg1 "自慰": E1=yes AND E2≠yes AND E4≠yes
-function isArg1Active() {
-  return evidenceState['ev-1'] === 'selected'
-    && evidenceState['ev-2'] !== 'selected'
-    && evidenceState['ev-4'] !== 'selected';
-}
-// Arg2 "针对性": E1=yes AND E5≠yes (open setting contradicts targeting)
-function isArg2Active() {
-  return evidenceState['ev-1'] === 'selected'
-    && evidenceState['ev-5'] !== 'selected';
-}
-// Arg3 "认罪": E3=yes AND E4≠yes (expert analysis casts doubt on confession motivation)
-function isArg3Active() {
-  return evidenceState['ev-3'] === 'selected'
-    && evidenceState['ev-4'] !== 'selected';
-}
+function isArg1Active(){return evidenceState['ev-1']==='selected'&&evidenceState['ev-2']!=='selected'&&evidenceState['ev-4']!=='selected';}
+function isArg2Active(){return evidenceState['ev-1']==='selected'&&evidenceState['ev-5']!=='selected';}
+function isArg3Active(){return evidenceState['ev-3']==='selected'&&evidenceState['ev-4']!=='selected';}
+function isArgActive(id){if(id==='arg-1')return isArg1Active();if(id==='arg-2')return isArg2Active();if(id==='arg-3')return isArg3Active();return false;}
+function isConReachable(id){if(id==='con-1')return isArg1Active()&&isArg2Active()&&isArg3Active();if(id==='con-2')return true;if(id==='con-3')return evidenceState['ev-2']==='selected'&&evidenceState['ev-4']==='selected'&&evidenceState['ev-5']==='selected'&&evidenceState['ev-6']==='selected';return false;}
+function countReachable(){return['con-1','con-2','con-3'].filter(isConReachable).length;}
 
-function isArgActive(id) {
-  if (id === 'arg-1') return isArg1Active();
-  if (id === 'arg-2') return isArg2Active();
-  if (id === 'arg-3') return isArg3Active();
-  return false;
-}
-
-// Con1 "成立": all 3 args active
-// Con2 "证据不足": always reachable
-// Con3 "不成立": Xiao's complete evidence chain (E2+E4+E5+E6 all selected)
-function isConReachable(id) {
-  if (id === 'con-1') return isArg1Active() && isArg2Active() && isArg3Active();
-  if (id === 'con-2') return true;
-  if (id === 'con-3') {
-    return evidenceState['ev-2'] === 'selected'
-      && evidenceState['ev-4'] === 'selected'
-      && evidenceState['ev-5'] === 'selected'
-      && evidenceState['ev-6'] === 'selected';
-  }
-  return false;
-}
-
-function countReachable() {
-  return ['con-1','con-2','con-3'].filter(isConReachable).length;
-}
-
-// ── Update DOM ─────────────────────────
-function updateUI() {
-  document.querySelectorAll('.node.evidence').forEach(el => {
-    const id = el.dataset.node;
-    el.classList.remove('selected','grayed');
-    if (evidenceState[id] === 'selected') el.classList.add('selected');
-    if (evidenceState[id] === 'grayed') el.classList.add('grayed');
-  });
-
-  document.querySelectorAll('.node.argument').forEach(el => {
-    const id = el.dataset.node;
-    el.classList.remove('active','inactive');
-    if (isArgActive(id)) {
-      el.classList.add('active');
-    } else {
-      // Show inactive if any supporting evidence is explicitly grayed
-      const anyRelevantGrayed = (id === 'arg-1' && (evidenceState['ev-2']==='grayed' || evidenceState['ev-4']==='grayed'))
-        || (id === 'arg-2' && evidenceState['ev-5']==='grayed')
-        || (id === 'arg-3' && (evidenceState['ev-3']==='grayed' || evidenceState['ev-4']==='grayed'));
-      if (anyRelevantGrayed) el.classList.add('inactive');
-    }
-  });
-
-  document.querySelectorAll('.node.conclusion').forEach(el => {
-    const id = el.dataset.node;
-    el.classList.remove('reachable','unreachable');
-    if (isConReachable(id)) {
-      el.classList.add('reachable');
-    } else {
-      // Gray out if any required evidence is explicitly excluded
-      if (id === 'con-1' && (evidenceState['ev-2']==='grayed' || evidenceState['ev-4']==='grayed' || evidenceState['ev-5']==='grayed'))
-        el.classList.add('unreachable');
-      if (id === 'con-3' && (evidenceState['ev-2']==='grayed' || evidenceState['ev-4']==='grayed' || evidenceState['ev-5']==='grayed' || evidenceState['ev-6']==='grayed'))
-        el.classList.add('unreachable');
-    }
-  });
-
+function updateUI(){
+  document.querySelectorAll('.node.evidence').forEach(el=>{const id=el.dataset.node;el.classList.remove('selected','grayed');if(evidenceState[id]==='selected')el.classList.add('selected');if(evidenceState[id]==='grayed')el.classList.add('grayed');});
+  document.querySelectorAll('.node.argument').forEach(el=>{const id=el.dataset.node;el.classList.remove('active','inactive');if(isArgActive(id)){el.classList.add('active');}else{const rel=(id==='arg-1'&&(evidenceState['ev-2']==='grayed'||evidenceState['ev-4']==='grayed'))||(id==='arg-2'&&evidenceState['ev-5']==='grayed')||(id==='arg-3'&&(evidenceState['ev-3']==='grayed'||evidenceState['ev-4']==='grayed'));if(rel)el.classList.add('inactive');}});
+  document.querySelectorAll('.node.conclusion').forEach(el=>{const id=el.dataset.node;el.classList.remove('reachable','unreachable');if(isConReachable(id)){el.classList.add('reachable');}else{if(id==='con-1'&&(evidenceState['ev-2']==='grayed'||evidenceState['ev-4']==='grayed'||evidenceState['ev-5']==='grayed'))el.classList.add('unreachable');if(id==='con-3'&&(evidenceState['ev-2']==='grayed'||evidenceState['ev-4']==='grayed'||evidenceState['ev-5']==='grayed'||evidenceState['ev-6']==='grayed'))el.classList.add('unreachable');}});
   drawConnectors();
-
-  const count = countReachable();
-  const s = document.getElementById('status');
-  if (count === 3) s.innerHTML = '<strong>3</strong> 个结论可到达 · 选择证据收窄结论空间';
-  else if (count === 2) s.innerHTML = '<strong>2</strong> 个结论可到达 · <strong>1</strong> 个已被排除';
-  else if (count === 1) s.innerHTML = '仅剩 <strong>1</strong> 个结论 · 证据链指向明确';
-  else s.innerHTML = '⚠ 所有结论均被排除 · 请调整证据选择';
+  const c=countReachable(),s=document.getElementById('status');
+  if(c===3)s.innerHTML='<strong>3</strong> 个结论可到达 · 选择证据收窄结论空间';
+  else if(c===2)s.innerHTML='<strong>2</strong> 个结论可到达 · <strong>1</strong> 个已被排除';
+  else if(c===1)s.innerHTML='仅剩 <strong>1</strong> 个结论 · 证据链指向明确';
+  else s.innerHTML='⚠ 所有结论均被排除 · 请调整证据选择';
 }
 
-// ── SVG Connectors ─────────────────────
-function drawConnectors() {
-  const svg = document.getElementById('connectors');
-  const tree = document.getElementById('tree');
-  const treeRect = tree.getBoundingClientRect();
-  svg.setAttribute('viewBox', `0 0 ${treeRect.width} ${treeRect.height}`);
-  svg.style.width = treeRect.width + 'px';
-  svg.style.height = treeRect.height + 'px';
-
-  function rightOf(el) { const r = el.getBoundingClientRect(); return {x: r.right-treeRect.left, y: r.top+r.height/2-treeRect.top}; }
-  function leftOf(el) { const r = el.getBoundingClientRect(); return {x: r.left-treeRect.left, y: r.top+r.height/2-treeRect.top}; }
-
-  let paths = '';
-
-  // Evidence → Argument connections
-  const eaMap = [
-    {from:'ev-1',to:'arg-1'},{from:'ev-1',to:'arg-2'},
-    {from:'ev-2',to:'arg-1'},{from:'ev-4',to:'arg-1'},
-    {from:'ev-5',to:'arg-2'},
-    {from:'ev-3',to:'arg-3'},{from:'ev-4',to:'arg-3'},
-  ];
-  eaMap.forEach(({from,to}) => {
-    const fe=document.querySelector(`[data-node="${from}"]`), te=document.querySelector(`[data-node="${to}"]`);
-    if(!fe||!te)return;
-    const p1=rightOf(fe),p2=leftOf(te),mx=(p1.x+p2.x)/2;
-    // Determine if this connection is lit
-    let lit=false;
-    if(from==='ev-1'&&to==='arg-1') lit=evidenceState['ev-1']==='selected'&&isArg1Active();
-    if(from==='ev-1'&&to==='arg-2') lit=evidenceState['ev-1']==='selected'&&isArg2Active();
-    if(from==='ev-2'&&to==='arg-1') lit=evidenceState['ev-2']==='grayed'&&isArg1Active();
-    if(from==='ev-4'&&to==='arg-1') lit=evidenceState['ev-4']==='grayed'&&isArg1Active();
-    if(from==='ev-5'&&to==='arg-2') lit=evidenceState['ev-5']==='grayed'&&isArg2Active();
-    if(from==='ev-3'&&to==='arg-3') lit=evidenceState['ev-3']==='selected'&&isArg3Active();
-    if(from==='ev-4'&&to==='arg-3') lit=evidenceState['ev-4']==='grayed'&&isArg3Active();
-    const op=lit?0.7:0.06, cl=lit?'#d4a843':'#8a9ab0', w=lit?1.5:0.7;
-    paths+=`<path d="M${p1.x},${p1.y} C${mx},${p1.y} ${mx},${p2.y} ${p2.x},${p2.y}" fill="none" stroke="${cl}" stroke-width="${w}" opacity="${op}" style="transition:all .35s cubic-bezier(.4,0,.2,1)"/>`;
-    if(lit) paths+=`<polygon points="${p2.x-4},${p2.y-3} ${p2.x},${p2.y} ${p2.x-4},${p2.y+3}" fill="${cl}" opacity="${op}" style="transition:all .35s"/>`;
-  });
-
-  // Argument → Conclusion connections
-  const acMap = [
-    {from:'arg-1',to:'con-1'},{from:'arg-2',to:'con-1'},{from:'arg-3',to:'con-1'},
-    {from:'arg-1',to:'con-3'},{from:'arg-2',to:'con-3'},{from:'arg-3',to:'con-3'},
-  ];
-  acMap.forEach(({from,to}) => {
-    const fe=document.querySelector(`[data-node="${from}"]`), te=document.querySelector(`[data-node="${to}"]`);
-    if(!fe||!te)return;
-    const p1=rightOf(fe),p2=leftOf(te),mx=(p1.x+p2.x)/2;
-    const lit=isArgActive(from)&&isConReachable(to);
-    const op=lit?0.7:0.06, cl=lit?'#e07a5f':'#8a9ab0', w=lit?1.5:0.7;
-    paths+=`<path d="M${p1.x},${p1.y} C${mx},${p1.y} ${mx},${p2.y} ${p2.x},${p2.y}" fill="none" stroke="${cl}" stroke-width="${w}" opacity="${op}" style="transition:all .35s cubic-bezier(.4,0,.2,1)"/>`;
-    if(lit) paths+=`<polygon points="${p2.x-4},${p2.y-3} ${p2.x},${p2.y} ${p2.x-4},${p2.y+3}" fill="${cl}" opacity="${op}" style="transition:all .35s"/>`;
-  });
-
-  svg.innerHTML = paths;
+function drawConnectors(){
+  const svg=document.getElementById('connectors'),tree=document.getElementById('tree'),tr=tree.getBoundingClientRect();
+  svg.setAttribute('viewBox',`0 0 ${tr.width} ${tr.height}`);svg.style.width=tr.width+'px';svg.style.height=tr.height+'px';
+  const ro=e=>{const r=e.getBoundingClientRect();return{x:r.right-tr.left,y:r.top+r.height/2-tr.top}};
+  const lo=e=>{const r=e.getBoundingClientRect();return{x:r.left-tr.left,y:r.top+r.height/2-tr.top}};
+  let p='';
+  const ea=[{f:'ev-1',t:'arg-1'},{f:'ev-1',t:'arg-2'},{f:'ev-2',t:'arg-1'},{f:'ev-4',t:'arg-1'},{f:'ev-5',t:'arg-2'},{f:'ev-3',t:'arg-3'},{f:'ev-4',t:'arg-3'}];
+  ea.forEach(({f,t})=>{const fe=document.querySelector(`[data-node="${f}"]`),te=document.querySelector(`[data-node="${t}"]`);if(!fe||!te)return;const p1=ro(fe),p2=lo(te),mx=(p1.x+p2.x)/2;let lit=false;if(f==='ev-1'&&t==='arg-1')lit=evidenceState['ev-1']==='selected'&&isArg1Active();if(f==='ev-1'&&t==='arg-2')lit=evidenceState['ev-1']==='selected'&&isArg2Active();if(f==='ev-2'&&t==='arg-1')lit=evidenceState['ev-2']==='grayed'&&isArg1Active();if(f==='ev-4'&&t==='arg-1')lit=evidenceState['ev-4']==='grayed'&&isArg1Active();if(f==='ev-5'&&t==='arg-2')lit=evidenceState['ev-5']==='grayed'&&isArg2Active();if(f==='ev-3'&&t==='arg-3')lit=evidenceState['ev-3']==='selected'&&isArg3Active();if(f==='ev-4'&&t==='arg-3')lit=evidenceState['ev-4']==='grayed'&&isArg3Active();const op=lit?0.7:0.06,cl=lit?'#d4a843':'#8a9ab0',w=lit?1.5:0.7;p+=`<path d="M${p1.x},${p1.y} C${mx},${p1.y} ${mx},${p2.y} ${p2.x},${p2.y}" fill="none" stroke="${cl}" stroke-width="${w}" opacity="${op}"/>`;if(lit)p+=`<polygon points="${p2.x-4},${p2.y-3} ${p2.x},${p2.y} ${p2.x-4},${p2.y+3}" fill="${cl}" opacity="${op}"/>`;});
+  const ac=[{f:'arg-1',t:'con-1'},{f:'arg-2',t:'con-1'},{f:'arg-3',t:'con-1'},{f:'arg-1',t:'con-3'},{f:'arg-2',t:'con-3'},{f:'arg-3',t:'con-3'}];
+  ac.forEach(({f,t})=>{const fe=document.querySelector(`[data-node="${f}"]`),te=document.querySelector(`[data-node="${t}"]`);if(!fe||!te)return;const p1=ro(fe),p2=lo(te),mx=(p1.x+p2.x)/2,lit=isArgActive(f)&&isConReachable(t),op=lit?0.7:0.06,cl=lit?'#e07a5f':'#8a9ab0',w=lit?1.5:0.7;p+=`<path d="M${p1.x},${p1.y} C${mx},${p1.y} ${mx},${p2.y} ${p2.x},${p2.y}" fill="none" stroke="${cl}" stroke-width="${w}" opacity="${op}"/>`;if(lit)p+=`<polygon points="${p2.x-4},${p2.y-3} ${p2.x},${p2.y} ${p2.x-4},${p2.y+3}" fill="${cl}" opacity="${op}"/>`;});
+  svg.innerHTML=p;
 }
 
-// ── Click Handler ──────────────────────
-document.querySelectorAll('.node.evidence').forEach(el => {
-  el.addEventListener('click', () => {
-    const id = el.dataset.node;
-    if (evidenceState[id] === '') evidenceState[id] = 'selected';
-    else if (evidenceState[id] === 'selected') evidenceState[id] = 'grayed';
-    else evidenceState[id] = '';
-    updateUI();
-  });
-});
-
-updateUI();
-window.addEventListener('resize', drawConnectors);
-
-// Scroll reveal
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, {threshold: 0.08});
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.node.evidence').forEach(el=>{el.addEventListener('click',()=>{const id=el.dataset.node;if(evidenceState[id]==='')evidenceState[id]='selected';else if(evidenceState[id]==='selected')evidenceState[id]='grayed';else evidenceState[id]='';updateUI();});});
+updateUI();window.addEventListener('resize',drawConnectors);
+const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 document.querySelector('.hero.reveal')?.classList.add('visible');
 </script>
 </body>
