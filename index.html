@@ -104,6 +104,11 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .node{padding:6px 6px;border-radius:7px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all .35s cubic-bezier(.4,0,.2,1);user-select:none;margin-bottom:3px;position:relative}
 .node .node-label{font-size:7px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1px}
 .node .node-text{font-size:9px;line-height:1.35}
+.node .node-src{font-size:7px;color:rgba(138,154,176,.35);line-height:1.3;margin-top:3px;padding-top:3px;border-top:1px solid rgba(138,154,176,.08)}
+.src-badge{font-size:6px;padding:1px 4px;border-radius:3px;font-weight:500;letter-spacing:.03em}
+.node.evidence.selected .src-badge{background:rgba(58,138,138,.2);color:var(--accent3)}
+.node.evidence:not(.selected):not(.grayed) .src-badge{background:rgba(138,154,176,.1);color:var(--muted)}
+.node.evidence.grayed .src-badge{background:rgba(138,154,176,.05);color:rgba(138,154,176,.25)}
 .node .node-badge{position:absolute;top:-6px;right:-4px;font-size:6px;font-weight:700;padding:1px 4px;border-radius:4px;letter-spacing:.04em;white-space:nowrap}
 
 /* Evidence */
@@ -112,6 +117,7 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .node.evidence.selected .node-label{color:var(--accent3)}
 .node.evidence.grayed{background:rgba(138,154,176,.02);border-color:rgba(138,154,176,.06);color:rgba(138,154,176,.35)}
 .node.evidence.grayed .node-label{color:rgba(138,154,176,.25)}
+.node.evidence.grayed .node-src{color:rgba(138,154,176,.15);border-top-color:rgba(138,154,176,.04)}
 
 /* Argument — 3 modes: auto (AI), forced-active (user采信), forced-inactive (user排除) */
 .node.argument{background:rgba(212,168,67,.03);border-color:rgba(212,168,67,.1)}
@@ -280,12 +286,12 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
       <div class="tree" id="tree">
         <div>
           <div class="tree-col-header">证据组 <span class="col-hint">点击切换采信/排除</span></div>
-          <div class="node evidence selected" data-node="ev-1"><div class="node-label">E1 · 5段视频</div><div class="node-text">Yang拍摄·手在裆部<br>轻微不规则动作</div></div>
-          <div class="node evidence" data-node="ev-2"><div class="node-label">E2 · 皮肤病记录</div><div class="node-text">特应性皮炎·过敏体质<br>爱宁达药膏·多年购药记录</div></div>
-          <div class="node evidence" data-node="ev-3"><div class="node-label">E3 · 道歉信</div><div class="node-text">两稿：从「拍了姐姐」<br>被要求改成「下流的事」</div></div>
-          <div class="node evidence" data-node="ev-4"><div class="node-label">E4 · 医学专家×5</div><div class="node-text">同济/协和泌尿外科<br>非惯用手·无规律·无针对性</div></div>
-          <div class="node evidence" data-node="ev-5"><div class="node-label">E5 · 监控录像</div><div class="node-text">预约制座位·开放环境<br>零互动·Yang离开后动作继续</div></div>
-          <div class="node evidence" data-node="ev-6"><div class="node-label">E6 · 关键证人</div><div class="node-text">黄淇鑫：微信 vs 公安<br>陈述不一致（法院采信后者）</div></div>
+          <div class="node evidence selected" data-node="ev-1"><div class="node-label">E1 · 5段视频 <span class="src-badge">📹 一手</span></div><div class="node-text">Yang拍摄·手在裆部<br>轻微不规则动作</div><div class="node-src">数据: Yang手机录像 · 法院认证原始载体</div></div>
+          <div class="node evidence" data-node="ev-2"><div class="node-label">E2 · 皮肤病记录 <span class="src-badge">🏥 一手</span></div><div class="node-text">特应性皮炎·过敏体质<br>爱宁达药膏·多年购药</div><div class="node-src">数据: 武汉多家医院病历 · 微信购药记录 · 证人证言交叉验证</div></div>
+          <div class="node evidence" data-node="ev-3"><div class="node-label">E3 · 道歉信 <span class="src-badge">📝 一手</span></div><div class="node-text">两稿：从「拍了姐姐」<br>被要求改成「下流的事」</div><div class="node-src">数据: 纸质原件 · 辅导员录音 · 双方对内容无异议（但对含义有争议）</div></div>
+          <div class="node evidence" data-node="ev-4"><div class="node-label">E4 · 医学专家×5 <span class="src-badge">🎓 二手</span></div><div class="node-text">同济/协和泌尿外科<br>非惯用手·无规律·无针对性</div><div class="node-src">数据: 5份专家意见书 · 法院采信 · 基于E1+E2的二次分析</div></div>
+          <div class="node evidence" data-node="ev-5"><div class="node-label">E5 · 监控录像 <span class="src-badge">📹 一手</span></div><div class="node-text">预约制座位·开放环境<br>零互动·Yang离开后动作继续</div><div class="node-src">数据: 武大图书馆系统记录 · 法院调取 · 双方无异议</div></div>
+          <div class="node evidence" data-node="ev-6"><div class="node-label">E6 · 关键证人 <span class="src-badge">👤 二手</span></div><div class="node-text">黄淇鑫：微信 vs 公安<br>陈述不一致</div><div class="node-src">数据: 微信聊天记录 + 公安笔录 · 法院以公安陈述为准</div></div>
         </div>
         <div></div>
         <div>
