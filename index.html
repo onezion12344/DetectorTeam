@@ -6,437 +6,493 @@
 <title>Detector Team — AI 司法辩论系统</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0A0E1A;
-    --navy-light: #141B2D;
-    --paper: #FBF8F1;
-    --paper-dim: #F0ECE3;
-    --brass: #C4A144;
-    --brass-dim: #8B7340;
-    --crimson: #C0392B;
-    --crimson-dim: #8B1E1E;
-    --steel: #3B5998;
-    --steel-light: #5B7DB5;
-    --charcoal: #1A1A1A;
-    --muted: #6B7280;
-    --border: #E5E0D5;
+    --bg:       #0d1b2a;
+    --surface:  #111d33;
+    --card:     #162236;
+    --border:   #1e3050;
+    --accent:   #e07a5f;
+    --accent2:  #d4a843;
+    --accent3:  #3a8a8a;
+    --white:    #f0e6d8;
+    --muted:    #8a9ab0;
+    --glow:     0 0 40px rgba(224, 122, 95, 0.15);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  html { scroll-behavior: smooth; }
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    color: var(--charcoal);
-    background: var(--paper);
-    line-height: 1.6;
+    font-family: 'Space Grotesk', 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
-  /* ── Hero ────────────────────────────── */
-  .hero {
-    background: var(--navy);
-    color: #fff;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 6rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+  /* ── Stars Background ──────────────── */
+  .stars {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background:
-      radial-gradient(ellipse at 20% 50%, rgba(196,161,68,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 50%, rgba(192,57,43,0.06) 0%, transparent 50%);
-    pointer-events: none;
+      radial-gradient(ellipse at 50% 0%,  rgba(224,122,95,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(212,168,67,0.06) 0%, transparent 40%),
+      radial-gradient(ellipse at 20% 60%, rgba(58,138,138,0.05) 0%, transparent 40%);
   }
 
-  .hero-badge {
-    display: inline-block;
-    padding: 0.35rem 1rem;
-    border: 1px solid rgba(196,161,68,0.3);
-    border-radius: 100px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--brass);
-    margin-bottom: 2rem;
-    position: relative;
+  .container { max-width: 480px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+  /* ── Gradient Text ─────────────────── */
+  .gradient-text {
+    background: linear-gradient(135deg, #f0c87a, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .hero h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    max-width: 10em;
-    position: relative;
+  /* ── Scroll Reveal ─────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Pulse Dot ─────────────────────── */
+  .dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.5); }
   }
 
-  .hero h1 em {
-    font-style: italic;
-    color: var(--brass);
-  }
-
-  .hero-sub {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: rgba(255,255,255,0.6);
-    max-width: 36rem;
-    margin: 1.5rem auto 0;
-    position: relative;
-  }
-
-  /* ── Debate Terminal (signature) ────── */
-  .debate-terminal {
-    margin-top: 3rem;
-    width: min(90vw, 720px);
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 0;
-    position: relative;
-  }
-
-  .debate-col {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 8px;
-    padding: 1.25rem;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    text-align: left;
-    min-height: 140px;
-  }
-
-  .debate-col.pro {
-    border-left: 2px solid var(--steel-light);
-  }
-
-  .debate-col.con {
-    border-right: 2px solid var(--crimson-dim);
-  }
-
-  .debate-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .debate-label.pro { color: var(--steel-light); }
-  .debate-label.con { color: var(--crimson); }
-
-  .debate-line {
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 0.35rem;
-    opacity: 0;
-    animation: fadeInLine 0.3s ease forwards;
-  }
-
-  .debate-line:nth-child(2) { animation-delay: 0.6s; }
-  .debate-line:nth-child(3) { animation-delay: 1.2s; }
-  .debate-line:nth-child(4) { animation-delay: 1.8s; }
-  .debate-line:nth-child(5) { animation-delay: 2.4s; }
-  .debate-line:nth-child(6) { animation-delay: 3.0s; }
-
-  @keyframes fadeInLine {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .debate-divider {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 0.5rem;
-    position: relative;
-  }
-
-  .divider-line {
-    width: 1px;
-    flex: 1;
-    background: linear-gradient(to bottom, rgba(196,161,68,0), rgba(196,161,68,0.4), rgba(196,161,68,0));
-  }
-
-  .divider-icon {
-    font-size: 1.2rem;
-    color: var(--brass);
-    padding: 0.5rem 0;
-  }
-
-  /* ── Sections ───────────────────────── */
+  /* ── Section Heading ───────────────── */
   .section {
-    padding: 6rem 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .section-dark {
-    background: var(--navy);
-    color: #fff;
-    max-width: none;
-    padding: 6rem 2rem;
-  }
-
-  .section-dark .section-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .section-eyebrow {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--brass);
-    margin-bottom: 1rem;
+    padding: 48px 0;
+    position: relative; z-index: 1;
   }
 
   .section h2 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    margin-bottom: 1rem;
-  }
-
-  .section-dark h2 { color: #fff; }
-
-  .section-lead {
-    font-size: 1.1rem;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--muted);
-    max-width: 32rem;
-    margin-bottom: 3rem;
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .section h2::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: rgba(224, 122, 95, 0.15);
   }
 
-  .section-dark .section-lead { color: rgba(255,255,255,0.5); }
+  /* ── Cards ─────────────────────────── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 15px 17px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .card:hover {
+    border-color: rgba(224, 122, 95, 0.3);
+    transform: translateX(4px);
+  }
+  .card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
 
-  /* ── Pipeline ───────────────────────── */
-  .pipeline {
-    display: flex;
+  /* Left border gradient rotation */
+  .t1::before { background: linear-gradient(180deg, #e07a5f, #d4a843); }
+  .t2::before { background: linear-gradient(180deg, #d4a843, #e07a5f); }
+  .t3::before { background: linear-gradient(180deg, #3a8a8a, #e07a5f); }
+  .t4::before { background: linear-gradient(180deg, #e07a5f, #3a8a8a); }
+  .t5::before { background: linear-gradient(180deg, #d4a843, #3a8a8a); }
+
+  /* ── Tags ──────────────────────────── */
+  .tag {
+    display: inline-block;
+    padding: 4px 10px; border-radius: 12px;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .tag:hover { transform: translateY(-1px); }
+  .tag.coral  { background: rgba(224,122,95,0.08);  border: 1px solid rgba(224,122,95,0.15);  color: var(--accent); }
+  .tag.coral:hover  { border-color: rgba(224,122,95,0.4); }
+  .tag.gold   { background: rgba(212,168,67,0.08);  border: 1px solid rgba(212,168,67,0.15);  color: var(--accent2); }
+  .tag.gold:hover   { border-color: rgba(212,168,67,0.4); }
+  .tag.teal   { background: rgba(58,138,138,0.08);  border: 1px solid rgba(58,138,138,0.15);  color: var(--accent3); }
+  .tag.teal:hover   { border-color: rgba(58,138,138,0.4); }
+
+  .tag.fatal    { background: rgba(224,122,95,0.12);  border: 1px solid rgba(224,122,95,0.25);  color: #f08a7a; }
+  .tag.critical { background: rgba(212,168,67,0.12);  border: 1px solid rgba(212,168,67,0.25);  color: var(--accent2); }
+  .tag.safe     { background: rgba(58,138,138,0.12);  border: 1px solid rgba(58,138,138,0.25);  color: var(--accent3); }
+
+  /* ── HERO ──────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 0 60px;
+    position: relative; z-index: 1;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 14px; border-radius: 100px;
+    background: rgba(224,122,95,0.06);
+    border: 1px solid rgba(224,122,95,0.12);
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-size: 26px; font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, #f0c87a, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 11px; color: var(--muted);
+    max-width: 360px; margin: 0 auto 36px;
+    line-height: 1.75;
+  }
+
+  /* ── Debate Terminal ───────────────── */
+  .debate-terminal {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     gap: 0;
-    align-items: stretch;
-    margin-top: 3rem;
+    width: 100%;
+  }
+
+  .debate-col {
+    background: rgba(22,34,54,0.6);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 10px;
+    line-height: 1.6;
+    text-align: left;
+    min-height: 120px;
+  }
+
+  .debate-col.pro { border-top: 2px solid var(--accent3); }
+  .debate-col.con { border-top: 2px solid var(--accent); }
+
+  .debate-label {
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .debate-label.pro { color: var(--accent3); }
+  .debate-label.con { color: var(--accent); }
+
+  .debate-line {
+    color: var(--muted);
+    margin-bottom: 6px;
+    opacity: 0;
+    animation: fadeInLine 0.3s ease forwards;
+  }
+  .debate-line:nth-child(2) { animation-delay: 0.5s; }
+  .debate-line:nth-child(3) { animation-delay: 1.0s; }
+  .debate-line:nth-child(4) { animation-delay: 1.5s; }
+  .debate-line:nth-child(5) { animation-delay: 2.0s; }
+  .debate-line:nth-child(6) { animation-delay: 2.5s; }
+
+  @keyframes fadeInLine {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .debate-divider {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 0 6px;
+  }
+  .divider-line {
+    width: 1px; flex: 1;
+    background: linear-gradient(to bottom, transparent, rgba(212,168,67,0.3), transparent);
+  }
+  .divider-icon {
+    font-size: 16px; padding: 8px 0;
+    opacity: 0.6;
+  }
+
+  /* ── Pipeline ──────────────────────── */
+  .pipeline {
+    display: flex; flex-direction: column;
+    gap: 0;
     position: relative;
   }
 
   .pipeline-step {
-    flex: 1;
-    text-align: center;
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 0;
     position: relative;
-    padding: 0 0.5rem;
   }
 
   .pipeline-icon {
-    width: 56px;
-    height: 56px;
+    width: 40px; height: 40px; min-width: 40px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    font-size: 1.4rem;
-    position: relative;
-    z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    position: relative; z-index: 1;
+  }
+  .s1 .pipeline-icon { background: rgba(58,138,138,0.12); }
+  .s2 .pipeline-icon { background: rgba(58,138,138,0.10); }
+  .s3 .pipeline-icon { background: rgba(212,168,67,0.12); }
+  .s4 .pipeline-icon { background: rgba(224,122,95,0.10); }
+  .s5 .pipeline-icon { background: rgba(224,122,95,0.15); }
+
+  .pipeline-body h3 {
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .pipeline-body p {
+    font-size: 11px; color: var(--muted);
+    line-height: 1.65;
+  }
+  .pipeline-body .step-num {
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 0.05em; margin-bottom: 2px;
   }
 
-  .pipeline-step:nth-child(1) .pipeline-icon { background: rgba(59,89,152,0.15); color: var(--steel); }
-  .pipeline-step:nth-child(2) .pipeline-icon { background: rgba(59,89,152,0.12); color: var(--steel-light); }
-  .pipeline-step:nth-child(3) .pipeline-icon { background: rgba(196,161,68,0.15); color: var(--brass-dim); }
-  .pipeline-step:nth-child(4) .pipeline-icon { background: rgba(192,57,43,0.12); color: var(--crimson); }
-  .pipeline-step:nth-child(5) .pipeline-icon { background: rgba(196,161,68,0.2); color: var(--brass); }
-
-  .pipeline-connector {
+  /* Vertical connector between steps */
+  .pipeline-step:not(:last-child)::after {
+    content: '';
     position: absolute;
-    top: 28px;
-    left: calc(50% + 28px);
-    width: calc(100% - 56px);
-    height: 1px;
-    background: var(--border);
-    z-index: 0;
+    left: 19px; top: 56px;
+    width: 1px; height: calc(100% - 40px);
+    background: linear-gradient(to bottom, rgba(224,122,95,0.4), rgba(58,138,138,0.2));
   }
 
-  .pipeline-step:last-child .pipeline-connector { display: none; }
-
-  .pipeline-step h3 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0.35rem;
+  /* ── Quote ─────────────────────────── */
+  .pull-quote {
+    text-align: center; padding: 32px 0;
+  }
+  .pq-mark {
+    font-size: 30px; line-height: 0.6;
+    color: rgba(224,122,95,0.3);
+    font-family: Georgia, serif;
+  }
+  .pq-text {
+    font-size: 16px; font-weight: 600;
+    line-height: 1.55;
+    background: linear-gradient(135deg, #f0c87a, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 8px 0;
   }
 
-  .pipeline-step p {
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  /* ── Principles Grid ────────────────── */
+  /* ── Principles Grid ───────────────── */
   .principles {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
+    display: flex; flex-direction: column;
+    gap: 10px;
   }
 
   .principle-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
-    padding: 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 15px 17px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .principle-card:hover {
+    border-color: rgba(224,122,95,0.3);
+    transform: translateX(4px);
+  }
+  .principle-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
   }
 
-  .principle-card .tag {
-    display: inline-block;
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
+  .principle-card .card-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 10px;
   }
-
-  .tag.fatal { background: rgba(192,57,43,0.2); color: #F87171; }
-  .tag.critical { background: rgba(196,161,68,0.2); color: var(--brass); }
-  .tag.important { background: rgba(59,89,152,0.2); color: var(--steel-light); }
 
   .principle-card h4 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #fff;
+    font-size: 13px; font-weight: 600;
+    color: var(--white);
+    margin-bottom: 5px;
   }
 
   .principle-card p {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.5);
-    line-height: 1.6;
+    font-size: 11px; color: var(--muted);
+    line-height: 1.65;
   }
 
   .principle-card .source {
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.3);
-    margin-top: 0.75rem;
-    font-style: italic;
+    font-size: 9px; color: rgba(138,154,176,0.5);
+    margin-top: 8px; font-style: italic;
   }
 
-  /* ── Stats ──────────────────────────── */
+  /* Reuse the t1..t10 gradient left borders */
+  .p1::before  { background: linear-gradient(180deg, #e07a5f, #d4a843); }
+  .p2::before  { background: linear-gradient(180deg, #d4a843, #e07a5f); }
+  .p3::before  { background: linear-gradient(180deg, #3a8a8a, #e07a5f); }
+  .p4::before  { background: linear-gradient(180deg, #e07a5f, #3a8a8a); }
+  .p5::before  { background: linear-gradient(180deg, #d4a843, #3a8a8a); }
+  .p6::before  { background: linear-gradient(180deg, #3a8a8a, #d4a843); }
+  .p7::before  { background: linear-gradient(180deg, #e07a5f, #d4a843); }
+  .p8::before  { background: linear-gradient(180deg, #d4a843, #3a8a8a); }
+  .p9::before  { background: linear-gradient(180deg, #3a8a8a, #e07a5f); }
+  .p10::before { background: linear-gradient(180deg, #d4a843, #e07a5f); }
+
+  /* ── Stats ─────────────────────────── */
   .stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 8px;
     text-align: center;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .stat-card:hover {
+    border-color: rgba(224,122,95,0.3);
+    transform: translateY(-2px);
   }
 
-  .stat-number {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--brass);
-    line-height: 1;
+  .stat-card .num {
+    font-size: 22px; font-weight: 700;
+    background: linear-gradient(135deg, #f0c87a, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .stat-label {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin-top: 0.5rem;
+  .stat-card .stat-label {
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 0.05em; margin-top: 4px;
   }
 
-  /* ── CTA ────────────────────────────── */
+  /* ── Chips ─────────────────────────── */
+  .chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .chip {
+    padding: 5px 11px; border-radius: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    font-size: 11px; color: var(--white);
+    transition: border-color 0.25s, transform 0.25s;
+    text-decoration: none;
+  }
+  .chip:hover {
+    border-color: rgba(58,138,138,0.4);
+    transform: translateY(-1px);
+  }
+
+  /* ── CTA ───────────────────────────── */
   .cta {
     text-align: center;
-    padding: 6rem 2rem;
+    padding: 48px 0 32px;
+    position: relative; z-index: 1;
   }
 
   .cta h2 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 1rem;
+    font-size: 20px; font-weight: 700;
+    margin-bottom: 10px;
   }
 
   .cta p {
-    color: var(--muted);
-    margin-bottom: 2rem;
+    font-size: 11px; color: var(--muted);
+    margin-bottom: 24px;
   }
 
   .cta-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+    display: flex; gap: 10px; justify-content: center;
     flex-wrap: wrap;
   }
 
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.75rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px; border-radius: 12px;
+    font-size: 12px; font-weight: 600;
     text-decoration: none;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    border: none;
+    transition: all 0.25s;
+    cursor: pointer; border: none;
+    font-family: inherit;
   }
 
   .btn-primary {
-    background: var(--brass);
-    color: var(--navy);
+    background: var(--accent);
+    color: var(--bg);
   }
-
-  .btn-primary:hover { background: #D4B354; }
+  .btn-primary:hover {
+    background: #ea8a72;
+    box-shadow: var(--glow);
+  }
 
   .btn-secondary {
     background: transparent;
-    color: var(--charcoal);
+    color: var(--white);
     border: 1px solid var(--border);
   }
-
-  .btn-secondary:hover { border-color: var(--charcoal); }
-
-  /* ── Footer ─────────────────────────── */
-  .footer {
-    text-align: center;
-    padding: 3rem 2rem;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 0.8rem;
+  .btn-secondary:hover {
+    border-color: rgba(224,122,95,0.4);
   }
 
-  /* ── Responsive ─────────────────────── */
-  @media (max-width: 768px) {
+  /* ── Footer ────────────────────────── */
+  .footer {
+    text-align: center;
+    padding: 28px 20px;
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+
+  .footer .brand-line {
+    font-size: 16px; font-weight: 700;
+    background: linear-gradient(135deg, #f0c87a, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  .footer .meta {
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Responsive ────────────────────── */
+  @media (max-width: 520px) {
     .debate-terminal {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
+      gap: 8px;
     }
     .debate-divider { display: none; }
-    .pipeline {
-      flex-direction: column;
-      gap: 2rem;
-    }
-    .pipeline-connector { display: none; }
-    .principles {
-      grid-template-columns: 1fr;
-    }
     .stats {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -444,14 +500,19 @@
 
   @media (prefers-reduced-motion: reduce) {
     .debate-line { animation: none; opacity: 1; }
+    .reveal { opacity: 1; transform: none; transition: none; }
   }
 </style>
 </head>
 <body>
 
+<div class="stars"></div>
+
 <!-- ═══════════════ HERO ═══════════════ -->
-<section class="hero">
-  <div class="hero-badge">Phase 1 · Claude Code Skills</div>
+<section class="hero container reveal">
+  <div class="hero-badge">
+    <span class="dot"></span> Phase 1 · Claude Code Skills
+  </div>
   <h1>Truth.<br><em>Debated.</em></h1>
   <p class="hero-sub">
     多 Agent 对抗性辩论系统 — 输入争议主张，
@@ -461,7 +522,7 @@
 
   <div class="debate-terminal">
     <div class="debate-col pro">
-      <div class="debate-label pro">▸ 主张方 (Claude)</div>
+      <div class="debate-label pro"><span class="dot"></span> 主张方 · Claude</div>
       <div class="debate-line">> 监控显示女生主动跟随</div>
       <div class="debate-line">> 体内未检出精液 [医学证据]</div>
       <div class="debate-line">> 校方调查结论：证据不足</div>
@@ -472,7 +533,7 @@
       <div class="divider-line"></div>
     </div>
     <div class="debate-col con">
-      <div class="debate-label con">▸ 反对方 (DeepSeek)</div>
+      <div class="debate-label con"><span class="dot"></span> 反对方 · DeepSeek</div>
       <div class="debate-line">> "跟随"与"抓挠"并非互斥</div>
       <div class="debate-line">> 医学证据不能证明无接触</div>
       <div class="debate-line">> 91项证据中多项存争议</div>
@@ -481,174 +542,260 @@
 </section>
 
 <!-- ═══════════════ WHAT ═══════════════ -->
-<section class="section">
-  <div class="section-eyebrow">What It Does</div>
-  <h2>不是搜索，是辩论。<br>不是回答，是裁决。</h2>
-  <p class="section-lead">
-    传统 AI 给你一个答案。Detector Team 让多个 AI 扮演对立角色，
-    在证据约束下进行结构化辩论，法官多维评估后输出判决。
-    你不知道该信谁时，让 AI 互相对质。
-  </p>
+<div class="container">
+  <section class="section reveal">
+    <h2>What It Does</h2>
+    <div class="pull-quote">
+      <div class="pq-mark">"</div>
+      <div class="pq-text">不是搜索，是辩论。<br>不是回答，是裁决。</div>
+    </div>
+    <p style="font-size:11px;color:var(--muted);line-height:1.75;text-align:center;max-width:380px;margin:0 auto;">
+      传统 AI 给你一个答案。Detector Team 让多个 AI 扮演对立角色，
+      在证据约束下进行结构化辩论，法官多维评估后输出判决。
+      你不知道该信谁时 — 让 AI 互相对质。
+    </p>
+  </section>
 
-  <div class="pipeline">
-    <div class="pipeline-step">
-      <div class="pipeline-icon">🔍</div>
-      <div class="pipeline-connector"></div>
-      <h3>证据检索</h3>
-      <p>AnySearch 多源搜索<br>引用原文 · 可信度分级</p>
+  <!-- ═══════════ PIPELINE ═══════════ -->
+  <section class="section reveal">
+    <h2>Pipeline</h2>
+    <div class="pipeline">
+      <div class="pipeline-step s1">
+        <div class="pipeline-icon">🔍</div>
+        <div class="pipeline-body">
+          <div class="step-num">01 · EVIDENCE</div>
+          <h3>证据检索</h3>
+          <p>AnySearch 多源搜索 · 引用原文 · 可信度分级 primary / secondary / supporting / weak</p>
+        </div>
+      </div>
+      <div class="pipeline-step s2">
+        <div class="pipeline-icon">📋</div>
+        <div class="pipeline-body">
+          <div class="step-num">02 · OPENING</div>
+          <h3>开案陈词</h3>
+          <p>双方向法官陈述立场 · 每条主张绑定证据 · 不投票 ❌ 不表态 ❌</p>
+        </div>
+      </div>
+      <div class="pipeline-step s3">
+        <div class="pipeline-icon">⚡</div>
+        <div class="pipeline-body">
+          <div class="step-num">03 · REBUTTAL</div>
+          <h3>质证反驳</h3>
+          <p>逐条反驳对方主张 · 必须引用 claim_id · 可引入新证据 · 同轮隔离</p>
+        </div>
+      </div>
+      <div class="pipeline-step s4">
+        <div class="pipeline-icon">📝</div>
+        <div class="pipeline-body">
+          <div class="step-num">04 · CLOSING</div>
+          <h3>结案陈词</h3>
+          <p>强化存活论点 · 不可引入新证据 · 回应法官 unclear 标记</p>
+        </div>
+      </div>
+      <div class="pipeline-step s5">
+        <div class="pipeline-icon">⚖️</div>
+        <div class="pipeline-body">
+          <div class="step-num">05 · VERDICT</div>
+          <h3>法官裁决</h3>
+          <p>4 维独立评分 · 结构化 JSON · decisive_factor · co_failure_beta</p>
+        </div>
+      </div>
     </div>
-    <div class="pipeline-step">
-      <div class="pipeline-icon">📋</div>
-      <div class="pipeline-connector"></div>
-      <h3>开案陈词</h3>
-      <p>双方向法官陈述<br>不投票 · 防锚定效应</p>
-    </div>
-    <div class="pipeline-step">
-      <div class="pipeline-icon">⚡</div>
-      <div class="pipeline-connector"></div>
-      <h3>质证反驳</h3>
-      <p>逐条反驳对方主张<br>引用证据 · 可能引入新证</p>
-    </div>
-    <div class="pipeline-step">
-      <div class="pipeline-icon">📝</div>
-      <div class="pipeline-connector"></div>
-      <h3>结案陈词</h3>
-      <p>强化存活论点<br>不可引入新证据</p>
-    </div>
-    <div class="pipeline-step">
-      <div class="pipeline-icon">⚖️</div>
-      <h3>法官裁决</h3>
-      <p>4维独立评分<br>结构化判决 JSON</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════════ PRINCIPLES ═══════════ -->
-<section class="section-dark">
-  <div class="section-inner">
-    <div class="section-eyebrow">Design Principles</div>
-    <h2>10 条核心原则，<br>18 篇学术论文支撑。</h2>
-    <p class="section-lead">
-      每一个设计决策都来自对 LLM 辩论行为的前沿研究。
-      这些不是"最佳实践"，而是实验验证的防线。
+  <!-- ═══════════ PRINCIPLES ═══════════ -->
+  <section class="section reveal">
+    <h2>Design Principles</h2>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.65;">
+      10 条核心原则，18 篇学术论文支撑。每个设计决策都来自对 LLM 辩论行为的前沿研究。
     </p>
 
     <div class="principles">
-      <div class="principle-card">
-        <span class="tag fatal">⛔ 致命</span>
+      <div class="principle-card p1">
+        <div class="card-tags">
+          <span class="tag fatal">⛔ 致命</span>
+        </div>
         <h4>禁止初始投票</h4>
-        <p>辩论完成前不表态。Ersoz 2026 实验：17/18 AI 陪审团因锚定效应僵局。RLHF 对齐越强的模型越难改变立场。</p>
-        <div class="source">Ersoz 2026 · "12 Angry AI Agents"</div>
+        <p>辩论完成前不表态。17/18 AI 陪审团因锚定效应僵局。RLHF 对齐越强越难改变立场。</p>
+        <div class="source">Ersoz 2026 · 12 Angry AI Agents</div>
       </div>
 
-      <div class="principle-card">
-        <span class="tag fatal">⛔ 致命</span>
+      <div class="principle-card p2">
+        <div class="card-tags">
+          <span class="tag fatal">⛔ 致命</span>
+        </div>
         <h4>异构模型家族</h4>
-        <p>主张方、反对方、法官使用不同 LLM 厂商。同家族模型的错误高度相关 — 更大的模型反而有更强的算法单一文化。</p>
+        <p>三方使用不同 LLM 厂商。同家族模型的错误高度相关 — 更大的模型反而有更强的算法单一文化。</p>
         <div class="source">Kim et al. ICML 2025 · Chen 2026</div>
       </div>
 
-      <div class="principle-card">
-        <span class="tag fatal">⛔ 致命</span>
+      <div class="principle-card p3">
+        <div class="card-tags">
+          <span class="tag fatal">⛔ 致命</span>
+        </div>
         <h4>证据绑定 (GAVEL)</h4>
-        <p>每个主张必须绑定具体 EvidenceUnit。无证据的主张标记为 speculation。不让 AI 凭空论证。</p>
+        <p>每个主张必须绑定 EvidenceUnit。无证据的主张标记为 speculation。不让 AI 凭空论证。</p>
         <div class="source">Xu et al. ACL 2026 · GAVEL</div>
       </div>
 
-      <div class="principle-card">
-        <span class="tag critical">⚠ 关键</span>
+      <div class="principle-card p4">
+        <div class="card-tags">
+          <span class="tag critical">⚠ 关键</span>
+        </div>
         <h4>在线置信度校准 (MARGIN)</h4>
-        <p>不使用裸置信度。运行时在线校准关闭 37-78% Raw-to-Oracle gap。RLHF 模型系统性高估自己的正确性。</p>
+        <p>不使用裸置信度。运行时在线校准关闭 37-78% Raw-to-Oracle gap。</p>
         <div class="source">Armstrong 2026 · MARGIN</div>
       </div>
 
-      <div class="principle-card">
-        <span class="tag critical">⚠ 关键</span>
+      <div class="principle-card p5">
+        <div class="card-tags">
+          <span class="tag critical">⚠ 关键</span>
+        </div>
         <h4>Co-Failure Beta 量化</h4>
-        <p>67 模型测试：5-13% 案例中所有前沿模型同时出错。任何投票机制都无法逾越这个上限。诚实报告不确定性。</p>
+        <p>67 模型测试：5-13% 案例所有前沿模型同时出错。任何投票机制无法逾越此上限。诚实报告不确定性。</p>
         <div class="source">Chen 2026 · Co-Failure Ceiling</div>
       </div>
 
-      <div class="principle-card">
-        <span class="tag critical">⚠ 关键</span>
+      <div class="principle-card p6">
+        <div class="card-tags">
+          <span class="tag critical">⚠ 关键</span>
+        </div>
         <h4>非单调停止</h4>
-        <p>辩论质量不是越辩越好 — Q(T)=a·log(T+c)−b·T。Wald SPRT 自适应停止，比固定 5 轮省 3.7x 调用。</p>
+        <p>辩论质量非单调 — Q(T)=a·log(T+c)−b·T。Wald SPRT 自适应停止，比固定 5 轮省 3.7x 调用。</p>
         <div class="source">Zhang & Hu 2026 · Morandi 2026</div>
       </div>
 
-      <div class="principle-card">
-        <span class="tag important">✅ 重要</span>
+      <div class="principle-card p7">
+        <div class="card-tags">
+          <span class="tag safe">✅ 重要</span>
+        </div>
         <h4>同轮隔离</h4>
-        <p>同一轮内双方不能互看对方当前发言。防止后发言方获得不公平优势。确保每一轮都是真正的对抗。</p>
-        <div class="source">Claude Code debate skill · Fairness rule</div>
+        <p>同一轮内双方不能互看对方当前发言。确保公平对抗，防止后发言方获优势。</p>
+        <div class="source">Fairness rule · Claude Code debate skill</div>
       </div>
 
-      <div class="principle-card">
-        <span class="tag important">✅ 重要</span>
+      <div class="principle-card p8">
+        <div class="card-tags">
+          <span class="tag safe">✅ 重要</span>
+        </div>
         <h4>4 维独立评分</h4>
-        <p>法官不评"谁赢了"。事实准确性、证据质量、逻辑一致性、回应充分性各自独立打分。压缩成二元胜负是信息损失。</p>
+        <p>法官不评"谁赢了"。事实准确性、证据质量、逻辑一致性、回应充分性各自独立打分。</p>
         <div class="source">D2D · Han et al. EMNLP 2025</div>
       </div>
 
-      <div class="principle-card">
-        <span class="tag important">✅ 重要</span>
+      <div class="principle-card p9">
+        <div class="card-tags">
+          <span class="tag safe">✅ 重要</span>
+        </div>
         <h4>少数派保护</h4>
-        <p>25% 分歧案例中少数派是正确的。多数投票会系统性压制正确的少数意见。部署 Minority Sentinel 检测。</p>
+        <p>25% 分歧案例中少数派正确。多数投票会系统性压制正确少数。部署 Minority Sentinel 检测。</p>
         <div class="source">He et al. 2026 · Minority Sentinel</div>
       </div>
 
-      <div class="principle-card">
-        <span class="tag important">✅ 重要</span>
+      <div class="principle-card p10">
+        <div class="card-tags">
+          <span class="tag safe">✅ 重要</span>
+        </div>
         <h4>可审计性</h4>
-        <p>完整 JSONL 辩论记录。每一条主张的来源可追溯。AI 不是黑箱 — 它的论证链条可以被人类审查和质疑。</p>
+        <p>完整 JSONL 辩论记录。每一条主张的来源可追溯。AI 论证链条可被人类审查和质疑。</p>
         <div class="source">设计原则 · 透明性要求</div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════════ RESEARCH ═══════════ -->
-<section class="section">
-  <div class="section-eyebrow">Research Foundation</div>
-  <h2>基于前沿 AI 研究，<br>不是凭感觉设计。</h2>
-  <p class="section-lead">
-    设计阶段审查了 50+ 学术论文、25+ 开源仓库、7 个辩论框架。
-    每个协议决策都有文献可追溯。
-  </p>
+  <!-- ═══════════ RESEARCH ═══════════ -->
+  <section class="section reveal">
+    <h2>Research Foundation</h2>
 
-  <div class="stats">
-    <div>
-      <div class="stat-number">18</div>
-      <div class="stat-label">核心论文支撑</div>
+    <div class="stats">
+      <div class="stat-card">
+        <div class="num">18</div>
+        <div class="stat-label">核心论文</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">3</div>
+        <div class="stat-label">异构 Agent</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">10</div>
+        <div class="stat-label">验证原则</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">4</div>
+        <div class="stat-label">评估维度</div>
+      </div>
     </div>
-    <div>
-      <div class="stat-number">3</div>
-      <div class="stat-label">异构 LLM Agent</div>
-    </div>
-    <div>
-      <div class="stat-number">10</div>
-      <div class="stat-label">实验验证原则</div>
-    </div>
-    <div>
-      <div class="stat-number">4</div>
-      <div class="stat-label">法官评估维度</div>
-    </div>
-  </div>
-</section>
 
-<!-- ═══════════════ CTA ═══════════════ -->
-<section class="cta">
-  <h2>输入争议。<br>看 AI 互相对质。</h2>
-  <p>Phase 1 运行在 Claude Code Workflow 上。Phase 2 提取到 OpenOPC 独立部署。</p>
-  <div class="cta-buttons">
-    <a href="https://github.com/onezion12344/DetectorTeam" class="btn btn-primary">GitHub →</a>
-    <a href="docs/superpowers/specs/2026-07-22-detector-team-design.md" class="btn btn-secondary">设计文档</a>
-  </div>
-</section>
+    <div class="chips" style="margin-top:16px;">
+      <span class="chip">Du et al. 2023 · MAD</span>
+      <span class="chip">Khan et al. ICML 2024</span>
+      <span class="chip">Ersoz · 12 Angry AI</span>
+      <span class="chip">Chen · Co-Failure</span>
+      <span class="chip">MARGIN · Armstrong</span>
+      <span class="chip">Wald SPRT · Morandi</span>
+      <span class="chip">GAVEL · ACL 2026</span>
+      <span class="chip">D2D · EMNLP 2025</span>
+      <span class="chip">AgentCourt · ACL 2025</span>
+      <span class="chip">DebateCV · 2026</span>
+      <span class="chip">RADAR · 2026</span>
+      <span class="chip">Minority Sentinel</span>
+    </div>
+  </section>
+
+  <!-- ═══════════ REFERENCE ═══════════ -->
+  <section class="section reveal">
+    <h2>Reference Systems</h2>
+    <div class="principles">
+      <a class="card t1" href="https://github.com/relic-yuexi/AgentCourt" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">AgentCourt <span style="font-size:9px;color:var(--muted);font-weight:400;">ACL 2025 · 93⭐</span></div>
+        <p style="font-size:11px;color:var(--muted);">1000 案例训练律师 Agent，对抗进化。专业律师评估：认知敏捷、专业知识、逻辑严谨度。</p>
+      </a>
+      <a class="card t2" href="https://github.com/mnc13/PROClaim" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">PROClaim <span style="font-size:9px;color:var(--muted);font-weight:400;">2026</span></div>
+        <p style="font-size:11px;color:var(--muted);">原告/被告/法官/3 人陪审团 + Progressive RAG + 角色互换。81.7% 准确率。</p>
+      </a>
+      <a class="card t3" href="https://github.com/ZhangYiqun018/agent-for-debate" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">Agent4Debate <span style="font-size:9px;color:var(--muted);font-weight:400;">ICASSP 2026 · 39⭐</span></div>
+        <p style="font-size:11px;color:var(--muted);">4 专家/方 (Searcher→Analyzer→Writer→Reviewer)，200 场 Elo 排名，AI 超人类。</p>
+      </a>
+      <a class="card t4" href="https://github.com/iason-solomos/Deb8flow" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">deb8flow <span style="font-size:9px;color:var(--muted);font-weight:400;">39⭐</span></div>
+        <p style="font-size:11px;color:var(--muted);">LangGraph 辩论框架，事实核查驱动：3 次失败自动判负。每轮后验证所有主张。</p>
+      </a>
+      <a class="card t5" href="https://github.com/argdown/argdown" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">Argdown <span style="font-size:9px;color:var(--muted);font-weight:400;">1K+⭐ · MIT</span></div>
+        <p style="font-size:11px;color:var(--muted);">文本→论证图，v2.0 Markdown 嵌入。逻辑前提-结论结构，Phase 2 UI 参考。</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════ CTA ═══════════ -->
+  <section class="cta reveal">
+    <h2 class="gradient-text">输入争议。<br>看 AI 互相对质。</h2>
+    <p>Phase 1 运行在 Claude Code Workflow 上。<br>Phase 2 提取到 OpenOPC 独立部署。</p>
+    <div class="cta-buttons">
+      <a href="https://github.com/onezion12344/DetectorTeam" class="btn btn-primary">GitHub →</a>
+      <a href="docs/superpowers/specs/2026-07-22-detector-team-design.md" class="btn btn-secondary">设计文档</a>
+    </div>
+  </section>
+</div>
 
 <footer class="footer">
-  Detector Team · AI 司法辩论系统 · 2026 · Built on Claude Code Workflow + OpenOPC
+  <div class="brand-line">为真相，再一次信仰之跃</div>
+  <div class="meta">Detector Team · AI 司法辩论系统 · 2026 · CC Workflow + OpenOPC</div>
 </footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Trigger hero immediately
+  document.querySelector('.hero.reveal')?.classList.add('visible');
+</script>
 
 </body>
 </html>
