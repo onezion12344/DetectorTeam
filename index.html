@@ -171,8 +171,22 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
 .demo-legend{display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap;font-size:8px;color:var(--muted);letter-spacing:.05em}
 .demo-legend span{display:flex;align-items:center;gap:4px}
 .legend-dot{width:6px;height:6px;border-radius:2px}
-.demo-status{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:12px;font-size:10px;color:var(--muted);text-align:center;transition:all .35s}
+.demo-status{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:8px;font-size:10px;color:var(--muted);text-align:center;transition:all .35s}
 .demo-status strong{color:var(--accent)}
+/* Relation picker */
+.relation-picker{background:var(--surface);border:1px solid rgba(224,122,95,.2);border-radius:10px;padding:12px 14px;margin-top:8px}
+.relation-title{font-size:9px;color:var(--muted);text-align:center;margin-bottom:8px}
+.relation-options{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.relation-opt{font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 14px;border-radius:8px;border:2px dashed var(--border);background:var(--card);color:var(--white);cursor:pointer;transition:all .25s;min-width:100px}
+.relation-opt:hover{transform:translateY(-2px)}
+.relation-opt.confirmed{border-style:solid;box-shadow:0 0 16px color-mix(in srgb,var(--rc,#e07a5f) 20%,transparent)}
+.relation-opt .rel-name{font-size:10px;font-weight:600}
+.relation-opt .rel-conclusion{font-size:8px;color:var(--muted)}
+.relation-opt .rel-check{font-size:14px;opacity:0;transition:opacity .3s}
+.relation-opt.confirmed .rel-check{opacity:1}
+/* Confirmed node state */
+.node.confirmed{border-width:2px}
+.conclusion-badge{position:absolute;top:-6px;left:-4px;font-size:8px}
 /* AI Consensus panel */
 .consensus-panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-top:8px;font-size:9px;color:var(--muted);line-height:1.7}
 .consensus-panel h4{font-size:9px;font-weight:600;color:var(--accent2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
@@ -202,9 +216,9 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
   <div class="hero-badge"><span class="dot"></span> AI 司法辩论系统</div>
   <h1><em>证据组</em> → 论点组 → 结论</h1>
   <p class="hero-sub">
-    用户输入争议 → AI 搜索证据 → Multi-Agent 辩论 →<br>
-    证据映射为论点，论点收敛为结论。<br>
-    每一步都是满射——你对证据和论点的判断，即刻收窄可推出的结论。
+    用户输入争议 → AI 搜索数据 → 验证为证据 → Multi-Agent 辩论 →<br>
+    证据与结论之间是 <strong>relation</strong>（非函数）：同一输入可对应多个输出。<br>
+    不同团队对同一证据有不同的 relation——你选择一条路径，确认它。
   </p>
   <div class="framework">
     <div class="fw-title">数据 → 证据 → 论点 → 结论</div>
@@ -368,7 +382,13 @@ body{font-family:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;backgro
         <span><span class="legend-dot" style="background:var(--accent);width:6px;height:6px;border-radius:0;border:1px dashed var(--accent)"></span> 论点排除（手动）</span>
       </div>
 
-      <div class="demo-status" id="status"><strong>3</strong> 个结论可到达 · 选择证据和论点收窄结论空间</div>
+      <!-- Relation picker: appears when multi-mapping -->
+      <div class="relation-picker" id="relation-picker" style="display:none">
+        <div class="relation-title">🔀 当前证据组存在 <strong>多个 relation</strong>——选择你要确认的路径：</div>
+        <div class="relation-options" id="relation-options"></div>
+      </div>
+
+      <div class="demo-status" id="status"><strong>2</strong> 个结论可到达 · 选择证据和论点收窄结论空间</div>
 
       <!-- AI Consensus Panel -->
       <div class="consensus-panel" id="consensus">
@@ -512,10 +532,20 @@ function updateUI(){
 
   // Conclusion nodes
   document.querySelectorAll('.node.conclusion').forEach(el=>{
-    const id=el.dataset.node;el.classList.remove('reachable','unreachable');
-    if(isConReachable(id)){el.classList.add('reachable');}
-    else{
-      // Show unreachable only if evidence has been explicitly set
+    const id=el.dataset.node;
+    el.classList.remove('reachable','unreachable','confirmed');
+    // Remove old confirmation badges from conclusions
+    el.querySelectorAll('.conclusion-badge').forEach(b=>b.remove());
+
+    if(confirmedRelation === id){
+      el.classList.add('reachable','confirmed');
+      const badge=document.createElement('span');
+      badge.className='conclusion-badge';badge.textContent='✓';
+      badge.style.cssText=`color:${id==='con-1'?'#e07a5f':'#3a8a8a'};font-weight:700;font-size:12px;position:absolute;top:2px;right:4px`;
+      el.appendChild(badge);
+    }else if(isConReachable(id)){
+      el.classList.add('reachable');
+    }else{
       if(id==='con-1'&&(evState['ev-2']==='grayed'||evState['ev-4']==='grayed'||evState['ev-5']==='grayed'))el.classList.add('unreachable');
       if(id==='con-2'&&(evState['ev-2']==='grayed'||evState['ev-4']==='grayed'||evState['ev-5']==='grayed'||evState['ev-6']==='grayed'))el.classList.add('unreachable');
     }
@@ -525,12 +555,60 @@ function updateUI(){
   updateStatus();
   updateConsensus();
   updateReasoning();
+  updateRelationPicker();
+}
+
+// ── Relation Picker ────────────────────
+function updateRelationPicker(){
+  const picker = document.getElementById('relation-picker');
+  const opts = document.getElementById('relation-options');
+
+  if(isMultiMapping() && !confirmedRelation){
+    picker.style.display = 'block';
+    // Reset confirmation when entering multi-mapping
+    const relations = [
+      {id:'con-1',color:'#e07a5f',name:'Relation A · 性骚扰成立',desc:'主张方路径：视频=自慰 + 针对性 + 认罪',team:'Agent Team A'},
+      {id:'con-2',color:'#3a8a8a',name:'Relation B · 指控不成立',desc:'反对方路径：医学证据链 + 环境证据 + 证人矛盾',team:'Agent Team B'},
+    ];
+    opts.innerHTML = relations.map(r=>`
+      <button class="relation-opt" style="--rc:${r.color};border-color:${r.color}" data-rel="${r.id}"
+        onclick="confirmRelation('${r.id}')">
+        <span class="rel-name" style="color:${r.color}">${r.name}</span>
+        <span class="rel-conclusion">${r.desc}</span>
+        <span class="rel-conclusion">${r.team}</span>
+        <span class="rel-check" style="color:${r.color}">✓</span>
+      </button>
+    `).join('');
+  }else if(confirmedRelation){
+    picker.style.display = 'block';
+    const relCon = confirmedRelation==='con-1'?{color:'#e07a5f',name:'Relation A · 性骚扰成立'}:{color:'#3a8a8a',name:'Relation B · 指控不成立'};
+    opts.innerHTML = `
+      <div class="relation-opt confirmed" style="--rc:${relCon.color};border-color:${relCon.color};cursor:default">
+        <span class="rel-name" style="color:${relCon.color}">${relCon.name}</span>
+        <span class="rel-conclusion">已确认此路径</span>
+        <span class="rel-check" style="color:${relCon.color}">✓</span>
+      </div>
+      <button class="relation-opt" style="--rc:var(--muted);border-color:var(--border);padding:8px 10px;min-width:auto" onclick="confirmRelation(null)">
+        <span class="rel-name" style="font-size:9px;color:var(--muted)">↩ 取消确认</span>
+      </button>`;
+  }else{
+    picker.style.display = 'none';
+  }
+}
+
+function confirmRelation(relId){
+  confirmedRelation = relId;
+  updateUI();
 }
 
 function updateStatus(){
   const c=countReachable(),s=document.getElementById('status');
-  if(isMultiMapping()){
-    s.innerHTML='<span class="multi-badge" style="background:rgba(224,122,95,.15);color:var(--accent)">⚠ 多路径</span> <strong>同一证据组映射到 2 个结论</strong> · 请选择推理路径';
+  if(confirmedRelation){
+    const color=confirmedRelation==='con-1'?'#e07a5f':'#3a8a8a';
+    const name=confirmedRelation==='con-1'?'Relation A · 性骚扰成立':'Relation B · 指控不成立';
+    s.innerHTML=`<span style="color:${color};font-weight:600">✓ 已确认：${name}</span> · 沿此路径收窄`;
+  }else if(isMultiMapping()){
+    s.innerHTML='<span class="multi-badge" style="background:rgba(224,122,95,.15);color:var(--accent)">🔀 多 relation</span> <strong>同一证据组对应 2 个结论</strong> · 请在下方选择一条路径';
   }else if(c===2)s.innerHTML='<strong>2</strong> 个结论可到达 · 选择证据和论点收窄结论空间';
   else if(c===1)s.innerHTML='仅剩 <strong>1</strong> 个结论 · 证据链指向明确';
   else s.innerHTML='<strong>证据不足</strong> · 当前组合无法推出任何结论 · 请调整证据或论点选择';
@@ -622,6 +700,9 @@ function drawConnectors(){
   svg.innerHTML=p;
 }
 
+// ── Relation confirmation ──────────────
+let confirmedRelation = null; // 'con-1', 'con-2', or null
+
 // ── Teams & Presets ────────────────────
 let activeTeam = 'custom';
 
@@ -648,6 +729,7 @@ function getActiveConsensus() { return teamConsensus[activeTeam] || teamConsensu
 
 function applyTeam(team){
   activeTeam = team;
+  confirmedRelation = null;
   // Reset all
   Object.keys(evState).forEach(k=>evState[k]='');
   Object.keys(argMode).forEach(k=>argMode[k]='auto');
@@ -684,9 +766,9 @@ document.querySelectorAll('.team-btn').forEach(btn=>{
 });
 
 // ── Click Handlers ─────────────────────
-document.querySelectorAll('.node.evidence').forEach(el=>{el.addEventListener('click',()=>{const id=el.dataset.node;if(evState[id]==='')evState[id]='selected';else if(evState[id]==='selected')evState[id]='grayed';else evState[id]='';updateUI();});});
+document.querySelectorAll('.node.evidence').forEach(el=>{el.addEventListener('click',()=>{const id=el.dataset.node;if(evState[id]==='')evState[id]='selected';else if(evState[id]==='selected')evState[id]='grayed';else evState[id]='';confirmedRelation=null;updateUI();});});
 
-document.querySelectorAll('.node.argument').forEach(el=>{el.addEventListener('click',()=>{const id=el.dataset.node;if(argMode[id]==='auto')argMode[id]='forced-active';else if(argMode[id]==='forced-active')argMode[id]='forced-inactive';else argMode[id]='auto';updateUI();});});
+document.querySelectorAll('.node.argument').forEach(el=>{el.addEventListener('click',()=>{const id=el.dataset.node;if(argMode[id]==='auto')argMode[id]='forced-active';else if(argMode[id]==='forced-active')argMode[id]='forced-inactive';else argMode[id]='auto';confirmedRelation=null;updateUI();});});
 
 updateUI();window.addEventListener('resize',drawConnectors);
 const observer=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.08});
