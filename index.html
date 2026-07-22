@@ -9,16 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:       #0d1b2a;
-    --surface:  #111d33;
-    --card:     #162236;
-    --border:   #1e3050;
-    --accent:   #e07a5f;
-    --accent2:  #d4a843;
-    --accent3:  #3a8a8a;
-    --white:    #f0e6d8;
-    --muted:    #8a9ab0;
-    --glow:     0 0 40px rgba(224, 122, 95, 0.15);
+    --bg: #0d1b2a; --surface: #111d33; --card: #162236; --border: #1e3050;
+    --accent: #e07a5f; --accent2: #d4a843; --accent3: #3a8a8a;
+    --white: #f0e6d8; --muted: #8a9ab0;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,480 +19,325 @@
   html { scroll-behavior: smooth; }
   body {
     font-family: 'Space Grotesk', 'Noto Sans SC', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--white);
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    background: var(--bg); color: var(--white);
+    line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden;
   }
 
-  /* ── Stars Background ──────────────── */
   .stars {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background:
-      radial-gradient(ellipse at 50% 0%,  rgba(224,122,95,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 0%, rgba(224,122,95,0.10) 0%, transparent 60%),
       radial-gradient(ellipse at 80% 20%, rgba(212,168,67,0.06) 0%, transparent 40%),
       radial-gradient(ellipse at 20% 60%, rgba(58,138,138,0.05) 0%, transparent 40%);
   }
 
-  .container { max-width: 480px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+  .container { max-width: 520px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
 
-  /* ── Gradient Text ─────────────────── */
   .gradient-text {
     background: linear-gradient(135deg, #f0c87a, var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
 
-  /* ── Scroll Reveal ─────────────────── */
   .reveal {
     opacity: 0; transform: translateY(18px);
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* ── Pulse Dot ─────────────────────── */
   .dot {
     display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s ease-in-out infinite;
+    background: var(--accent); animation: pulse 2s ease-in-out infinite;
   }
   @keyframes pulse {
     0%, 100% { opacity: 0.4; transform: scale(1); }
-    50%      { opacity: 1;   transform: scale(1.5); }
+    50% { opacity: 1; transform: scale(1.5); }
   }
 
-  /* ── Section Heading ───────────────── */
   .section {
-    padding: 48px 0;
-    position: relative; z-index: 1;
+    padding: 48px 0; position: relative; z-index: 1;
   }
 
   .section h2 {
-    font-size: 13px; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--muted);
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 20px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
   }
-  .section h2::after {
-    content: '';
-    flex: 1; height: 1px;
-    background: rgba(224, 122, 95, 0.15);
-  }
+  .section h2::after { content: ''; flex: 1; height: 1px; background: rgba(224,122,95,0.15); }
 
-  /* ── Cards ─────────────────────────── */
+  /* ── Cards, Tags (shared) ──────────── */
   .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 15px 17px;
-    position: relative;
-    overflow: hidden;
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 15px 17px; position: relative; overflow: hidden;
     transition: border-color 0.3s, transform 0.3s;
   }
-  .card:hover {
-    border-color: rgba(224, 122, 95, 0.3);
-    transform: translateX(4px);
-  }
-  .card::before {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px;
-  }
+  .card:hover { border-color: rgba(224,122,95,0.3); transform: translateX(4px); }
+  .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
 
-  /* Left border gradient rotation */
   .t1::before { background: linear-gradient(180deg, #e07a5f, #d4a843); }
   .t2::before { background: linear-gradient(180deg, #d4a843, #e07a5f); }
   .t3::before { background: linear-gradient(180deg, #3a8a8a, #e07a5f); }
   .t4::before { background: linear-gradient(180deg, #e07a5f, #3a8a8a); }
   .t5::before { background: linear-gradient(180deg, #d4a843, #3a8a8a); }
 
-  /* ── Tags ──────────────────────────── */
   .tag {
-    display: inline-block;
-    padding: 4px 10px; border-radius: 12px;
-    font-size: 10px; font-weight: 500;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    transition: transform 0.2s, border-color 0.2s;
+    display: inline-block; padding: 4px 10px; border-radius: 12px;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: transform 0.2s;
   }
   .tag:hover { transform: translateY(-1px); }
-  .tag.coral  { background: rgba(224,122,95,0.08);  border: 1px solid rgba(224,122,95,0.15);  color: var(--accent); }
-  .tag.coral:hover  { border-color: rgba(224,122,95,0.4); }
-  .tag.gold   { background: rgba(212,168,67,0.08);  border: 1px solid rgba(212,168,67,0.15);  color: var(--accent2); }
-  .tag.gold:hover   { border-color: rgba(212,168,67,0.4); }
-  .tag.teal   { background: rgba(58,138,138,0.08);  border: 1px solid rgba(58,138,138,0.15);  color: var(--accent3); }
-  .tag.teal:hover   { border-color: rgba(58,138,138,0.4); }
+  .tag.coral { background: rgba(224,122,95,0.08); border: 1px solid rgba(224,122,95,0.15); color: var(--accent); }
+  .tag.gold { background: rgba(212,168,67,0.08); border: 1px solid rgba(212,168,67,0.15); color: var(--accent2); }
+  .tag.teal { background: rgba(58,138,138,0.08); border: 1px solid rgba(58,138,138,0.15); color: var(--accent3); }
+  .tag.fatal { background: rgba(224,122,95,0.12); border: 1px solid rgba(224,122,95,0.25); color: #f08a7a; }
+  .tag.critical { background: rgba(212,168,67,0.12); border: 1px solid rgba(212,168,67,0.25); color: var(--accent2); }
+  .tag.safe { background: rgba(58,138,138,0.12); border: 1px solid rgba(58,138,138,0.25); color: var(--accent3); }
 
-  .tag.fatal    { background: rgba(224,122,95,0.12);  border: 1px solid rgba(224,122,95,0.25);  color: #f08a7a; }
-  .tag.critical { background: rgba(212,168,67,0.12);  border: 1px solid rgba(212,168,67,0.25);  color: var(--accent2); }
-  .tag.safe     { background: rgba(58,138,138,0.12);  border: 1px solid rgba(58,138,138,0.25);  color: var(--accent3); }
-
-  /* ── HERO ──────────────────────────── */
+  /* ═══════════ HERO ═══════════════════ */
   .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 80px 0 60px;
-    position: relative; z-index: 1;
-    text-align: center;
+    padding: 48px 0 32px; position: relative; z-index: 1; text-align: center;
   }
 
   .hero-badge {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 5px 14px; border-radius: 100px;
-    background: rgba(224,122,95,0.06);
-    border: 1px solid rgba(224,122,95,0.12);
-    font-size: 10px; font-weight: 500;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 28px;
+    background: rgba(224,122,95,0.06); border: 1px solid rgba(224,122,95,0.12);
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 20px;
   }
 
   .hero h1 {
-    font-size: 26px; font-weight: 700;
-    letter-spacing: -0.02em; line-height: 1.3;
-    margin-bottom: 12px;
+    font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 8px;
   }
-
-  .hero h1 em {
-    font-style: normal;
-    background: linear-gradient(135deg, #f0c87a, var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
+  .hero h1 em { font-style: normal; }
   .hero-sub {
-    font-size: 11px; color: var(--muted);
-    max-width: 360px; margin: 0 auto 36px;
-    line-height: 1.75;
+    font-size: 11px; color: var(--muted); max-width: 380px; margin: 0 auto 28px; line-height: 1.75;
   }
 
-  /* ── Debate Terminal ───────────────── */
-  .debate-terminal {
+  /* ══════════════════════════════════════════════
+     INTERACTIVE DECISION TREE DEMO
+     ══════════════════════════════════════════════ */
+  .demo-wrap {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px 14px 16px;
+    position: relative;
+  }
+
+  .demo-title {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    text-align: center; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  /* The tree grid: 5 columns (evidence | arrows | arguments | arrows | conclusions) */
+  .tree {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1fr 18px 1fr 18px 1fr;
     gap: 0;
-    width: 100%;
+    align-items: start;
+    position: relative;
   }
 
-  .debate-col {
-    background: rgba(22,34,54,0.6);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 10px;
-    line-height: 1.6;
-    text-align: left;
-    min-height: 120px;
+  .tree-col-header {
+    font-size: 7px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); text-align: center; margin-bottom: 8px; padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
   }
 
-  .debate-col.pro { border-top: 2px solid var(--accent3); }
-  .debate-col.con { border-top: 2px solid var(--accent); }
+  /* Nodes */
+  .node {
+    padding: 7px 7px; border-radius: 8px; border: 1px solid var(--border);
+    text-align: center; cursor: pointer; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none; position: relative;
+    margin-bottom: 5px;
+  }
+  .node .node-label {
+    font-size: 7px; color: var(--muted); letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 1px;
+  }
+  .node .node-text { font-size: 10px; line-height: 1.35; }
 
-  .debate-label {
-    font-size: 9px; font-weight: 600;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    margin-bottom: 10px;
-    display: flex; align-items: center; gap: 5px;
+  /* Evidence node states */
+  .node.evidence { background: rgba(58,138,138,0.06); border-color: rgba(58,138,138,0.15); }
+  .node.evidence.selected {
+    background: rgba(58,138,138,0.18); border-color: var(--accent3);
+    box-shadow: 0 0 14px rgba(58,138,138,0.25);
   }
-  .debate-label.pro { color: var(--accent3); }
-  .debate-label.con { color: var(--accent); }
+  .node.evidence.selected .node-label { color: var(--accent3); }
+  .node.evidence.grayed {
+    background: rgba(138,154,176,0.03); border-color: rgba(138,154,176,0.08);
+    color: rgba(138,154,176,0.35);
+  }
+  .node.evidence.grayed .node-label { color: rgba(138,154,176,0.25); }
 
-  .debate-line {
-    color: var(--muted);
-    margin-bottom: 6px;
-    opacity: 0;
-    animation: fadeInLine 0.3s ease forwards;
+  /* Argument node states */
+  .node.argument { background: rgba(212,168,67,0.04); border-color: rgba(212,168,67,0.12); }
+  .node.argument.active {
+    background: rgba(212,168,67,0.15); border-color: var(--accent2);
+    box-shadow: 0 0 14px rgba(212,168,67,0.18);
   }
-  .debate-line:nth-child(2) { animation-delay: 0.5s; }
-  .debate-line:nth-child(3) { animation-delay: 1.0s; }
-  .debate-line:nth-child(4) { animation-delay: 1.5s; }
-  .debate-line:nth-child(5) { animation-delay: 2.0s; }
-  .debate-line:nth-child(6) { animation-delay: 2.5s; }
+  .node.argument.active .node-label { color: var(--accent2); }
+  .node.argument.inactive {
+    background: rgba(138,154,176,0.03); border-color: rgba(138,154,176,0.08);
+    color: rgba(138,154,176,0.35);
+  }
+  .node.argument.inactive .node-label { color: rgba(138,154,176,0.25); }
 
-  @keyframes fadeInLine {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* Conclusion node states */
+  .node.conclusion { background: rgba(224,122,95,0.04); border-color: rgba(224,122,95,0.10); }
+  .node.conclusion.reachable {
+    background: rgba(224,122,95,0.16); border-color: var(--accent);
+    box-shadow: 0 0 16px rgba(224,122,95,0.25);
+  }
+  .node.conclusion.reachable .node-label { color: var(--accent); }
+  .node.conclusion.unreachable {
+    background: rgba(138,154,176,0.03); border-color: rgba(138,154,176,0.08);
+    color: rgba(138,154,176,0.35);
+  }
+  .node.conclusion.unreachable .node-label { color: rgba(138,154,176,0.25); }
+
+  /* SVG connector overlay */
+  .tree-connectors {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
   }
 
-  .debate-divider {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 0 6px;
+  /* Legend */
+  .demo-legend {
+    display: flex; gap: 14px; justify-content: center; margin-top: 14px;
+    flex-wrap: wrap; font-size: 8px; color: var(--muted); letter-spacing: 0.05em;
   }
-  .divider-line {
-    width: 1px; flex: 1;
-    background: linear-gradient(to bottom, transparent, rgba(212,168,67,0.3), transparent);
+  .demo-legend span { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 6px; height: 6px; border-radius: 2px; }
+
+  /* Status bar */
+  .demo-status {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 14px; margin-top: 14px;
+    font-size: 9px; color: var(--muted); text-align: center;
+    transition: all 0.35s ease;
   }
-  .divider-icon {
-    font-size: 16px; padding: 8px 0;
-    opacity: 0.6;
+  .demo-status strong { color: var(--accent); }
+
+  .demo-hint {
+    font-size: 8px; color: rgba(138,154,176,0.45);
+    text-align: center; margin-top: 10px;
+  }
+
+  /* ── Pull Quote ────────────────────── */
+  .pull-quote { text-align: center; padding: 24px 0; }
+  .pq-mark { font-size: 30px; line-height: 0.6; color: rgba(224,122,95,0.3); font-family: Georgia, serif; }
+  .pq-text {
+    font-size: 16px; font-weight: 600; line-height: 1.55;
+    background: linear-gradient(135deg, #f0c87a, var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin: 8px 0;
   }
 
   /* ── Pipeline ──────────────────────── */
-  .pipeline {
-    display: flex; flex-direction: column;
-    gap: 0;
-    position: relative;
-  }
-
+  .pipeline { display: flex; flex-direction: column; }
   .pipeline-step {
     display: flex; align-items: flex-start; gap: 14px;
-    padding: 16px 0;
-    position: relative;
+    padding: 16px 0; position: relative;
   }
-
   .pipeline-icon {
-    width: 40px; height: 40px; min-width: 40px;
-    border-radius: 50%;
+    width: 40px; height: 40px; min-width: 40px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    position: relative; z-index: 1;
+    font-size: 18px; position: relative; z-index: 1;
   }
   .s1 .pipeline-icon { background: rgba(58,138,138,0.12); }
   .s2 .pipeline-icon { background: rgba(58,138,138,0.10); }
   .s3 .pipeline-icon { background: rgba(212,168,67,0.12); }
   .s4 .pipeline-icon { background: rgba(224,122,95,0.10); }
   .s5 .pipeline-icon { background: rgba(224,122,95,0.15); }
-
-  .pipeline-body h3 {
-    font-size: 13px; font-weight: 600;
-    margin-bottom: 3px;
-  }
-  .pipeline-body p {
-    font-size: 11px; color: var(--muted);
-    line-height: 1.65;
-  }
-  .pipeline-body .step-num {
-    font-size: 9px; color: var(--muted);
-    letter-spacing: 0.05em; margin-bottom: 2px;
-  }
-
-  /* Vertical connector between steps */
+  .pipeline-body h3 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .pipeline-body p { font-size: 11px; color: var(--muted); line-height: 1.65; }
+  .pipeline-body .step-num { font-size: 9px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 2px; }
   .pipeline-step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 19px; top: 56px;
+    content: ''; position: absolute; left: 19px; top: 56px;
     width: 1px; height: calc(100% - 40px);
     background: linear-gradient(to bottom, rgba(224,122,95,0.4), rgba(58,138,138,0.2));
   }
 
-  /* ── Quote ─────────────────────────── */
-  .pull-quote {
-    text-align: center; padding: 32px 0;
-  }
-  .pq-mark {
-    font-size: 30px; line-height: 0.6;
-    color: rgba(224,122,95,0.3);
-    font-family: Georgia, serif;
-  }
-  .pq-text {
-    font-size: 16px; font-weight: 600;
-    line-height: 1.55;
-    background: linear-gradient(135deg, #f0c87a, var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 8px 0;
-  }
-
-  /* ── Principles Grid ───────────────── */
-  .principles {
-    display: flex; flex-direction: column;
-    gap: 10px;
-  }
-
+  /* ── Principles ────────────────────── */
+  .principles { display: flex; flex-direction: column; gap: 10px; }
   .principle-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 15px 17px;
-    position: relative;
-    overflow: hidden;
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 15px 17px; position: relative; overflow: hidden;
     transition: border-color 0.3s, transform 0.3s;
   }
-  .principle-card:hover {
-    border-color: rgba(224,122,95,0.3);
-    transform: translateX(4px);
-  }
-  .principle-card::before {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px;
-  }
-
-  .principle-card .card-tags {
-    display: flex; gap: 6px; flex-wrap: wrap;
-    margin-bottom: 10px;
-  }
-
-  .principle-card h4 {
-    font-size: 13px; font-weight: 600;
-    color: var(--white);
-    margin-bottom: 5px;
-  }
-
-  .principle-card p {
-    font-size: 11px; color: var(--muted);
-    line-height: 1.65;
-  }
-
-  .principle-card .source {
-    font-size: 9px; color: rgba(138,154,176,0.5);
-    margin-top: 8px; font-style: italic;
-  }
-
-  /* Reuse the t1..t10 gradient left borders */
-  .p1::before  { background: linear-gradient(180deg, #e07a5f, #d4a843); }
-  .p2::before  { background: linear-gradient(180deg, #d4a843, #e07a5f); }
-  .p3::before  { background: linear-gradient(180deg, #3a8a8a, #e07a5f); }
-  .p4::before  { background: linear-gradient(180deg, #e07a5f, #3a8a8a); }
-  .p5::before  { background: linear-gradient(180deg, #d4a843, #3a8a8a); }
-  .p6::before  { background: linear-gradient(180deg, #3a8a8a, #d4a843); }
-  .p7::before  { background: linear-gradient(180deg, #e07a5f, #d4a843); }
-  .p8::before  { background: linear-gradient(180deg, #d4a843, #3a8a8a); }
-  .p9::before  { background: linear-gradient(180deg, #3a8a8a, #e07a5f); }
+  .principle-card:hover { border-color: rgba(224,122,95,0.3); transform: translateX(4px); }
+  .principle-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+  .principle-card .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .principle-card h4 { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 5px; }
+  .principle-card p { font-size: 11px; color: var(--muted); line-height: 1.65; }
+  .principle-card .source { font-size: 9px; color: rgba(138,154,176,0.5); margin-top: 8px; font-style: italic; }
+  .p1::before { background: linear-gradient(180deg, #e07a5f, #d4a843); }
+  .p2::before { background: linear-gradient(180deg, #d4a843, #e07a5f); }
+  .p3::before { background: linear-gradient(180deg, #3a8a8a, #e07a5f); }
+  .p4::before { background: linear-gradient(180deg, #e07a5f, #3a8a8a); }
+  .p5::before { background: linear-gradient(180deg, #d4a843, #3a8a8a); }
+  .p6::before { background: linear-gradient(180deg, #3a8a8a, #d4a843); }
+  .p7::before { background: linear-gradient(180deg, #e07a5f, #d4a843); }
+  .p8::before { background: linear-gradient(180deg, #d4a843, #3a8a8a); }
+  .p9::before { background: linear-gradient(180deg, #3a8a8a, #e07a5f); }
   .p10::before { background: linear-gradient(180deg, #d4a843, #e07a5f); }
 
   /* ── Stats ─────────────────────────── */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 8px;
-    text-align: center;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 8px; text-align: center;
     transition: border-color 0.3s, transform 0.3s;
   }
-  .stat-card:hover {
-    border-color: rgba(224,122,95,0.3);
-    transform: translateY(-2px);
-  }
-
+  .stat-card:hover { border-color: rgba(224,122,95,0.3); transform: translateY(-2px); }
   .stat-card .num {
     font-size: 22px; font-weight: 700;
     background: linear-gradient(135deg, #f0c87a, var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
+  .stat-card .stat-label { font-size: 9px; color: var(--muted); letter-spacing: 0.05em; margin-top: 4px; }
 
-  .stat-card .stat-label {
-    font-size: 9px; color: var(--muted);
-    letter-spacing: 0.05em; margin-top: 4px;
-  }
-
-  /* ── Chips ─────────────────────────── */
-  .chips {
-    display: flex; flex-wrap: wrap; gap: 6px;
-  }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .chip {
-    padding: 5px 11px; border-radius: 10px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    font-size: 11px; color: var(--white);
-    transition: border-color 0.25s, transform 0.25s;
-    text-decoration: none;
+    padding: 5px 11px; border-radius: 10px; background: var(--card);
+    border: 1px solid var(--border); font-size: 11px; color: var(--white);
+    transition: border-color 0.25s, transform 0.25s; text-decoration: none;
   }
-  .chip:hover {
-    border-color: rgba(58,138,138,0.4);
-    transform: translateY(-1px);
-  }
+  .chip:hover { border-color: rgba(58,138,138,0.4); transform: translateY(-1px); }
 
   /* ── CTA ───────────────────────────── */
-  .cta {
-    text-align: center;
-    padding: 48px 0 32px;
-    position: relative; z-index: 1;
-  }
-
-  .cta h2 {
-    font-size: 20px; font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  .cta p {
-    font-size: 11px; color: var(--muted);
-    margin-bottom: 24px;
-  }
-
-  .cta-buttons {
-    display: flex; gap: 10px; justify-content: center;
-    flex-wrap: wrap;
-  }
-
+  .cta { text-align: center; padding: 48px 0 32px; position: relative; z-index: 1; }
+  .cta h2 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+  .cta p { font-size: 11px; color: var(--muted); margin-bottom: 24px; }
+  .cta-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
   .btn {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 10px 20px; border-radius: 12px;
-    font-size: 12px; font-weight: 600;
-    text-decoration: none;
-    transition: all 0.25s;
-    cursor: pointer; border: none;
-    font-family: inherit;
+    padding: 10px 20px; border-radius: 12px; font-size: 12px; font-weight: 600;
+    text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; font-family: inherit;
   }
-
-  .btn-primary {
-    background: var(--accent);
-    color: var(--bg);
-  }
-  .btn-primary:hover {
-    background: #ea8a72;
-    box-shadow: var(--glow);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--white);
-    border: 1px solid var(--border);
-  }
-  .btn-secondary:hover {
-    border-color: rgba(224,122,95,0.4);
-  }
+  .btn-primary { background: var(--accent); color: var(--bg); }
+  .btn-primary:hover { background: #ea8a72; box-shadow: 0 0 40px rgba(224,122,95,0.15); }
+  .btn-secondary { background: transparent; color: var(--white); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: rgba(224,122,95,0.4); }
 
   /* ── Footer ────────────────────────── */
   .footer {
-    text-align: center;
-    padding: 28px 20px;
-    border-top: 1px solid var(--border);
-    position: relative; z-index: 1;
+    text-align: center; padding: 28px 20px;
+    border-top: 1px solid var(--border); position: relative; z-index: 1;
   }
-
   .footer .brand-line {
     font-size: 16px; font-weight: 700;
     background: linear-gradient(135deg, #f0c87a, var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 0.05em;
-    margin-bottom: 6px;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    letter-spacing: 0.05em; margin-bottom: 6px;
   }
+  .footer .meta { font-size: 9px; color: var(--muted); letter-spacing: 0.05em; }
 
-  .footer .meta {
-    font-size: 9px; color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  /* ── Responsive ────────────────────── */
   @media (max-width: 520px) {
-    .debate-terminal {
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-    .debate-divider { display: none; }
-    .stats {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    .stats { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .debate-line { animation: none; opacity: 1; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 </style>
@@ -511,93 +349,163 @@
 <!-- ═══════════════ HERO ═══════════════ -->
 <section class="hero container reveal">
   <div class="hero-badge">
-    <span class="dot"></span> Phase 1 · Claude Code Skills
+    <span class="dot"></span> Interactive Demo
   </div>
-  <h1>Truth.<br><em>Debated.</em></h1>
+  <h1><em>证据组</em> → 论点组 → 结论</h1>
   <p class="hero-sub">
-    多 Agent 对抗性辩论系统 — 输入争议主张，
-    AI 自动搜索证据、拆解论点、组织主张方与反对方辩论，
-    法官多维评估，输出结构化判决。
+    点击证据节点选择「是」或「否」。<br>
+    高亮箭头连接选中的证据到下游——<br>
+    你对证据的判断，即刻收窄可推出的结论。
   </p>
 
-  <div class="debate-terminal">
-    <div class="debate-col pro">
-      <div class="debate-label pro"><span class="dot"></span> 主张方 · Claude</div>
-      <div class="debate-line">> 监控显示女生主动跟随</div>
-      <div class="debate-line">> 体内未检出精液 [医学证据]</div>
-      <div class="debate-line">> 校方调查结论：证据不足</div>
+  <!-- ═══ INTERACTIVE DEMO ═══ -->
+  <div class="demo-wrap" id="demo">
+    <div class="demo-title"><span class="dot"></span> 武大图书馆事件 · 模拟辩论</div>
+
+    <div class="tree" id="tree">
+      <!-- Col 1: Evidence -->
+      <div>
+        <div class="tree-col-header">证据组</div>
+        <div class="node evidence selected" data-node="ev-A" data-col="0" data-row="0">
+          <div class="node-label">证据 A</div>
+          <div class="node-text">监控时间戳<br>女生跟随男生</div>
+        </div>
+        <div class="node evidence" data-node="ev-B" data-col="0" data-row="1">
+          <div class="node-label">证据 B</div>
+          <div class="node-text">体内未检出精液<br>及他人 DNA</div>
+        </div>
+        <div class="node evidence" data-node="ev-C" data-col="0" data-row="2">
+          <div class="node-label">证据 C</div>
+          <div class="node-text">5 名泌尿科<br>专家证词</div>
+        </div>
+        <div class="node evidence" data-node="ev-D" data-col="0" data-row="3">
+          <div class="node-label">证据 D</div>
+          <div class="node-text">3 名目击者<br>现场证言</div>
+        </div>
+      </div>
+
+      <!-- Arrows col 1→2 (empty for grid, SVG draws here) -->
+      <div></div>
+
+      <!-- Col 3: Arguments -->
+      <div>
+        <div class="tree-col-header">论点组</div>
+        <div class="node argument" data-node="arg-1" data-col="2" data-row="0">
+          <div class="node-label">论点 1</div>
+          <div class="node-text">「跟随」≠「同意<br>身体接触」</div>
+        </div>
+        <div class="node argument" data-node="arg-2" data-col="2" data-row="1">
+          <div class="node-label">论点 2</div>
+          <div class="node-text">医学证据不能<br>证明「无接触」</div>
+        </div>
+        <div class="node argument" data-node="arg-3" data-col="2" data-row="2">
+          <div class="node-label">论点 3</div>
+          <div class="node-text">校方调查程序<br>存在争议</div>
+        </div>
+      </div>
+
+      <!-- Arrows col 3→4 -->
+      <div></div>
+
+      <!-- Col 5: Conclusions -->
+      <div>
+        <div class="tree-col-header">结论集</div>
+        <div class="node conclusion" data-node="con-1" data-col="4" data-row="0">
+          <div class="node-label">结论 1</div>
+          <div class="node-text">指控可能成立<br>需独立调查</div>
+        </div>
+        <div class="node conclusion" data-node="con-2" data-col="4" data-row="1">
+          <div class="node-label">结论 2</div>
+          <div class="node-text">证据不足<br>无法判断</div>
+        </div>
+        <div class="node conclusion" data-node="con-3" data-col="4" data-row="2">
+          <div class="node-label">结论 3</div>
+          <div class="node-text">指控存疑<br>合理怀疑成立</div>
+        </div>
+      </div>
+
+      <!-- SVG connector layer -->
+      <svg class="tree-connectors" id="connectors"></svg>
     </div>
-    <div class="debate-divider">
-      <div class="divider-line"></div>
-      <div class="divider-icon">⚖</div>
-      <div class="divider-line"></div>
+
+    <div class="demo-legend">
+      <span><span class="legend-dot" style="background:var(--accent3)"></span> 选中·是</span>
+      <span><span class="legend-dot" style="background:rgba(138,154,176,0.2)"></span> 排除·否</span>
+      <span><span class="legend-dot" style="background:var(--accent2)"></span> 论点激活</span>
+      <span><span class="legend-dot" style="background:var(--accent)"></span> 结论可到达</span>
+      <span>点击切换</span>
     </div>
-    <div class="debate-col con">
-      <div class="debate-label con"><span class="dot"></span> 反对方 · DeepSeek</div>
-      <div class="debate-line">> "跟随"与"抓挠"并非互斥</div>
-      <div class="debate-line">> 医学证据不能证明无接触</div>
-      <div class="debate-line">> 91项证据中多项存争议</div>
+
+    <div class="demo-status" id="status">
+      <strong>3</strong> 个结论可到达 · 选择证据收窄结论空间
     </div>
+
+    <div class="demo-hint">点击证据节点切换：默认 → 是（选中）→ 否（排除）→ 默认</div>
   </div>
 </section>
 
-<!-- ═══════════════ WHAT ═══════════════ -->
+<!-- ═══════════ CORE CONCEPT ═══════════ -->
 <div class="container">
   <section class="section reveal">
-    <h2>What It Does</h2>
+    <h2>Core Concept</h2>
     <div class="pull-quote">
       <div class="pq-mark">"</div>
-      <div class="pq-text">不是搜索，是辩论。<br>不是回答，是裁决。</div>
+      <div class="pq-text">复合映射 · 逐步收窄<br>每一步都是满射</div>
     </div>
-    <p style="font-size:11px;color:var(--muted);line-height:1.75;text-align:center;max-width:380px;margin:0 auto;">
-      传统 AI 给你一个答案。Detector Team 让多个 AI 扮演对立角色，
-      在证据约束下进行结构化辩论，法官多维评估后输出判决。
-      你不知道该信谁时 — 让 AI 互相对质。
-    </p>
+
+    <div class="card t1">
+      <h3 style="font-size:13px;font-weight:600;margin-bottom:10px;"><span class="tag teal">集合对集合</span> 证据 → 论点 → 结论</h3>
+      <p style="font-size:11px;color:var(--muted);line-height:1.75;">
+        <strong>满射 (surjective)</strong>：每个结论至少有一个证据组合映射到它。<br>
+        <strong>复合映射</strong>：证据组 → 论点组 → 结论集，两步映射。<br>
+        <strong>用户交互</strong>：在任意证据点选是/否 → 高亮箭头连接 →
+        收窄可到达的结论子集 → 排除的结论<strong>置灰</strong>。
+      </p>
+    </div>
   </section>
 
   <!-- ═══════════ PIPELINE ═══════════ -->
   <section class="section reveal">
-    <h2>Pipeline</h2>
+    <h2>Full Pipeline</h2>
     <div class="pipeline">
       <div class="pipeline-step s1">
         <div class="pipeline-icon">🔍</div>
         <div class="pipeline-body">
-          <div class="step-num">01 · EVIDENCE</div>
-          <h3>证据检索</h3>
-          <p>AnySearch 多源搜索 · 引用原文 · 可信度分级 primary / secondary / supporting / weak</p>
+          <div class="step-num">01 · RETRIEVE</div>
+          <h3>搜索证据 + 拆解争议焦点</h3>
+          <p>用户输入核心矛盾 → 多源搜索 → 摸清事件来龙去脉 → 提取争议焦点 → 列出所有相关证据点</p>
         </div>
       </div>
       <div class="pipeline-step s2">
-        <div class="pipeline-icon">📋</div>
+        <div class="pipeline-icon">⚡</div>
         <div class="pipeline-body">
-          <div class="step-num">02 · OPENING</div>
-          <h3>开案陈词</h3>
-          <p>双方向法官陈述立场 · 每条主张绑定证据 · 不投票 ❌ 不表态 ❌</p>
+          <div class="step-num">02 · DEBATE</div>
+          <h3>Multi-Agent 辩论 + 投票</h3>
+          <p>Debate team 辩论 → 给论据赋权 → 投票（≥30% 进入下阶段）→ 图尔明论证模型 + Superforecaster 多元性原则</p>
         </div>
       </div>
       <div class="pipeline-step s3">
-        <div class="pipeline-icon">⚡</div>
+        <div class="pipeline-icon">🗺️</div>
         <div class="pipeline-body">
-          <div class="step-num">03 · REBUTTAL</div>
-          <h3>质证反驳</h3>
-          <p>逐条反驳对方主张 · 必须引用 claim_id · 可引入新证据 · 同轮隔离</p>
+          <div class="step-num">03 · MAP</div>
+          <h3>证据组 → 论点组（第一次映射）</h3>
+          <p>处理过的证据组对应到论点组 → 同一论点因论据/论证不同有不同判断 → 每个论点组可展开</p>
         </div>
       </div>
       <div class="pipeline-step s4">
-        <div class="pipeline-icon">📝</div>
+        <div class="pipeline-icon">🎯</div>
         <div class="pipeline-body">
-          <div class="step-num">04 · CLOSING</div>
-          <h3>结案陈词</h3>
-          <p>强化存活论点 · 不可引入新证据 · 回应法官 unclear 标记</p>
+          <div class="step-num">04 · NARROW</div>
+          <h3>论点组 → 结论集（第二次映射 + 用户选择）</h3>
+          <p>论点映射到结论 → 无法判断的点用户手动选是/否 → 高亮箭头 → 收窄结论子集 → 排除的结论置灰</p>
         </div>
       </div>
       <div class="pipeline-step s5">
         <div class="pipeline-icon">⚖️</div>
         <div class="pipeline-body">
           <div class="step-num">05 · VERDICT</div>
-          <h3>法官裁决</h3>
-          <p>4 维独立评分 · 结构化 JSON · decisive_factor · co_failure_beta</p>
+          <h3>法官裁决 + 结构化判决</h3>
+          <p>异构模型法官 4 维评估 → 主张存亡标记 → 决定性因素 → 完整 JSONL 记录可审计</p>
         </div>
       </div>
     </div>
@@ -607,98 +515,69 @@
   <section class="section reveal">
     <h2>Design Principles</h2>
     <p style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.65;">
-      10 条核心原则，18 篇学术论文支撑。每个设计决策都来自对 LLM 辩论行为的前沿研究。
+      10 条核心原则，18 篇学术论文支撑。图尔明论证模型 · Superforecaster 陪审团多元性 · GAVEL 证据绑定。
     </p>
 
     <div class="principles">
       <div class="principle-card p1">
-        <div class="card-tags">
-          <span class="tag fatal">⛔ 致命</span>
-        </div>
+        <div class="card-tags"><span class="tag fatal">⛔ 致命</span></div>
         <h4>禁止初始投票</h4>
         <p>辩论完成前不表态。17/18 AI 陪审团因锚定效应僵局。RLHF 对齐越强越难改变立场。</p>
         <div class="source">Ersoz 2026 · 12 Angry AI Agents</div>
       </div>
-
       <div class="principle-card p2">
-        <div class="card-tags">
-          <span class="tag fatal">⛔ 致命</span>
-        </div>
-        <h4>异构模型家族</h4>
-        <p>三方使用不同 LLM 厂商。同家族模型的错误高度相关 — 更大的模型反而有更强的算法单一文化。</p>
-        <div class="source">Kim et al. ICML 2025 · Chen 2026</div>
+        <div class="card-tags"><span class="tag fatal">⛔ 致命</span></div>
+        <h4>异构模型 + 陪审团多元性</h4>
+        <p>三方使用不同 LLM 厂商。Superforecaster 原则：不同背景、视角的 Agent 组成陪审团。</p>
+        <div class="source">Kim et al. ICML 2025 · Superforecaster</div>
       </div>
-
       <div class="principle-card p3">
-        <div class="card-tags">
-          <span class="tag fatal">⛔ 致命</span>
-        </div>
-        <h4>证据绑定 (GAVEL)</h4>
-        <p>每个主张必须绑定 EvidenceUnit。无证据的主张标记为 speculation。不让 AI 凭空论证。</p>
-        <div class="source">Xu et al. ACL 2026 · GAVEL</div>
+        <div class="card-tags"><span class="tag fatal">⛔ 致命</span></div>
+        <h4>证据绑定 (GAVEL) + 图尔明模型</h4>
+        <p>每个主张绑定 EvidenceUnit。区分论据 (data)、论证 (warrant)、论点 (claim)。</p>
+        <div class="source">Xu et al. ACL 2026 · Toulmin 1958</div>
       </div>
-
       <div class="principle-card p4">
-        <div class="card-tags">
-          <span class="tag critical">⚠ 关键</span>
-        </div>
-        <h4>在线置信度校准 (MARGIN)</h4>
-        <p>不使用裸置信度。运行时在线校准关闭 37-78% Raw-to-Oracle gap。</p>
+        <div class="card-tags"><span class="tag critical">⚠ 关键</span></div>
+        <h4>30% 阈值 + MARGIN 校准</h4>
+        <p>投票率 ≥30% 进入下一阶段。在线校准关闭 37-78% Raw-to-Oracle gap。</p>
         <div class="source">Armstrong 2026 · MARGIN</div>
       </div>
-
       <div class="principle-card p5">
-        <div class="card-tags">
-          <span class="tag critical">⚠ 关键</span>
-        </div>
-        <h4>Co-Failure Beta 量化</h4>
-        <p>67 模型测试：5-13% 案例所有前沿模型同时出错。任何投票机制无法逾越此上限。诚实报告不确定性。</p>
-        <div class="source">Chen 2026 · Co-Failure Ceiling</div>
+        <div class="card-tags"><span class="tag critical">⚠ 关键</span></div>
+        <h4>满射映射 + 用户可介入</h4>
+        <p>每一步都是满射。用户在任何节点选是/否，即刻收窄结论子集。排除的路径置灰。</p>
+        <div class="source">复合映射设计 · 交互模型</div>
       </div>
-
       <div class="principle-card p6">
-        <div class="card-tags">
-          <span class="tag critical">⚠ 关键</span>
-        </div>
-        <h4>非单调停止</h4>
-        <p>辩论质量非单调 — Q(T)=a·log(T+c)−b·T。Wald SPRT 自适应停止，比固定 5 轮省 3.7x 调用。</p>
-        <div class="source">Zhang & Hu 2026 · Morandi 2026</div>
+        <div class="card-tags"><span class="tag critical">⚠ 关键</span></div>
+        <h4>非单调停止 + Co-Failure Beta</h4>
+        <p>Q(T)=a·log(T+c)−b·T。Wald SPRT 自适应停止。诚实报告全体 AI 同时出错的概率上限。</p>
+        <div class="source">Zhang & Hu · Chen 2026</div>
       </div>
-
       <div class="principle-card p7">
-        <div class="card-tags">
-          <span class="tag safe">✅ 重要</span>
-        </div>
+        <div class="card-tags"><span class="tag safe">✅ 重要</span></div>
         <h4>同轮隔离</h4>
-        <p>同一轮内双方不能互看对方当前发言。确保公平对抗，防止后发言方获优势。</p>
-        <div class="source">Fairness rule · Claude Code debate skill</div>
+        <p>同一轮双方不能互看对方当前发言。人类陪审团也是听完所有证据才评议。</p>
+        <div class="source">Fairness rule</div>
       </div>
-
       <div class="principle-card p8">
-        <div class="card-tags">
-          <span class="tag safe">✅ 重要</span>
-        </div>
+        <div class="card-tags"><span class="tag safe">✅ 重要</span></div>
         <h4>4 维独立评分</h4>
-        <p>法官不评"谁赢了"。事实准确性、证据质量、逻辑一致性、回应充分性各自独立打分。</p>
+        <p>不评"谁赢了"。事实准确性、证据质量、逻辑一致性、回应充分性各自独立打分。</p>
         <div class="source">D2D · Han et al. EMNLP 2025</div>
       </div>
-
       <div class="principle-card p9">
-        <div class="card-tags">
-          <span class="tag safe">✅ 重要</span>
-        </div>
-        <h4>少数派保护</h4>
-        <p>25% 分歧案例中少数派正确。多数投票会系统性压制正确少数。部署 Minority Sentinel 检测。</p>
-        <div class="source">He et al. 2026 · Minority Sentinel</div>
+        <div class="card-tags"><span class="tag safe">✅ 重要</span></div>
+        <h4>少数派保护 + 谦逊原则</h4>
+        <p>25% 案例少数派正确。Superforecaster：保持谦逊，承认不确定性。</p>
+        <div class="source">He et al. 2026 · Tetlock</div>
       </div>
-
       <div class="principle-card p10">
-        <div class="card-tags">
-          <span class="tag safe">✅ 重要</span>
-        </div>
-        <h4>可审计性</h4>
-        <p>完整 JSONL 辩论记录。每一条主张的来源可追溯。AI 论证链条可被人类审查和质疑。</p>
-        <div class="source">设计原则 · 透明性要求</div>
+        <div class="card-tags"><span class="tag safe">✅ 重要</span></div>
+        <h4>可审计 + 多视角纵览</h4>
+        <p>完整辩论记录。不同人对同一证据有不同解读——把这些角度摆在一起，纵览全局。</p>
+        <div class="source">设计原则 · 透明性</div>
       </div>
     </div>
   </section>
@@ -706,72 +585,25 @@
   <!-- ═══════════ RESEARCH ═══════════ -->
   <section class="section reveal">
     <h2>Research Foundation</h2>
-
     <div class="stats">
-      <div class="stat-card">
-        <div class="num">18</div>
-        <div class="stat-label">核心论文</div>
-      </div>
-      <div class="stat-card">
-        <div class="num">3</div>
-        <div class="stat-label">异构 Agent</div>
-      </div>
-      <div class="stat-card">
-        <div class="num">10</div>
-        <div class="stat-label">验证原则</div>
-      </div>
-      <div class="stat-card">
-        <div class="num">4</div>
-        <div class="stat-label">评估维度</div>
-      </div>
+      <div class="stat-card"><div class="num">18</div><div class="stat-label">核心论文</div></div>
+      <div class="stat-card"><div class="num">3</div><div class="stat-label">异构 Agent</div></div>
+      <div class="stat-card"><div class="num">10</div><div class="stat-label">验证原则</div></div>
+      <div class="stat-card"><div class="num">4</div><div class="stat-label">评估维度</div></div>
     </div>
-
-    <div class="chips" style="margin-top:16px;">
-      <span class="chip">Du et al. 2023 · MAD</span>
-      <span class="chip">Khan et al. ICML 2024</span>
-      <span class="chip">Ersoz · 12 Angry AI</span>
-      <span class="chip">Chen · Co-Failure</span>
-      <span class="chip">MARGIN · Armstrong</span>
-      <span class="chip">Wald SPRT · Morandi</span>
-      <span class="chip">GAVEL · ACL 2026</span>
-      <span class="chip">D2D · EMNLP 2025</span>
-      <span class="chip">AgentCourt · ACL 2025</span>
-      <span class="chip">DebateCV · 2026</span>
-      <span class="chip">RADAR · 2026</span>
-      <span class="chip">Minority Sentinel</span>
-    </div>
-  </section>
-
-  <!-- ═══════════ REFERENCE ═══════════ -->
-  <section class="section reveal">
-    <h2>Reference Systems</h2>
-    <div class="principles">
-      <a class="card t1" href="https://github.com/relic-yuexi/AgentCourt" target="_blank" style="text-decoration:none;color:inherit;display:block;">
-        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">AgentCourt <span style="font-size:9px;color:var(--muted);font-weight:400;">ACL 2025 · 93⭐</span></div>
-        <p style="font-size:11px;color:var(--muted);">1000 案例训练律师 Agent，对抗进化。专业律师评估：认知敏捷、专业知识、逻辑严谨度。</p>
-      </a>
-      <a class="card t2" href="https://github.com/mnc13/PROClaim" target="_blank" style="text-decoration:none;color:inherit;display:block;">
-        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">PROClaim <span style="font-size:9px;color:var(--muted);font-weight:400;">2026</span></div>
-        <p style="font-size:11px;color:var(--muted);">原告/被告/法官/3 人陪审团 + Progressive RAG + 角色互换。81.7% 准确率。</p>
-      </a>
-      <a class="card t3" href="https://github.com/ZhangYiqun018/agent-for-debate" target="_blank" style="text-decoration:none;color:inherit;display:block;">
-        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">Agent4Debate <span style="font-size:9px;color:var(--muted);font-weight:400;">ICASSP 2026 · 39⭐</span></div>
-        <p style="font-size:11px;color:var(--muted);">4 专家/方 (Searcher→Analyzer→Writer→Reviewer)，200 场 Elo 排名，AI 超人类。</p>
-      </a>
-      <a class="card t4" href="https://github.com/iason-solomos/Deb8flow" target="_blank" style="text-decoration:none;color:inherit;display:block;">
-        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">deb8flow <span style="font-size:9px;color:var(--muted);font-weight:400;">39⭐</span></div>
-        <p style="font-size:11px;color:var(--muted);">LangGraph 辩论框架，事实核查驱动：3 次失败自动判负。每轮后验证所有主张。</p>
-      </a>
-      <a class="card t5" href="https://github.com/argdown/argdown" target="_blank" style="text-decoration:none;color:inherit;display:block;">
-        <div style="font-size:13px;font-weight:600;margin-bottom:3px;">Argdown <span style="font-size:9px;color:var(--muted);font-weight:400;">1K+⭐ · MIT</span></div>
-        <p style="font-size:11px;color:var(--muted);">文本→论证图，v2.0 Markdown 嵌入。逻辑前提-结论结构，Phase 2 UI 参考。</p>
-      </a>
+    <div class="chips" style="margin-top:14px;">
+      <span class="chip">图尔明论证模型</span><span class="chip">Superforecaster</span>
+      <span class="chip">Du et al. MAD</span><span class="chip">Ersoz · 12 Angry AI</span>
+      <span class="chip">Chen · Co-Failure</span><span class="chip">MARGIN</span>
+      <span class="chip">Wald SPRT</span><span class="chip">GAVEL · ACL 2026</span>
+      <span class="chip">D2D · EMNLP 2025</span><span class="chip">AgentCourt</span>
+      <span class="chip">DebateCV</span><span class="chip">Minority Sentinel</span>
     </div>
   </section>
 
   <!-- ═══════════ CTA ═══════════ -->
   <section class="cta reveal">
-    <h2 class="gradient-text">输入争议。<br>看 AI 互相对质。</h2>
+    <h2 class="gradient-text">输入争议。<br>看 AI 互相对质。<br>自己做最后判断。</h2>
     <p>Phase 1 运行在 Claude Code Workflow 上。<br>Phase 2 提取到 OpenOPC 独立部署。</p>
     <div class="cta-buttons">
       <a href="https://github.com/onezion12344/DetectorTeam" class="btn btn-primary">GitHub →</a>
@@ -781,20 +613,259 @@
 </div>
 
 <footer class="footer">
-  <div class="brand-line">为真相，再一次信仰之跃</div>
+  <div class="brand-line">让证据自己说话</div>
   <div class="meta">Detector Team · AI 司法辩论系统 · 2026 · CC Workflow + OpenOPC</div>
 </footer>
 
+<!-- ══════════════════════════════════════════════
+     INTERACTIVE DECISION TREE ENGINE
+     ══════════════════════════════════════════════ -->
 <script>
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.08 });
+// ── State ──────────────────────────────
+// ev-* nodes cycle: '' (default) → 'selected' → 'grayed' → ''
+let evidenceState = {
+  'ev-A': 'selected',
+  'ev-B': '',
+  'ev-C': '',
+  'ev-D': ''
+};
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// Mapping: argument → [required evidence nodes]
+const argReqs = {
+  'arg-1': ['ev-A'],
+  'arg-2': ['ev-B'],
+  'arg-3': ['ev-C', 'ev-D'],  // OR: any of these selected activates arg-3
+};
 
-  // Trigger hero immediately
-  document.querySelector('.hero.reveal')?.classList.add('visible');
+// Mapping: conclusion → [required argument nodes]
+const conReqs = {
+  'con-1': ['arg-1', 'arg-2'],  // AND: both args needed
+  'con-2': [],                   // always reachable
+  'con-3': ['arg-1', 'arg-3'],  // AND: both args needed
+};
+
+// ── Derived State ──────────────────────
+function isArgActive(argId) {
+  const reqs = argReqs[argId] || [];
+  if (reqs.length === 0) return true;
+  // For arg-3: OR logic (any of ev-C or ev-D selected)
+  if (argId === 'arg-3') {
+    return reqs.some(ev => evidenceState[ev] === 'selected');
+  }
+  // Default: AND logic (all must be selected)
+  return reqs.every(ev => evidenceState[ev] === 'selected');
+}
+
+function isConReachable(conId) {
+  const reqs = conReqs[conId] || [];
+  if (reqs.length === 0) return true; // con-2 always reachable
+  return reqs.every(arg => isArgActive(arg));
+}
+
+// ── Count reachable conclusions ───────
+function countReachable() {
+  return ['con-1', 'con-2', 'con-3'].filter(isConReachable).length;
+}
+
+// ── Update DOM ─────────────────────────
+function updateUI() {
+  // Update evidence nodes
+  document.querySelectorAll('.node.evidence').forEach(el => {
+    const id = el.dataset.node;
+    el.classList.remove('selected', 'grayed');
+    if (evidenceState[id] === 'selected') el.classList.add('selected');
+    if (evidenceState[id] === 'grayed') el.classList.add('grayed');
+  });
+
+  // Update argument nodes
+  document.querySelectorAll('.node.argument').forEach(el => {
+    const id = el.dataset.node;
+    el.classList.remove('active', 'inactive');
+    if (isArgActive(id)) {
+      el.classList.add('active');
+    } else {
+      // Show inactive only if at least one of its supporting evidence is grayed
+      const reqs = argReqs[id] || [];
+      const anyGrayed = reqs.some(ev => evidenceState[ev] === 'grayed');
+      const noSelection = reqs.every(ev => evidenceState[ev] === '');
+      if (anyGrayed && !noSelection) {
+        el.classList.add('inactive');
+      }
+    }
+  });
+
+  // Update conclusion nodes
+  document.querySelectorAll('.node.conclusion').forEach(el => {
+    const id = el.dataset.node;
+    el.classList.remove('reachable', 'unreachable');
+    if (isConReachable(id)) {
+      el.classList.add('reachable');
+    } else {
+      // Only gray out if any supporting arg is inactive due to grayed evidence
+      const reqs = conReqs[id] || [];
+      const anyArgInactive = reqs.some(arg => {
+        const argReqsList = argReqs[arg] || [];
+        const hasGrayedEv = argReqsList.some(ev => evidenceState[ev] === 'grayed');
+        return hasGrayedEv && !isArgActive(arg);
+      });
+      if (anyArgInactive || reqs.some(a => {
+        const ar = argReqs[a] || [];
+        return ar.some(ev => evidenceState[ev] === 'grayed');
+      })) {
+        el.classList.add('unreachable');
+      }
+    }
+  });
+
+  // Update connectors
+  drawConnectors();
+
+  // Update status
+  const count = countReachable();
+  const status = document.getElementById('status');
+  if (count === 3) {
+    status.innerHTML = '<strong>3</strong> 个结论可到达 · 选择证据收窄结论空间';
+  } else if (count === 2) {
+    status.innerHTML = '<strong>2</strong> 个结论可到达 · <strong>1</strong> 个已被排除';
+  } else if (count === 1) {
+    status.innerHTML = '仅剩 <strong>1</strong> 个结论可到达 · 证据指向明确';
+  } else {
+    status.innerHTML = '⚠ 所有结论均被排除 · 当前证据组合不成立（请调整选择）';
+  }
+}
+
+// ── SVG Connectors ─────────────────────
+function drawConnectors() {
+  const svg = document.getElementById('connectors');
+  const tree = document.getElementById('tree');
+  const treeRect = tree.getBoundingClientRect();
+  const svgRect = svg.parentElement.getBoundingClientRect();
+
+  // Position SVG to cover the tree
+  svg.setAttribute('viewBox', `0 0 ${treeRect.width} ${treeRect.height}`);
+  svg.style.width = treeRect.width + 'px';
+  svg.style.height = treeRect.height + 'px';
+
+  // Get all relevant node elements
+  const evNodes = document.querySelectorAll('.node.evidence');
+  const argNodes = document.querySelectorAll('.node.argument');
+  const conNodes = document.querySelectorAll('.node.conclusion');
+
+  let paths = '';
+
+  // Helper: get center-right and center-left of a node relative to tree
+  function rightOf(el) {
+    const r = el.getBoundingClientRect();
+    return { x: r.right - treeRect.left, y: r.top + r.height / 2 - treeRect.top };
+  }
+  function leftOf(el) {
+    const r = el.getBoundingClientRect();
+    return { x: r.left - treeRect.left, y: r.top + r.height / 2 - treeRect.top };
+  }
+
+  // Draw evidence → argument connectors
+  const connMap_EA = [
+    { from: 'ev-A', to: 'arg-1' },
+    { from: 'ev-B', to: 'arg-2' },
+    { from: 'ev-C', to: 'arg-3' },
+    { from: 'ev-D', to: 'arg-3' },
+  ];
+
+  connMap_EA.forEach(({ from, to }) => {
+    const fromEl = document.querySelector(`[data-node="${from}"]`);
+    const toEl = document.querySelector(`[data-node="${to}"]`);
+    if (!fromEl || !toEl) return;
+
+    const p1 = rightOf(fromEl);
+    const p2 = leftOf(toEl);
+    const midX = (p1.x + p2.x) / 2;
+
+    // Determine if this connection is "lit"
+    const fromSelected = evidenceState[from] === 'selected';
+    const toActive = isArgActive(to);
+    const lit = fromSelected && toActive;
+
+    const opacity = lit ? 0.7 : 0.08;
+    const color = lit ? '#d4a843' : '#8a9ab0';
+    const width = lit ? 1.5 : 0.8;
+
+    paths += `<path d="M${p1.x},${p1.y} C${midX},${p1.y} ${midX},${p2.y} ${p2.x},${p2.y}"
+      fill="none" stroke="${color}" stroke-width="${width}" opacity="${opacity}"
+      style="transition: all 0.35s cubic-bezier(0.4,0,0.2,1)" />`;
+
+    // Arrowhead if lit
+    if (lit) {
+      paths += `<polygon points="${p2.x-4},${p2.y-3} ${p2.x},${p2.y} ${p2.x-4},${p2.y+3}"
+        fill="${color}" opacity="${opacity}"
+        style="transition: all 0.35s cubic-bezier(0.4,0,0.2,1)" />`;
+    }
+  });
+
+  // Draw argument → conclusion connectors
+  const connMap_AC = [
+    { from: 'arg-1', to: 'con-1' },
+    { from: 'arg-2', to: 'con-1' },
+    { from: 'arg-1', to: 'con-3' },
+    { from: 'arg-3', to: 'con-3' },
+  ];
+
+  connMap_AC.forEach(({ from, to }) => {
+    const fromEl = document.querySelector(`[data-node="${from}"]`);
+    const toEl = document.querySelector(`[data-node="${to}"]`);
+    if (!fromEl || !toEl) return;
+
+    const p1 = rightOf(fromEl);
+    const p2 = leftOf(toEl);
+    const midX = (p1.x + p2.x) / 2;
+
+    const fromActive = isArgActive(from);
+    const toReachable = isConReachable(to);
+    const lit = fromActive && toReachable;
+
+    const opacity = lit ? 0.7 : 0.08;
+    const color = lit ? '#e07a5f' : '#8a9ab0';
+    const width = lit ? 1.5 : 0.8;
+
+    paths += `<path d="M${p1.x},${p1.y} C${midX},${p1.y} ${midX},${p2.y} ${p2.x},${p2.y}"
+      fill="none" stroke="${color}" stroke-width="${width}" opacity="${opacity}"
+      style="transition: all 0.35s cubic-bezier(0.4,0,0.2,1)" />`;
+
+    if (lit) {
+      paths += `<polygon points="${p2.x-4},${p2.y-3} ${p2.x},${p2.y} ${p2.x-4},${p2.y+3}"
+        fill="${color}" opacity="${opacity}"
+        style="transition: all 0.35s cubic-bezier(0.4,0,0.2,1)" />`;
+    }
+  });
+
+  svg.innerHTML = paths;
+}
+
+// ── Click Handler ──────────────────────
+document.querySelectorAll('.node.evidence').forEach(el => {
+  el.addEventListener('click', () => {
+    const id = el.dataset.node;
+    // Cycle: '' → 'selected' → 'grayed' → ''
+    if (evidenceState[id] === '') {
+      evidenceState[id] = 'selected';
+    } else if (evidenceState[id] === 'selected') {
+      evidenceState[id] = 'grayed';
+    } else {
+      evidenceState[id] = '';
+    }
+    updateUI();
+  });
+});
+
+// ── Init ───────────────────────────────
+updateUI();
+window.addEventListener('resize', drawConnectors);
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelector('.hero.reveal')?.classList.add('visible');
 </script>
 
 </body>
